@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 06:04:42 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/06/19 05:15:07 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/06/19 05:18:58 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	cast_length(t_data *data, float distance, int ray)
 	int		start_y;
 	int		end_y;
 
+	distance = distance * cos(data->ray.ra - data->run.player.pa);
 	wall_height = PROJECTION_CONSTANT / (distance * 3);
 	start_y = HI / 2 - wall_height / 2;
 	end_y = HI / 2 + wall_height / 2;
@@ -67,42 +68,6 @@ void	cast_length(t_data *data, float distance, int ray)
 	draw_vertical_line_(data, end_y, HI, ray, distance,
 		data->tokens.color[F_COLOR]);
 }
-
-//static void	assign_values(t_data *data,
-	//t_ray *ray, t_point *p0, t_point *p1)
-//{
-//	p0->x = data->run.player.px + PSIZE / 2;
-//	p0->y = data->run.player.py + PSIZE / 2;
-//	p1->x = (int)ray->rx;
-//	p1->y = (int)ray->ry;
-//}
-
-/*static void	render_wall_column(t_data *data, t_ray *ray, int ray_id)
-{
-	float		wall_height;
-	int			start_y;
-	int			end_y;
-	t_texdraw	d;
-
-	ft_memset(&d, 0, sizeof(t_texdraw));
-	ray->distance = extract_length(data, ray->rx, ray->ry);
-	if (ray->distance == 0)
-		ray->distance = 1;
-	wall_height = PROJECTION_CONSTANT / (ray->distance * 3);
-	start_y = HI / 2 - wall_height / 2;
-	end_y = HI / 2 + wall_height / 2;
-	d.data = data;
-	d.ray = ray_id;
-	d.start = start_y;
-	d.end = end_y;
-	d.distance = ray->distance;
-	d.tex = select_texture(data, ray);
-	if (fabs(ray->dx) > fabs(ray->dy))
-		d.tx = (int)ray->ry % d.tex->wi;
-	else
-		d.tx = (int)ray->rx % d.tex->wi;
-	draw_textured_line(&d);
-}*/
 
 static void	trace_single_ray(t_data *data, t_ray *ray, float angle)
 {
@@ -137,6 +102,7 @@ void	raycasting(t_data *data)
 	{
 		trace_single_ray(data, &ray, ra);
 		ray.distance = extract_length(data, ray.rx, ray.ry);
+		data->ray = ray;
 		cast_length(data, ray.distance, r);
 		p0.x = data->run.player.px + PSIZE / 2;
 		p0.y = data->run.player.py + PSIZE / 2;
