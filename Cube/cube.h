@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 21:53:43 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:06:52 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:11:40 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # define IMG_PATH		"ressources/xpm/"
 # define RESOLUTION		25
 //		SCREEN
-# define SCRN_W			2800
-# define SCRN_H			2000
+# define SCRN_W			600
+# define SCRN_H			800
 //		RAYS
 # define RAY_DEPTH		50
 //		PLR

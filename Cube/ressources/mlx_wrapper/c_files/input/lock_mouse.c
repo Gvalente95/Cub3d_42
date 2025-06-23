@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:11:44 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/01 14:01:57 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:16:22 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	lock_mouse_center(t_md *md)
 	Window			win;
 	const t_vec2	mouse_p = div_v2(md->win_sz, 2);
 
+
+	return ;
 	display = mlx_get_display(md->mlx);
 	win = (Window)mlx_get_window(md->mlx, md->win);
 	hide_cursor(md);

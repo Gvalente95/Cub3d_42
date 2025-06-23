@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:39:27 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 18:10:03 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:24:31 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	init_os_params(t_md *md)
 
 void	init_wrapper(t_md *md, t_vec2 win_sz, char *win_name, int resolution)
 {
-	init_md(md);
 	init_os_params(md);
 	init_fonts(md);
 	start_timer(&md->timer.game_start);

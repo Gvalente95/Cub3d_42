@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 22:58:02 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:50:18 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:41:25 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void	init_autocam(t_md *md, t_autocam *autocam)
 	autocam->quitting = 0;
 	autocam->acc_spd = 0.0f;
 	autocam->base_y = 80 - md->map.size.y;
-	md->plr.angle = M_PI_2;
 	md->plr.pos.z = -md->t_len * minf(8, (md->map.size.y * .5f));
 	md->prm.fly_cam = 1;
 	md->prm.show_ceiling = 0;

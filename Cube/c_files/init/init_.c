@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:36:33 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 20:24:44 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:21:47 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int	init_cube(t_md *md, char *file_arg, int start_debug)
 	md->init_steps++;
 	ft_strlcpy(md->plr_name, " ", 15);
 	md->plr_name_indx = 0;
-	md->cam.rot = v3f(0);
 	show_init_information(md);
 	return (0);
 }

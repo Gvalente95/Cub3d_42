@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 22:23:11 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/16 18:26:36 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:24:45 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	main(int argc, char *argv[])
 	int		res;
 	t_vec2	scrn_size;
 
+	if (argc != 2)
+		return (printf("Error\nWrong argc size\n"));
 	if (argc >= 6)
 		return (printf("unvalid arg size\n"), 1);
 	res = RESOLUTION;

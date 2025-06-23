@@ -6,7 +6,7 @@
 /*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:45:36 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 14:00:59 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:43:07 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,6 @@ int	set_menu_mode(t_md *md, t_menu *menu, int mode)
 
 int	update_and_render(t_md *md)
 {
-	if (md->autocam.active)
-		return (update_autocam(md, &md->autocam));
-	if (md->battle_d.active)
-		return (update_battle_scene(md, &md->battle_d));
 	update_portals(md, md->portal.found, md->portal.out_pos);
 	update_audio(md, &md->au);
 	if (md->menu.active)
