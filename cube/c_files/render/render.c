@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 23:46:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 15:33:47 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:14:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void	render(t_md *md)
 		show_fps(md, v2(0, md->win_sz.y - (md->prm.txt_sc * 1.5)));
 	apply_fx(md, md->screen, &md->fx);
 	if (md->menu.active)
-		draw_smooth_rec(md->screen, _v2(100), \
-		sub_vec2(md->win_sz, _v2(200)), 0xEE000000);
+		draw_smooth_rec(md->screen, _v2(25), \
+		sub_vec2(md->win_sz, _v2(50)), 0xEE000000);
 	else
 		mlx_put_image_to_window(md->mlx, md->win, md->screen->img, 0, 0);
 }

@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_2.c                                         :+:      :+:    :+:   */
+/*   lock_mouse_mac.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 01:57:35 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 15:05:24 by giuliovalen      ###   ########.fr       */
+/*   Created: 2025/06/28 13:39:53 by giuliovalen       #+#    #+#             */
+/*   Updated: 2025/06/28 17:42:51 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../mlx_utils.h"
 
-t_vec2	v3_to_v2(t_vec3 vec)
+void	show_cursor(t_md *md)
 {
-	return (v2(vec.x, vec.y));
+	mlx_mouse_show(md->mlx, md->win);
 }
 
-int	cmp_vec2(t_vec2 a, t_vec2 b)
+void	hide_cursor(t_md *md)
 {
-	return (a.x == b.x && a.y == b.y);
+	mlx_mouse_hide(md->mlx, md->win);
 }
 
-t_vec2	v2(int x, int y)
+void	lock_mouse_center(t_md *md)
 {
-	t_vec2	ret;
-
-	ret.x = x;
-	ret.y = y;
-	return (ret);
-}
-
-int	print_vec2(t_vec2 a, const char *label)
-{
-	if (label)
-		printf("%s%-10s%s ", PBLUE, label, PRESET);
-	printf("x%d y%d\n", a.x, a.y);
-	return (1);
+	hide_cursor(md);
 }

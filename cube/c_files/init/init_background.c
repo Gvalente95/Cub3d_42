@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_background.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 02:19:07 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:47:45 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:31:58 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

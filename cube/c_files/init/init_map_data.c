@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:55:04 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:42:58 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:33:32 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ static char	*parse_file_data(t_md *md)
 			break ;
 		setstr(&line, extract_line(file_content));
 	}
-	print_color(md->hud.ceiling_color, "Sky color");
-	print_color(md->hud.floor_color, "Floor color");
 	return (safe_free(line), ft_strdup(file_content));
 }
 
@@ -113,14 +111,8 @@ void	init_map_data(t_md *md)
 	int		i;
 	t_image	*img;
 
-	md->txd.wall_img = md_malloc(md, sizeof(t_image *) * 5);
-	md->txd.wall_img2d = md_malloc(md, sizeof(t_image *) * 5);
-	i = -1;
-	while (++i < 5)
-	{
-		md->txd.wall_img[i] = NULL;
-		md->txd.wall_img2d[i] = NULL;
-	}
+	md->txd.wall_img = calloc(5, sizeof(t_image *));
+	md->txd.wall_img2d = calloc(5, sizeof(t_image *));
 	setstr(&md->map.buffer, parse_file_data(md));
 	if (!md->map.buffer)
 		free_and_quit(md, "no map found", NULL);

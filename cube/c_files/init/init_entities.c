@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_entities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 00:11:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:36:57 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:51:26 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_minimap_cmp.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:54:23 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/26 18:50:27 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:33:48 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

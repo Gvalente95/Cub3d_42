@@ -16,7 +16,7 @@ int	add_ent_at_cord(t_md *md, t_ent *e, t_vec2 new_cord)
 {
 	t_vec2			prv_crd;
 	t_ent			*prv;
-	const t_vec2	limit = _v2(MAPPED_ENT_MAX);
+	const t_vec2	limit = md->map.size;
 
 	prv_crd = (t_vec2){e->coord.x, e->coord.y};
 	prv = get_mapped_at_cord(md, prv_crd);
@@ -33,12 +33,17 @@ int	add_ent_at_cord(t_md *md, t_ent *e, t_vec2 new_cord)
 void	init_mapped_ent(t_md *md)
 {
 	t_vec2		cord;
+	int			i;
 
+	md->map_ents = malloc(sizeof(t_ent **) * md->map.size.x);
+	i = -1;
+	while (++i < md->map.size.x)
+		md->map_ents[i] = calloc(md->map.size.y, sizeof(t_ent *));
 	cord = _v2(-1);
-	while (++cord.y < MAPPED_ENT_MAX)
+	while (++cord.y < md->map.size.y)
 	{
 		cord.x = -1;
-		while (++cord.x < MAPPED_ENT_MAX)
+		while (++cord.x < md->map.size.x)
 			md->map_ents[cord.x][cord.y] = NULL;
 	}
 }
@@ -47,8 +52,8 @@ t_ent	*get_mapped_at_cord(t_md *md, t_vec2 cord)
 {
 	t_ent	*found;
 
-	if (cord.x < 0 || cord.x > md->map.size.x + 1 || \
-		cord.y < 0 || cord.y > md->map.size.y + 1)
+	if (cord.x < 0 || cord.x > md->map.size.x - 1 || \
+	cord.y < 0 || cord.y > md->map.size.y - 1)
 		return (NULL);
 	found = md->map_ents[cord.x][cord.y];
 	return (found);
@@ -66,8 +71,8 @@ int	remove_ent(t_md *md, t_ent *e)
 {
 	if (!e)
 		return (0);
-	if (e->coord.x < 0 || e->coord.x > MAPPED_ENT_MAX || \
-		e->coord.y < 0 || e->coord.y > MAPPED_ENT_MAX)
+	if (e->coord.x < 0 || e->coord.x > md->map.size.x || \
+		e->coord.y < 0 || e->coord.y > md->map.size.y)
 		return (0);
 	if (md->cam.pointed == e)
 		md->cam.pointed = NULL;

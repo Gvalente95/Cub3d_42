@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:42 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/23 15:16:59 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:28:26 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,24 @@
 
 # ifdef IS_LINUX
 #  define LIN 1
+#  define SCRN_W			2800
+#  define SCRN_H			2000
 #  include "headers/Keys_lnx.h"
 # else
 #  define LIN 0
+#  define SCRN_W			1400
+#  define SCRN_H			800
 #  include "headers/Keys_mac.h"
 # endif
 
+# define PRED			"\033[31m"
+# define PBLUE			"\033[34m"
+# define PGREEN			"\033[32m"
+# define PYELLOW		"\033[33m"
+# define PRESET			"\033[0m"
+
 # define MOUSE_SENSITIVITY	.2
-# define MAPPED_ENT_MAX		150
+# define MAPPED_ENT_MAX		300
 # define MOUSE_SMTH			0.2f
 # define _PI				3.14159265358979323846
 
@@ -247,7 +257,7 @@ typedef struct s_md
 	t_image			*screen;
 	t_vec2			win_sz;
 	t_ent			plr;
-	t_ent			*map_ents[MAPPED_ENT_MAX][MAPPED_ENT_MAX];
+	t_ent			***map_ents;
 	t_dblst			*entities;
 	t_hud			hud;
 	t_menu			menu;
@@ -278,6 +288,7 @@ typedef struct s_md
 	int				plr_was_on_door;
 	int				key_prs[65536];
 	int				key_click;
+	int				res;
 	int				last_key;
 	int				init_steps;
 	int				rgb[20];
@@ -292,6 +303,7 @@ typedef struct s_md
 //		input/input_tools.c
 void	wrap_mouse(t_md *md, int delta_x, int delta_y);
 void	lock_mouse_center(t_md *md);
+void	unlock_mouse(t_md *md);
 
 //		input/input_mouse.c
 int		mouse_event_handler(int button, int x, int y, void *param);
@@ -313,7 +325,7 @@ int		free_mob_images(t_md *md, t_ent *e, char *label);
 
 //		free/free_elements.c
 int		free_hud(t_md *md, t_hud *hud);
-int		free_txd(t_md *md, t_texture_data *txd);
+int		free_txd(t_md *md, t_texture_data *txd, int i);
 int		free_var(t_md *md, t_mmap *mmap, t_fx_data *fx, t_mouse *mouse);
 int		free_menu(t_md *md, t_menu *menu);
 int		free_ents(t_md *md);
@@ -414,5 +426,6 @@ void	draw_img_except(t_image *src, t_image *dst, t_vec2 pos, int excpt);
 int		draw_smooth_rec(t_image *dst, t_vec2 pos, t_vec2 draw_size, int color);
 void	randomize_sliders(t_md *md, t_menu *menu, int is_reset);
 int		update_slider(t_md *md, t_slider *sld);
+int		update_hov_slider(t_md *md, t_slider *sld);
 
 #endif

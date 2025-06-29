@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:52:06 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:32 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 17:31:58 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,59 @@ void	apply_color_banding(t_image *img, float intensity)
 	}
 }
 
-void	apply_bloom(t_image *img, float intensity)
+void	set_blur(t_image *img, float treshold, const t_vec2 s, uint32_t *b)
 {
-	t_vec3			pos;
-	unsigned int	blrx[2];
-	unsigned char	rgba[4];
+	t_vec2		p;
+	uint32_t	c;
+	uint8_t		rgb[3];
 
-	pos = v3(0, -1, 150 - (int)(intensity * 100.0f));
-	while (++pos.y < img->size.y - 1)
+	p = _v2(-1);
+	while (++p.y < s.y - 1)
 	{
-		pos.x = -1;
-		while (++pos.x < img->size.x - 1)
+		p.x = -1;
+		while (++p.x < s.x - 1)
 		{
-			blrx[1] = img->src[pos.y * img->size.x + pos.x];
-			rgba[0] = (blrx[1] >> 16) & 0xFF;
-			rgba[1] = (blrx[1] >> 8) & 0xFF;
-			rgba[2] = blrx[1] & 0xFF;
-			rgba[3] = (blrx[1] >> 24) & 0xFF;
-			if (rgba[0] + rgba[1] + rgba[2] <= pos.z)
+			c = img->src[p.y * s.x + p.x];
+			rgb[0] = (c >> 16) & 0xFF;
+			rgb[1] = (c >> 8) & 0xFF;
+			rgb[2] = c & 0xFF;
+			if ((rgb[0] + rgb[1] + rgb[2]) < treshold)
 				continue ;
-			blrx[0] = img->src[(pos.y + 1) * img->size.x + pos.x] >> 1;
-			blrx[0] += img->src[(pos.y - 1) * img->size.x + pos.x] >> 1;
-			blrx[0] += img->src[pos.y * img->size.x + pos.x + 1] >> 1;
-			blrx[0] += img->src[pos.y * img->size.x + pos.x - 1] >> 1;
-			img->src[pos.y * img->size.x + pos.x] = \
-				(rgba[3] << 24) | (blrx[0] & 0xFFFFFF);
+			b[p.y * s.x + p.x] = (uint32_t)(img->src[(p.y + 1) * s.x + p.x] + \
+				img->src[(p.y - 1) * s.x + p.x] + \
+				img->src[p.y * s.x + p.x + 1] + \
+				img->src[p.y * s.x + p.x - 1]) >> 2;
 		}
 	}
+}
+
+void	apply_bloom(t_image *img, float intensity)
+{
+	uint32_t		*blur;
+	const t_vec2	s = img->size;
+	int				i;
+	uint32_t		sr[2];
+	uint8_t			v[9];
+
+	blur = malloc((size_t)s.x * s.y * sizeof(uint32_t));
+	set_blur(img, 150.0f - intensity * 100.0f, s, blur);
+	i = -1;
+	while (++i < s.x * s.y)
+	{
+		sr[0] = img->src[i];
+		sr[1] = blur[i];
+		v[0] = (sr[0] >> 16) & 0xFF;
+		v[1] = (sr[0] >> 8) & 0xFF;
+		v[2] = sr[0] & 0xFF;
+		v[3] = (sr[1] >> 16) & 0xFF;
+		v[4] = (sr[1] >> 8) & 0xFF;
+		v[5] = sr[1] & 0xFF;
+		v[6] = (uint8_t)fminf(255.0f, v[0] + v[3] * intensity);
+		v[7] = (uint8_t)fminf(255.0f, v[1] + v[4] * intensity);
+		v[8] = (uint8_t)fminf(255.0f, v[2] + v[5] * intensity);
+		img->src[i] = (sr[0] & 0xFF000000) | (v[6] << 16) | (v[7] << 8) | v[8];
+	}
+	free(blur);
 }
 
 void	apply_vignette(t_image *img, float intensity, int color)

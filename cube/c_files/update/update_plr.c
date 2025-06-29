@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_plr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:43:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 13:55:11 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:39:28 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 static void	update_player_rot(t_md *md)
 {
-	float		speed;
-	const float	pitch = md->cam.rot.y * (_PI / 180.0f);
+	float	speed;
+	float	pitch;
 
 	speed = md->prm.rot_speed;
 	if (!md->mouse.lock_rot.x && md->mouse.delta.x && md->mouse.focus)
-		md->cam.rot.x += (md->mouse.delta.x * speed);
+		md->cam.rot.x += md->mouse.delta.x * speed;
 	if (md->cam.rot.x < -180.0f)
 		md->cam.rot.x += 360.0f;
 	else if (md->cam.rot.x > 180.0f)
 		md->cam.rot.x -= 360.0f;
 	if (!md->mouse.lock_rot.y && md->mouse.delta.y && md->mouse.focus)
-		md->cam.rot.y += (md->mouse.delta.y * speed);
+		md->cam.rot.y += md->mouse.delta.y * speed;
 	if (md->prm.fly_cam)
 		md->cam.rot.y = minmaxf(-140, 140, md->cam.rot.y);
 	else
 		md->cam.rot.y = minmaxf(-80, 80, md->cam.rot.y);
 	md->cam.rot.z = 0;
-	md->plr.angle = (md->cam.rot.x) * (_PI / 180.0f);
+	md->plr.angle = md->cam.rot.x * (_PI / 180.0f);
 	md->plr.dir.x = cosf(md->plr.angle);
 	md->plr.dir.y = sinf(md->plr.angle);
-	md->plr.dir.z = sinf(pitch) * .05;
+	pitch = md->cam.rot.y * (_PI / 180.0f);
+	md->plr.dir.z = sinf(pitch) * .05f;
 }
 
 static void	update_player_action(t_md *md, t_ent *plr)

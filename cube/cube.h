@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 21:53:43 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/23 15:14:09 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:41:10 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@
 //# include <X11/X.h>
 
 # define IMG_PATH		"ressources/xpm/"
-# define RESOLUTION		25
-//		SCREEN
-# define SCRN_W			2800
-# define SCRN_H			2000
+# define RESOLUTION		2
 //		RAYS
 # define RAY_DEPTH		50
 //		PLR
@@ -32,7 +29,7 @@
 # define HEIGHT			0
 # define BOB_AMOUNT		.2
 # define BOB_SPD		7
-# define GRAVITY		.06
+# define GRAVITY		0.0024
 # define ARROW_ROT_SPEED 2
 # define MOUSESPD		.5
 # define START_HP		10

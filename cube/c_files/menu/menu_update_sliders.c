@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_update_sliders.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:34:39 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/01 15:36:04 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:51:43 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,27 @@ int	update_slider(t_md *md, t_slider *sld)
 		md->prm.fov = 1;
 	md->plr.pos.z = -md->prm.height;
 	md->cam.pos.z = md->plr.pos.z - md->prm.height;
+	if (!ft_strncmp(sld->label, "win", 3))
+		return (replace_window(md, md->prm.win_x, md->prm.win_y));
+	render(md);
+	return (1);
+}
+
+int	update_hov_slider(t_md *md, t_slider *sld)
+{
+	const int	increment = md->key_prs[D_KEY] - md->key_prs[A_KEY];
+
+	if (!increment)
+		return (0);
+	sld->point = minmax(0, sld->steps - 1, sld->point + (increment));
+	*sld->value = sld->limits.x + ((sld->limits.z - sld->limits.x) * \
+		((float)sld->point / (sld->steps - 1)));
+	if (md->prm.fov <= 0)
+		md->prm.fov = 1;
+	md->plr.pos.z = -md->prm.height;
+	md->cam.pos.z = md->plr.pos.z - md->prm.height;
+	md->menu.refresh_bg = 1;
+	md->menu.refresh_ui = 1;
 	if (!ft_strncmp(sld->label, "win", 3))
 		return (replace_window(md, md->prm.win_x, md->prm.win_y));
 	render(md);
@@ -74,6 +95,8 @@ void	randomize_sliders(t_md *md, t_menu *menu, int is_reset)
 	while (menu->sliders[++i].active)
 	{
 		sld = &menu->sliders[i];
+		if (!ft_strncmp(sld->label, "text size", 5))
+			continue ;
 		if (is_reset)
 			sld->point = sld->base_point;
 		else

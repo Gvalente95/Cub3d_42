@@ -83,7 +83,7 @@ int	free_env(t_md *md, t_env_manager *env)
 	}
 	free(env->grass);
 	free_count = (map.x * md->t_len) * map.y + 2;
-	printf("%d env elements freed\n", free_count);
+	printf("ENV %-5s%d%s\n", PGREEN, free_count, PRESET);
 	return (free_count);
 }
 

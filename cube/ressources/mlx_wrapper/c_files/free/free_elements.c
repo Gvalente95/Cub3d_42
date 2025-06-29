@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_elements.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 04:32:24 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 15:31:29 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:26:32 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,13 @@ int	free_hud(t_md *md, t_hud *hud)
 	fa += free_image_data(md, hud->wall);
 	fa += free_image_data(md, hud->floor2d);
 	fa += free_image_data(md, hud->center);
-	printf("hud freed %d\n", fa);
+	printf("HUD %-5s%d%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }
 
-int	free_txd(t_md *md, t_texture_data *txd)
+int	free_txd(t_md *md, t_texture_data *txd, int i)
 {
 	int	fa;
-	int	i;
 
 	fa = free_images_data(md, txd->bush_txtr, "bush");
 	fa += free_images_data(md, txd->tree_txtr, "tree");
@@ -65,7 +64,8 @@ int	free_txd(t_md *md, t_texture_data *txd)
 	while (txd->mobs_txtrs_mini && txd->mobs_txtrs_mini[++i])
 		fa += free_images_array(md, txd->mobs_txtrs_mini[i], "minimob tex");
 	fa += safe_free(txd->mobs_txtrs_mini);
-	return (fa += safe_free(txd->mobs_txtrs), printf("txd freed %d\n", fa), fa);
+	return (fa += safe_free(txd->mobs_txtrs), \
+		printf("TXD %-5s%d%s\n", PGREEN, fa, PRED), fa);
 }
 
 int	free_var(t_md *md, t_mmap *mmap, t_fx_data *fx, t_mouse *mouse)
@@ -93,7 +93,7 @@ int	free_var(t_md *md, t_mmap *mmap, t_fx_data *fx, t_mouse *mouse)
 	while (++i < 2)
 		if (md->portal.ends[i].e && md->portal.ends[i].e->overlay)
 			fa += free_image_data(md, md->portal.ends[i].e->overlay);
-	printf("var freed %d\n", fa);
+	printf("VAR %-5s%d%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }
 
@@ -136,5 +136,5 @@ int	free_ents(t_md *md)
 	fa += dblst_size(md->entities);
 	fa += free_images_data(md, md->plr.frames, "plr frames");
 	dblst_clear(&md->entities, NULL);
-	return (printf("ent freed %d\n", fa + 1), fa);
+	return (printf("ENT %-5s%d%s\n", PGREEN, fa + 1, PRESET), fa);
 }

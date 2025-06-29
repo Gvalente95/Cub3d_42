@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:30:53 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 15:34:17 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:20:05 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,5 @@ void	render_menu(t_md *md, t_menu *menu)
 	else if (menu->selected_slider)
 		render_slider(md, menu->selected_slider, menu->overlay, 1);
 	md->mlx_put(md->mlx, md->win, menu->overlay->img, 0, 0);
+	render_cursor(md, NULL, menu->button_hov != -1 || menu->slider_hov != -1);
 }

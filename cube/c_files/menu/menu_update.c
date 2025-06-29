@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_update.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:33:17 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 15:35:44 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:34:40 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,11 @@ void	update_color_wheels(t_md *md, t_menu *menu)
 
 int	update_menu(t_md *md, t_menu *menu)
 {
-	if (md->mouse.click == MOUSE_PRESS)
-		play_sound(md, AU_MOUSE_CLICK);
-	if (md->mouse.click == MOUSE_RELEASE)
-		play_sound(md, AU_MOUSE_RELEASE);
 	update_input(md);
 	if (!menu->selected_slider)
 		update_sliders(md, menu, menu->sliders[0].size);
+	if (menu->slider_hov != -1)
+		update_hov_slider(md, &menu->sliders[menu->slider_hov]);
 	if (menu->selected_slider)
 	{
 		if (!md->mouse.pressed)

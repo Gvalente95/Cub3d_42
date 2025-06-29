@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_ent_movement.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:44:34 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 15:34:08 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:30:24 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	move_ent_to_target(t_md *md, t_ent *e)
 
 	e->action = m_walk;
 	dir = normalize_vec3f(sub_vec3f(e->target_pos, e->pos));
-	e->pos = add_vec3f(e->pos, scale_vec3f(dir, 5));
+	e->pos = add_vec3f(e->pos, scale_vec3f(dir, md->res * .01));
 	new_cord = v2(e->pos.x / md->t_len, \
 	e->pos.y / md->t_len);
 	if (cmp_vec3f(e->pos, e->target_pos, 10))

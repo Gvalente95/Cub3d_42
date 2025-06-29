@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:10:05 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:27:32 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:16:46 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ int	init_map(t_md *md, char *file_name)
 		free_and_quit(md, "Unclosed map\n", NULL);
 	if (!md->map.accept_unvalid && !validate_map(md, md->map.buffer))
 		free_and_quit(md, NULL, NULL);
-	printf("%s\n", md->map.buffer);
 	md->map.size.x--;
 	return (1);
 }

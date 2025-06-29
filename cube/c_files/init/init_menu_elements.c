@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_menu_elements.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:25:49 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:38:35 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:46:27 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	init_sliders(t_md *md, t_parameters *pm, t_fx_data *fx)
 	inisld(md, "noise", get_v4f(0, 0, 1, 100), &fx->noise);
 	inisld(md, "scanlines fx", get_v4f(0, 0, 1, 100), &fx->scanlines);
 	inisld(md, "barrel fx", get_v4f(0, 0, 5, 100), &fx->barrel_amount);
-	inisld(md, "Color band", get_v4f(0, 0, 1, 100), &fx->color_band);
+	inisld(md, "Color band", get_v4f(0, 0, 1, 10), &fx->color_band);
 	inisld(md, "Glow fx", get_v4f(0, 0, 1, 100), &fx->bloom_threshold);
 	inisld(md, "contrast", get_v4f(-1, 0, 1, 201), &fx->contrast);
 	inisld(md, "r", get_v4f(0, 1, 2, 100), &fx->hue.r);
@@ -90,7 +90,7 @@ static void	init_buttons(t_md *md, t_menu *menu, t_parameters *prm, int i)
 	inibut(&menu->buttons[i++], &prm->show_walls, "4_show walls", _4_KEY);
 	inibut(&menu->buttons[i++], &prm->show_ceiling, "5_Show ceiling", _5_KEY);
 	inibut(&menu->buttons[i++], &prm->show_sky, "4_Show sky", _6_KEY);
-	inibut(&menu->buttons[i++], &prm->show_wmap, "Y_Show Wmap", Y_KEY);
+	inibut(&menu->buttons[i++], &prm->show_wmap, "Y_Show Wmap", L_KEY);
 	inibut(&menu->buttons[i++], &prm->show_fps, "5_Show FPS", _7_KEY);
 	inibut(&menu->buttons[i++], &prm->show_hud, "H_Show HUD", H_KEY);
 	inibut(&menu->buttons[i++], &prm->show_floor, "B_Show floor", B_KEY);

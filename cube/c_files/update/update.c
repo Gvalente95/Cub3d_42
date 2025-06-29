@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:45:36 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 14:00:59 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:33:24 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ void	update_audio(t_md *md, t_au_manager *au)
 {
 	play_loop(md, &au->mus_pid, AU_MUS, 1);
 	play_loop(md, &au->wind_pid, AU_WIND, !md->menu.active && md->prm.fly_cam);
+	if (md->menu.active && md->mouse.click == MOUSE_PRESS)
+		play_sound(md, AU_MOUSE_CLICK);
+	if (md->menu.active && md->mouse.click == MOUSE_RELEASE)
+		play_sound(md, AU_MOUSE_RELEASE);
 	if (!md->prm.au_on)
 		return ;
 	if (!md->timer.trig_walk || md->prm.fly_cam || md->inv.active)
@@ -57,24 +61,11 @@ static void	update_portals(t_md *md, t_ent *e, t_vec2 out_pos)
 
 int	set_menu_mode(t_md *md, t_menu *menu, int mode)
 {
+	md->mouse.locked = !mode;
 	if (mode)
 		play_sound(md, AU_MENU_IN);
-	md->mouse.locked = !mode;
-	if (md->is_linux)
-	{
-		if (mode)
-		{
-			show_cursor(md);
-			mlx_mouse_move(md->mlx, md->win, \
-				md->win_sz.x / 2, md->win_sz.y / 2);
-		}
-		else
-		{
-			hide_cursor(md);
-			mlx_mouse_move(md->mlx, md->win, \
-				md->mouse.prev.x, md->mouse.prev.y);
-		}
-	}
+	else
+		lock_mouse_center(md);
 	menu->active = mode;
 	menu->slider_hov = -1;
 	menu->button_hov = -1;

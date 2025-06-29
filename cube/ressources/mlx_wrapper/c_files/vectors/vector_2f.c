@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:50:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/04/17 14:48:12 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 15:04:26 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_vec2f	get_v2f(float x, float y)
 int	print_vec2f(t_vec2f a, const char *label)
 {
 	if (label)
-		printf("%s: ", label);
+		printf("%s%s:%-10s ", PBLUE, label, PRESET);
 	printf("x%f y%f\n", a.x, a.y);
 	return (1);
 }

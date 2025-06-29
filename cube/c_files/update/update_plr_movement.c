@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_plr_movement.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 11:45:19 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:36:10 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:32:09 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	move_player(t_md *md, t_ent *e)
 {
-	t_vec3f	sign_mv;
-	t_vec3f	decc;
-	float	speed;
+	t_vec3f		sign_mv;
+	t_vec3f		decc;
+	float		speed;
 
-	speed = md->prm.plr_speed / RESOLUTION;
+	speed = md->prm.plr_speed / md->res;
 	sign_mv = scale_vec3f(e->mov, speed);
 	decc = scale_vec3f(e->mov, md->prm.mov_drift);
 	if (!md->prm.fly_cam && e->pos.z + sign_mv.z > 0)
@@ -54,7 +54,7 @@ static t_vec3f	set_input_mov_2(t_md *md, float spd, \
 	mov.y = (mv_for - mv_back) * for_dir.y + (mv_rght - mv_lft) * -rgt_dir.y;
 	if (md->key_click == SPACE_KEY && \
 		md->plr.pos.z + md->prm.height >= -EPSILON)
-		mov.z = - ((1 + md->prm.mov_drift) * 5);
+		mov.z = - ((1 + (md->prm.mov_drift / 4) / md->res) * md->res);
 	else if (md->key_prs[R_KEY] == 1)
 		mov.z = -(spd * .2);
 	md->cam.input_mov = get_v3f(mv_lft - mv_rght, mv_for - mv_back, \

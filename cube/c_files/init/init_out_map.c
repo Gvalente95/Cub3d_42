@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:36:09 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/04/23 00:26:03 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 15:17:29 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	replace_map_interiors(char *out_map)
 		else if (!char_in_str(out_map[i], "21D\n"))
 			out_map[i] = ' ';
 	}
-	printf("out_map\n%s\n", out_map);
 }
 
 char	*get_out_map(char *map, int width, int len)

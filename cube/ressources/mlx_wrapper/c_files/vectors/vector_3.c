@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:54:50 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:32 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 15:05:29 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	cmp_vec3(t_vec3 a, t_vec3 b)
 int	print_vec3(t_vec3 a, const char *label)
 {
 	if (label)
-		printf("%s: ", label);
+		printf("%s%-10s%s ", PBLUE, label, PRESET);
 	printf("x%d y%d %dz\n", a.x, a.y, a.z);
 	return (1);
 }

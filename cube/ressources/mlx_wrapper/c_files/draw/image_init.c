@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:31:53 by gvalente          #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:04 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 16:22:40 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,11 @@ void	render_cursor(t_md *md, t_image *screen, int has_hov)
 		img = md->mouse.curs_dtc;
 	else
 		img = md->mouse.cursor;
+	if (img != md->mouse.cursor)
+	{
+		pos.x -= 5;
+		pos.y -= 5;
+	}
 	if (screen)
 		draw_img(img, screen, pos, -1);
 	else

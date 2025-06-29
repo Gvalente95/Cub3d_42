@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:36:33 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/23 15:23:08 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:41:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,13 @@ static void	init_var(t_md *md)
 	md->map.accept_unvalid = 0;
 }
 
-int	init_cube(t_md *md, char *file_arg, int start_debug)
+int	init_cube(t_md *md, char *file_arg, int strictMode)
 {
-	md->strict_mode = !start_debug;
+	md->strict_mode = !strictMode;
 	init_colors(md);
-	init_game_params(md, &md->prm, start_debug);
+	init_game_params(md, &md->prm, 0);
 	init_var(md);
-	md->hud.fog_color = _BLACK;
+	md->hud.fog_color = _WHITE;
 	init_portal_data(md);
 	init_ents_data(md, &md->txd);
 	init_map(md, file_arg);

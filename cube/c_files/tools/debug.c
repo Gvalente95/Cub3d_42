@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 10:37:22 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 18:14:27 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:35:43 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,17 @@
 
 void	show_init_information(t_md *md)
 {
-	t_vec2	pos;
-	t_ent	*e;
+	const char	active[2][20] = {PRED"Disabled"PRESET, PGREEN "Enabled" PRESET};
 
-	print_vec2(md->map.size, "map size");
-	print_vec3f(md->plr.pos, "plr pos");
-	print_vec3f(md->cam.rot, "plr rot");
-	printf("AU: %d\n", md->prm.au_on);
-	print_vec3(md->plr.coord, "plr coord");
-	printf("map name: %s\nmap content: \n", md->map.name);
-	return ;
-	pos = _v2(-1);
-	while (++pos.y < md->map.size.y)
-	{
-		pos.x = -1;
-		while (++pos.x < md->map.size.x)
-		{
-			e = get_mapped_at_cord(md, pos);
-			if (e)
-				printf("%c", e->character);
-			else
-				printf(" ");
-		}
-		printf("\n");
-	}
-	printf("\n");
+	printf("\n%sMAP\n%s%s%s\n", PYELLOW, PGREEN, md->map.name, PRESET);
+	print_vec2(md->map.size, "Size");
+	print_color(md->hud.floor_color, "Floor color");
+	print_color(md->hud.ceiling_color, "Sky color");
+	printf("\n%sPLAYER%s\n", PYELLOW, PRESET);
+	print_vec3(md->plr.coord, "Coord");
+	print_vec3f(md->plr.pos, "Position");
+	print_vec3f(md->cam.rot, "Rotation");
+	printf("\nAudio %s\n\n", active[md->prm.au_on]);
 }
 
 void	show_debug_time(t_md *md, t_txtd txt_data)
@@ -80,13 +66,15 @@ void	show_update_information(t_md *md)
 
 void	print_color(int color, const char *label)
 {
+	const char	c[4][10] = {PRED, PGREEN, PBLUE, PYELLOW};
+
 	if (label)
-		printf("%s: ", label);
-	printf("r%d g%d b%d a%d\n", \
-		(color >> 16) & 0xFF, \
-		(color >> 8) & 0xFF, \
-		color & 0xFF, \
-		(color >> 24) & 0xFF);
+		printf("%s%-12s%s ", PBLUE, label, PRESET);
+	printf("%s%-3d %s%-3d %s%-3d %s%d%s\n", \
+		c[0], (color >> 16) & 0xFF, \
+		c[1], (color >> 8) & 0xFF, \
+		c[2], color & 0xFF, \
+		c[3], (color >> 24) & 0xFF, PRESET);
 }
 
 void	show_debug(t_md *md, char *msg, int *value, char *attribute)

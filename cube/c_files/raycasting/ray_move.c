@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_move.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:28:02 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/06 18:01:08 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:44:18 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_ent	*search_in_grid(t_md *md, t_ray *ray, float distance)
 {
 	t_ent			*e;
 
+	if (!ray)
+		return (NULL);
 	e = get_mapped_at_pos(md, get_v2f(ray->pos.x, ray->pos.y));
 	if (!e)
 		return (NULL);
@@ -35,10 +37,8 @@ t_ent	*search_in_grid(t_md *md, t_ray *ray, float distance)
 	ray->hit_data[ray->hits_len++].hit = e;
 	if (e->type != nt_door || ray->had_door)
 		return (NULL);
-	ray->door = e;
 	ray->dist_at_door = distance;
-	ray->had_door = 1;
-	return (NULL);
+	return (ray->door = e, ray->had_door = 1, NULL);
 }
 
 static int	ray_can_look(t_md *md, t_ray *ray, int on_grid)

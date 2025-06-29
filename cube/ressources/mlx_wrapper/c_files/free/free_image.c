@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_image.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:46:54 by gvalente          #+#    #+#             */
-/*   Updated: 2025/05/26 20:51:08 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:26:38 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ int	free_menu(t_md *md, t_menu *menu)
 	i = -1;
 	while (++i < 3)
 		fa += free_image_data(md, menu->clrp[i].img);
-	printf("menu freed %d\n", fa);
+	printf("MENU %-5s%d%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_pixels_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:25:37 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/01 15:25:45 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 13:37:39 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ int	draw_smooth_rec(t_image *dst, t_vec2 pos, t_vec2 draw_size, int color)
 				dst->src[idx] = blend_color(dst->src[idx], color, alpha);
 		}
 	}
+	return (1);
 }

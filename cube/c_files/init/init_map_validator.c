@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map_validator.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:32:22 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/23 15:20:20 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:28:10 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	find_breach(t_md *md, t_map *map, int plr_index)
 	char		*flooded_map;
 	int			found_breach;
 
-	if (map->len > 20000)
+	if (map->len > 20000 && 0)
 		free_and_quit(md, "Map too large for this version, sorry :|", NULL);
 	flooded_map = ft_strdup(map->buffer);
 	flood_fill(map, flooded_map, plr_index, 0);
@@ -103,6 +103,8 @@ int	validate_map(t_md *md, char *map)
 	unvalid_char = find_unvalid_char(map, valid_chars);
 	free(valid_chars);
 	if (unvalid_char != '\0')
-		return (printf("Error\nUnvalid char: '%c'\n", unvalid_char), 0);
+		return (printf("%sError\nUnvalid char: %s'%c'%s \
+- start the program with 3 args to enable \
+non-strict-mode\n\n", PRED, PYELLOW, unvalid_char, PRESET), 0);
 	return (1);
 }

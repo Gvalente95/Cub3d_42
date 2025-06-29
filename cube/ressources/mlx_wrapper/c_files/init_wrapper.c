@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_wrapper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:39:27 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/23 15:17:24 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:28:46 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	init_cursor(t_md *md)
 	msd->focus = 0;
 	msd->pressed = 0;
 	msd->click = 0;
+	hide_cursor(md);
 	mlx_mouse_hook(md->win, mouse_event_handler, md);
 	mlx_hook(md->win, 5, ButtonReleaseMask, mouse_release_handler, md);
 	mlx_hook(md->win, 6, PointerMotionMask, mouse_motion_handler, md);
@@ -42,6 +43,7 @@ static int	init_screen(t_md *md, t_vec2 win_sz, int resolution, char *win_name)
 {
 	void	*screen_image;
 
+	md->res = resolution;
 	md->win = mlx_new_window(md->mlx, win_sz.x, win_sz.y, win_name);
 	md->win_sz = v2(win_sz.x, win_sz.y);
 	md->t_len = win_sz.x / resolution;
@@ -49,7 +51,7 @@ static int	init_screen(t_md *md, t_vec2 win_sz, int resolution, char *win_name)
 	return (1);
 }
 
-static int	init_md(t_md *md)
+static int	init_md(t_md *md, t_vec2 winsz)
 {
 	memset(md, 0, sizeof(t_md));
 	md->strict_mode = 1;
@@ -59,28 +61,32 @@ static int	init_md(t_md *md)
 	md->mouse.locked = 1;
 	md->key_click = -1;
 	md->t_len = 60;
-	md->prm.txt_sc = max(20, md->win_sz.x / 150);
+	md->prm.txt_sc = minmax(10, 20, winsz.x / 100);
 	md->mouse.hide = 1;
 	return (1);
 }
 
 static void	init_os_params(t_md *md)
 {
+	const char	color[2][10] = {PBLUE, PGREEN};
+	const char	device[2][19] = {"Mac", "Linux"};
+
 	md->mlx_put = mlx_put_image_to_window;
 	md->mlx_make = mlx_xpm_file_to_image;
 	md->is_linux = LIN;
 	ft_strlcpy(md->base_map_path, "Randomap.cub", 20);
-	printf("wrapper LIN = %d\n", LIN);
+	printf("%sDevice%s %s%s%s\n", \
+		PYELLOW, PRESET, color[md->is_linux], device[md->is_linux], PRESET);
 }
 
 void	init_wrapper(t_md *md, t_vec2 win_sz, char *win_name, int resolution)
 {
-	init_md(md);
+	init_md(md, win_sz);
 	init_os_params(md);
 	init_fonts(md);
 	start_timer(&md->timer.game_start);
+	md->timer.cur_tm = md->timer.game_start;
 	init_screen(md, win_sz, resolution, win_name);
-	md->prm.txt_sc = 20;
 	init_cursor(md);
 	init_timer(md, &md->timer);
 	if (md->is_linux)
@@ -96,4 +102,5 @@ void	init_wrapper(t_md *md, t_vec2 win_sz, char *win_name, int resolution)
 		mlx_hook(md->win, 17, 0, close_window, md);
 	}
 	md->r_seed = get_r_seed();
+	print_vec2(md->win_sz, "Screen size");
 }

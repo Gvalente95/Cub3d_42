@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:14:54 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/23 14:58:09 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:40:01 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	free_md(t_md *md, int quit)
 {
 	int	fa;
 
+	printf("%sFREE%s\n", PGREEN, PRESET);
 	fa = 0;
 	fa += free_hud(md, &md->hud);
 	fa += free_var(md, &md->mmap, &md->fx, &md->mouse);
@@ -62,14 +63,11 @@ int	free_md(t_md *md, int quit)
 	fa += free_inv(md, &md->inv);
 	if (md->init_steps > 1)
 		fa += free_env(md, &md->env);
-	printf("[PART 1] total: %d\n", fa);
 	fa += free_ents(md);
 	fa += free_battle_data(md, &md->battle_d);
-	fa += free_txd(md, &md->txd);
-	fa += mlx_destroy_window(md->mlx, md->win) + 1;
-	fa += mlx_destroy_display(md->mlx);
+	fa += free_txd(md, &md->txd, -1);
 	fa += free_void(md->mlx);
-	ft_printf("Freed: %d elements\n", fa);
+	printf("Total: %s%d elements freed%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }
 
@@ -77,11 +75,13 @@ int	free_and_quit(t_md *md, const char *msg, const char *attribute)
 {
 	if (msg)
 	{
-		printf("Error\n%s", msg);
+		printf("%sError%s\n%s", PRED, PRESET, msg);
 		if (attribute)
 			printf(": %s", attribute);
 		printf("\n");
 	}
+	printf("%sExit after %s%.2fs\n", \
+		PBLUE, PRESET, md->timer.cur_tm - md->timer.game_start);
 	stop_sound(md->au.wind_pid);
 	stop_sound(md->au.mus_pid);
 	cleanup_thread_pool(md);
