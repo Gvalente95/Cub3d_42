@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:44:34 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 18:30:24 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/29 23:43:39 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,16 @@ void	move_ent_to_target(t_md *md, t_ent *e)
 	t_vec2			new_cord;
 	const t_vec3f	target = e->target_pos;
 
+	return ;
 	e->action = m_walk;
 	dir = normalize_vec3f(sub_vec3f(e->target_pos, e->pos));
 	e->pos = add_vec3f(e->pos, scale_vec3f(dir, md->res * .01));
-	new_cord = v2(e->pos.x / md->t_len, \
-	e->pos.y / md->t_len);
 	if (cmp_vec3f(e->pos, e->target_pos, 10))
 	{
 		e->pos = target;
-		print_vec3(e->coord, "cur_cord");
-		print_vec2(new_cord, "new cord");
-		printf("\n\n");
 		e->target_pos.x = -999;
+		new_cord = v2(e->pos.x / md->t_len, \
+			e->pos.y / md->t_len);
 		add_ent_at_cord(md, e, new_cord);
 		e->action = m_idle;
 	}

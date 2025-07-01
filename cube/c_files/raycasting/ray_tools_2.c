@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tools_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 02:04:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 18:10:07 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:25:20 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	correct_fisheye(t_md *md, t_ray *ray, t_ent *e, float dist)
 	float	fisheye_corrector;
 
 	fov_correction_factor = 60.0f / (float)md->prm.fov;
-	height_factor = md->t_len / (md->t_len + 0.3f * (e->pos.z - md->cam.pos.z));
+	height_factor = md->t_len / (md->t_len + 0.3f * (-md->cam.pos.z));
 	plane_proj_height = md->win_sz.y * e->size.y * height_factor;
 	angle_diff = (ray->angle - md->plr.angle) * fov_correction_factor;
 	fisheye_corrector = plane_proj_height / (dist * fabsf(cosf(angle_diff)));

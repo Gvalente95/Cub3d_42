@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:55:04 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 15:33:32 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 01:47:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,10 @@ static char	*parse_file_data(t_md *md)
 
 void	init_map_data(t_md *md)
 {
-	int		i;
-	t_image	*img;
+	const char	err[4][6] = {"NORTH", "SOUTH", "EAST", "WEST"};
+	int			one_missing;
+	int			i;
+	t_image		*img;
 
 	md->txd.wall_img = calloc(5, sizeof(t_image *));
 	md->txd.wall_img2d = calloc(5, sizeof(t_image *));
@@ -118,12 +120,16 @@ void	init_map_data(t_md *md)
 		free_and_quit(md, "no map found", NULL);
 	if (trim_excess_newlines(&md->map.buffer, ft_strlen(md->map.buffer)))
 		printf("Excess characters found\n");
+	one_missing = 0;
 	i = -1;
 	while (++i < 4)
 	{
 		img = md->txd.wall_img[i];
 		if (!img)
-			free_and_quit(md, "Wall texture's path missing", NULL);
+			one_missing = printf("%sError%s - No texture's path for %s%s%s\n", \
+				PRED, PRESET, PYELLOW, err[i], PRESET);
 		md->txd.wall_img2d[i] = copy_image(md, img, _v2(md->txd.size_2d), -1);
 	}
+	if (one_missing)
+		free_and_quit(md, NULL, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 22:23:11 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 18:27:43 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/29 21:55:30 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char *argv[])
 	if (argc > 4 && ft_isalnum(argv[3][0]))
 		scrn_size.y = minmax(200, 3000, ft_atoi(argv[4]));
 	if (argc > 5)
-		res = minmax(2, 30, ft_atoi(argv[5]));
+		res = minmax(2, 50, ft_atoi(argv[5]));
 	init_wrapper(&md, scrn_size, "Cube3d", res);
 	init_cube(&md, argv[1], argc > 2);
 	mlx_do_key_autorepeatoff(md.mlx);

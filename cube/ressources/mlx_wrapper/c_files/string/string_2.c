@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:10:03 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/03/29 12:39:35 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 03:36:36 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	get_char_index(const char *str, char to_check)
 {
 	int	i;
 
+	if (to_check >= '3' && to_check <= '9')
+		to_check = '1';
 	i = -1;
 	while (str[++i])
 		if (str[i] == to_check)

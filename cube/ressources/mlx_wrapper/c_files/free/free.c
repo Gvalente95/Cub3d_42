@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:14:54 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 17:40:01 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 12:43:09 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	free_md(t_md *md, int quit)
 	fa += free_battle_data(md, &md->battle_d);
 	fa += free_txd(md, &md->txd, -1);
 	fa += free_void(md->mlx);
+	fa += free_ray_data(md);
 	printf("Total: %s%d elements freed%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }

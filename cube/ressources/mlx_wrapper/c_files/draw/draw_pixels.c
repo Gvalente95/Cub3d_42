@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_pixels.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:55:24 by gvalente          #+#    #+#             */
-/*   Updated: 2025/05/26 22:20:01 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:20:05 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	put_pxl_if_vis(t_draw_d *dd, int overlap, int blend, float opacty)
 {
 	t_image	*src_img;
 	t_image	*dst;
-	int		src_i;
+	int		src_c;
 	int		dst_i;
 	int		clr;
 
@@ -31,10 +31,10 @@ int	put_pxl_if_vis(t_draw_d *dd, int overlap, int blend, float opacty)
 	clr = dd->src_pos.x;
 	if (src_img && src_img->src)
 	{
-		src_i = dd->src_pos.y * (src_img->size_line / 4) + dd->src_pos.x;
-		if (((src_img->src[src_i] >> 24) & 0xFF) == 255)
+		clr = src_img->src[dd->src_pos.y * \
+			(src_img->size_line / 4) + dd->src_pos.x];
+		if (clr == _NULL || ((clr >> 24) & 0xFF) == 255)
 			return (0);
-		clr = src_img->src[src_i];
 	}
 	if (blend)
 		return (dst->src[dst_i] = blend_color(dst->src[dst_i], clr, opacty), 1);

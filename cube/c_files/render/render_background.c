@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_background.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 22:45:20 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:42:58 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:13:49 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ int	render_sky(t_md *md)
 	sky_pos[5] = v3(win_sz.x - scrl.x, -scrl.y + win_sz.y, 1);
 	draw_sky(md, md->hud.sky_buffer, sky_pos);
 	return (1);
+}
+
+void	render_sun(t_md *md)
+{
+	t_vec2	screen_p;
+
+	screen_p.x = -(md->cam.rot.x + 90) * 20 + \
+		md->cam.wrd_mv_offst.x * .1 + md->win_sz.x / 2;
+	screen_p.y = md->hud.floor_start - md->win_sz.y * .4 - (md->cam.pos.z * .1);
+	draw_img(md->hud.sun, md->screen, screen_p, md->hud.ceiling_color);
 }
 
 void	render_2d_floor(t_md *md)

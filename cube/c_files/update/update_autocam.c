@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_autocam.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 22:58:02 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 19:50:18 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:02:49 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,9 @@ static int	exit_autocam(t_md *md, t_autocam *autocam)
 	md->plr.dir.y = 0;
 	md->timer.time = 1;
 	md->key_click = -1;
-	md->prm.ent_mode = 1;
 	md->prm.fly_cam = 0;
-	md->prm.super_view = 0;
 	md->prm.show_ceiling = 1;
-	md->prm.ray_mod = 5;
-	md->fx.fog = .8f;
-	md->prm.alternate_draw = 0;
+	md->fx.fog = .2f;
 	autocam->active = 0;
 	autocam->quitting = 0;
 	return (1);
@@ -54,15 +50,13 @@ static void	init_autocam(t_md *md, t_autocam *autocam)
 	autocam->acc_spd = 0.0f;
 	autocam->base_y = 80 - md->map.size.y;
 	md->plr.angle = M_PI_2;
-	md->plr.pos.z = -md->t_len * minf(8, (md->map.size.y * .5f));
+	md->plr.pos.z = -md->t_len * minf(8, (md->map.size.y / 2));
 	md->prm.fly_cam = 1;
 	md->prm.show_ceiling = 0;
-	md->prm.show_grass = 1;
-	md->fx.fog = .01f;
+	md->fx.fog = .05f;
 	md->prm.super_view = 1;
-	md->prm.ray_mod = 2.1;
-	md->prm.alternate_draw = 1;
-	md->hud.floor_start = 0;
+	md->prm.ent_mode = 0;
+	md->hud.floor_start = md->win_sz.y * .4;
 	md->timer.time = 10;
 }
 
@@ -87,8 +81,7 @@ void	update_player_orbit(t_md *md, t_autocam *aut)
 	update_cam(md, &md->cam);
 	if (!md->mouse.delta.y)
 		return ;
-	aut->base_y = minmaxf(50, 80, aut->base_y + md->mouse.delta.y * .001f);
-	md->fx.fog = minmaxf(0.001f, 1, md->fx.fog - md->mouse.delta.y * .00005f);
+	aut->base_y = minmaxf(40, 100, aut->base_y + md->mouse.delta.y * .01f);
 }
 
 int	handle_autocam_input(t_md *md, t_autocam *autocam, int key)
@@ -128,9 +121,11 @@ int	update_autocam(t_md *md, t_autocam *autocam)
 	play_loop(md, &md->au.wind_pid, AU_WIND, autocam->quitting);
 	render_background(md);
 	cast_ray_threads_lp(md);
+	render_sun(md);
 	if (!autocam->quitting)
 		render_autocam_text(md, 0);
 	mlx_put_image_to_window(md->mlx, md->win, md->screen->img, 0, 0);
+	render_cursor(md, NULL, 0);
 	reset_mlx_values(md);
 	return (1);
 }

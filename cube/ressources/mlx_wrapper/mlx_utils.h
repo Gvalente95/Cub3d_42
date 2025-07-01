@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:42 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/28 18:28:26 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 14:48:58 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@
 # define PRESET			"\033[0m"
 
 # define MOUSE_SENSITIVITY	.2
-# define MAPPED_ENT_MAX		300
 # define MOUSE_SMTH			0.2f
 # define _PI				3.14159265358979323846
 
@@ -89,6 +88,7 @@ typedef struct s_hud
 	t_image		*overlay;
 	t_image		*rgun;
 	t_image		*base_sky;
+	t_image		*sun;
 	t_image		*sky;
 	t_image		*sky_flipy;
 	t_image		*sky_buffer;
@@ -281,6 +281,8 @@ typedef struct s_md
 	t_inventory		inv;
 	char			base_map_path[50];
 	char			*out_map;
+	float			g;
+	float			v0;
 	unsigned int	r_seed;
 	int				plr_in_house;
 	int				strict_mode;
@@ -332,6 +334,7 @@ int		free_ents(t_md *md);
 int		free_inv(t_md *md, t_inventory *inv);
 int		free_env(t_md *md, t_env_manager *env);
 int		free_battle_data(t_md *md, t_battle_d *bd);
+int		free_ray_data(t_md *md);
 
 //		free/free.c
 int		safe_free(void *item);
@@ -380,6 +383,7 @@ char	*ft_strndup(const char *s1, ssize_t n);
 
 t_vec3	get_grid_posf(t_md *md, t_vec3f pos);
 t_vec3	get_grid_pos(t_md *md, t_vec3 pos);
+int		free_ent(t_md *md, t_ent *e);
 
 void	show_vec2(t_md *md, char *label, t_vec2 vec, t_vec2 pos);
 void	show_float(t_md *md, char *label, float value, t_vec2 pos);
@@ -426,6 +430,8 @@ void	draw_img_except(t_image *src, t_image *dst, t_vec2 pos, int excpt);
 int		draw_smooth_rec(t_image *dst, t_vec2 pos, t_vec2 draw_size, int color);
 void	randomize_sliders(t_md *md, t_menu *menu, int is_reset);
 int		update_slider(t_md *md, t_slider *sld);
+void	render_sun(t_md *md);
 int		update_hov_slider(t_md *md, t_slider *sld);
+void	draw_wall_shadow(t_md *md, t_ray_draw_d *d, int prev_start);
 
 #endif

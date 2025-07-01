@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:29:41 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/01 08:58:40 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 03:06:12 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_entity
 	int				was_hit;
 	int				shot;
 	int				grounded;
+	int				on_floor;
 	int				map_index;
 	int				is_active;
 	int				hp;

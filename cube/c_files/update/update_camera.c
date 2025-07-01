@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   update_camera.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:49:48 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/06 12:34:41 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:13:31 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	update_cam_bob(t_md *md, t_ent *plr)
+void	update_cam_bob(t_md *md)
 {
-	float	bob_speed;
-	float	bob_amount;
-	float	vrt_offset;
-	int		is_running;
+	float		bob_speed;
+	float		bob_amount;
+	float		vrt_offset;
+	const int	is_running = md->key_prs[SHIFT_KEY];
+	const t_ent	*plr = &md->plr;
 
-	is_running = md->key_prs[SHIFT_KEY];
-	if (md->plr.grounded && !cmp_vec3f \
-		(get_v3f(plr->mov.x, plr->mov.y, 0), v3f(0), 0.01f))
+	if (plr->on_floor && md->cam.is_moving)
+	{
 		md->cam.bob_time += md->timer.delta_time;
+	}
 	bob_speed = BOB_SPD * (1 + is_running);
 	bob_amount = md->prm.bob_amount;
 	if (md->key_prs[SHIFT_KEY])
@@ -98,7 +99,7 @@ void	update_cam(t_md *md, t_cam *cam)
 		md->timer.tm_walk = 0;
 	update_plr_offsets(md, cam);
 	if (md->prm.bob_amount > 0)
-		update_cam_bob(md, &md->plr);
+		update_cam_bob(md);
 }
 
 t_vec3f	update_fly_cam(t_md *md, t_cam *cam, float spd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:11:19 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 13:32:55 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:04:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../mlx_utils.h"
 # include <pthread.h>
 
-# define MAX_RAY_SPRITE		70
+# define MAX_RAY_SPRITE		400
 # define MAX_RAYS 			3000
 
 typedef struct s_md		t_md;
@@ -85,7 +85,7 @@ typedef struct s_floor_draw_d
 
 typedef struct s_ray
 {
-	t_hit_data	hit_data[MAX_RAY_SPRITE];
+	t_hit_data	*hit_data;
 	int			hits_len;
 	t_ent		*wall_hit;
 	t_ent		*check_hit;
@@ -101,9 +101,11 @@ typedef struct s_ray
 	float		distance;
 	float		sprite_distance;
 	float		angle;
+	int			*dirty_checks;
 	int			vertical_hit;
 	int			corner;
 	int			index;
+	int			is_double_hit;
 	int			color;
 	int			had_door;
 	float		dist_at_door;

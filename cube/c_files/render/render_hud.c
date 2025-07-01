@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_hud.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:50:32 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 16:44:45 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:12:22 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	render_hud_elements(t_md *md, t_hud *hud)
 	t_image	*img;
 	t_vec2	cross_pos;
 
-	if (!md->inv.active && md->inv.held_i == -1)
+	if (!md->inv.active && md->inv.held_i == -1 && !md->menu.active)
 	{
 		img = hud->center;
 		if (md->cam.prv_pointed_ent || md->cam.pointed_door)

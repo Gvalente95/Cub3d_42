@@ -6,11 +6,40 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:45:36 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 16:33:24 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 14:12:05 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
+
+int	create_wall(t_md *md)
+{
+	const int		depth = minmax(1, 10, (45 - (max(0, md->cam.rot.y)) / 2));
+	const t_vec2	coord = v2(md->plr.coord.x + md->plr.dir.x * depth, \
+	md->plr.coord.y + md->plr.dir.y * depth);
+	t_ent			*e;
+	t_dblst			*node;
+	int				prv_index;
+
+	e = get_mapped_at_cord(md, coord);
+	if (!e || e->type != nt_empty)
+		return (0);
+	node = md->entities;
+	while (node)
+	{
+		if ((t_ent *)node->content == e)
+			break ;
+		node = node->next;
+	}
+	if (!node)
+		return (0);
+	prv_index = e->map_index;
+	free_ent(md, e);
+	e = init_ent(md, '2', coord, prv_index);
+	e->pos.z = -(md->t_len * max(0, -md->cam.rot.y * 100));
+	e->coord.z = ((e->pos.z / md->t_len) / 450) / 2;
+	return (node->content = (void *)e, play_sound(md, AU_BOP), 1);
+}
 
 void	update_audio(t_md *md, t_au_manager *au)
 {
@@ -26,7 +55,7 @@ void	update_audio(t_md *md, t_au_manager *au)
 		return ;
 	if (!md->plr.grounded || !md->cam.is_moving)
 		return ;
-	if (md->cam.pos.z + md->prm.height < -.5)
+	if (md->cam.pos.z + md->prm.height < -.5 && !md->plr.on_floor)
 		return ;
 	if (!cmp_vec3f(md->plr.mov, v3f(0), .01))
 		md->au.walk_index = \
@@ -80,6 +109,11 @@ int	update_and_render(t_md *md)
 		return (update_autocam(md, &md->autocam));
 	if (md->battle_d.active)
 		return (update_battle_scene(md, &md->battle_d));
+	if (!md->map.explored_all && md->mmap.revealed_cur == md->mmap.revealed_len)
+	{
+		md->map.explored_all = 1;
+		add_alert(md, 10, NULL, "Map fully explored, gg..");
+	}
 	update_portals(md, md->portal.found, md->portal.out_pos);
 	update_audio(md, &md->au);
 	if (md->menu.active)
@@ -92,8 +126,7 @@ int	update_and_render(t_md *md)
 		update_inventory(md, &md->inv);
 	if (md->timer.time > 5)
 		update_player(md, &md->plr);
-	update_ents(md);
-	render(md);
-	reset_mlx_values(md);
-	return (0);
+	if (md->prm.ent_mode)
+		update_ents(md);
+	return (render(md), reset_mlx_values(md), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:46:54 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/28 15:26:38 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 12:51:33 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,5 @@ int	free_mob_images(t_md *md, t_ent *e, char *label)
 		fa += free_images_data(md, e->anim[action], "label");
 	}
 	fa += safe_free(e->anim);
-	return (fa);
-}
-
-int	free_menu(t_md *md, t_menu *menu)
-{
-	int	i;
-	int	fa;
-
-	fa = 0;
-	fa += free_image_data(md, menu->overlay);
-	fa += free_image_data(md, menu->bgr_overlay);
-	fa += free_image_data(md, menu->ui_overlay);
-	i = -1;
-	while (++i < 3)
-		fa += free_image_data(md, menu->clrp[i].img);
-	printf("MENU %-5s%d%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }

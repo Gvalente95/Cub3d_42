@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 02:51:18 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/04/25 00:55:44 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 01:49:15 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,6 @@ int	trim_excess_newlines(char **map, int len)
 	return (0);
 }
 
-void	remove_chars(t_md *md, char **txt, const char *to_remove)
-{
-	char	*new_str;
-	int		new_len;
-	int		i;
-	int		j;
-
-	new_len = 0;
-	i = -1;
-	while ((*txt)[++i])
-		if (!char_in_str((*txt)[i], to_remove))
-			new_len++;
-	if (new_len == ft_strlen(*txt))
-		return ;
-	new_str = malloc(new_len + 1);
-	if (!new_str)
-		free_and_quit(md, "alloc in remove_chars: ", *txt);
-	j = -1;
-	i = -1;
-	while ((*txt)[++i])
-		if (!char_in_str((*txt)[i], to_remove))
-			new_str[++j] = (*txt)[i];
-	new_str[++j] = '\0';
-	free(*txt);
-	*txt = new_str;
-}
-
 int	get_to_find_index(char *str, char *to_find)
 {
 	int	i;
@@ -93,4 +66,33 @@ int	contains_valid_character(char *line, const char *valid_characters)
 		if (line[i] != ' ' && char_in_str(line[i], valid_characters))
 			return (1);
 	return (0);
+}
+
+int	are_bounds_valid(char *map, t_vec2 size)
+{
+	t_vec2	p;
+
+	p = _v2(-1);
+	while (++p.y < size.y)
+	{
+		p.x = -1;
+		while (++p.x < size.x)
+		{
+			if (p.x != 0 && p.x != size.x - 2 && p.y != 0 && p.y != size.y -1)
+				continue ;
+			if (map[p.x + ((size.x) * p.y)] != '0')
+				continue ;
+			p = v2(-1, p.x + ((size.x) * p.y));
+			printf("\n");
+			while (map[++p.x])
+			{
+				if (p.x == p.y)
+					printf("%s%c%s", PRED, map[p.x], PRESET);
+				else
+					printf("%c", map[p.x]);
+			}
+			return (0);
+		}
+	}
+	return (1);
 }

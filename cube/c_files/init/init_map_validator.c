@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:32:22 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 14:28:10 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 01:22:54 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,16 @@ int	find_breach(t_md *md, t_map *map, int plr_index)
 int	validate_map(t_md *md, char *map)
 {
 	char	unvalid_char;
-	char	*valid_chars;
+	char	*valid_ch;
 
+	if (!are_bounds_valid(map, md->map.size))
+		return (printf("\n%sError\nUnvalid Bounds%s\n\n", PRED, PRESET), 0);
 	if (md->strict_mode)
-		valid_chars = ft_strdup(" 10NSEW\n");
+		valid_ch = ft_strdup(" 10NSEW\n");
 	else
-		valid_chars = md_strjoin(md, md->txd.ents_tp_map[0], " 10NSEW\n");
-	unvalid_char = find_unvalid_char(map, valid_chars);
-	free(valid_chars);
+		valid_ch = md_strjoin(md, md->txd.ents_tp_map[0], " 1234567890NSEW\n");
+	unvalid_char = find_unvalid_char(map, valid_ch);
+	free(valid_ch);
 	if (unvalid_char != '\0')
 		return (printf("%sError\nUnvalid char: %s'%c'%s \
 - start the program with 3 args to enable \

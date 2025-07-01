@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 17:00:30 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 17:49:07 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/29 23:35:09 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	wrap_mouse(t_md *md, int delta_x, int delta_y)
 {
 	t_vec2	block_pos;
 
-	return;
+	return ;
 	lock_mouse_center(md);
 	block_pos = v2(md->win_sz.x - 200, md->win_sz.y - 200);
 	md->mouse.prev = block_pos;

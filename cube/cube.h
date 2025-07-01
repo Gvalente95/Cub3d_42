@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 21:53:43 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 18:41:10 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 14:59:02 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ char	*get_new_map(int difficulty, t_vec2 *size, char *data_info);
 //	tools/parse_tools.c
 void	trim_excess_spaces(char **line);
 int		trim_excess_newlines(char **map, int len);
-void	remove_chars(t_md *md, char **txt, const char *to_remove);
 int		get_to_find_index(char *str, char *to_find);
+int		are_bounds_valid(char *map, t_vec2 size);
 
 //	tools/map_gen_2.c
 void	set_doors(char *map, int doors_amount);
@@ -205,10 +205,9 @@ void	update_ent_frame(t_ent *e);
 int		update_ents(t_md *md);
 
 //	update/collisions.c
-int		is_collision(t_ent *a, t_ent *b, t_vec2 a_size);
+int		is_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size);
 int		set_collisions(t_md *md, t_ent *e, t_vec2 e_size);
-
-//	update/update_projectile.c
+int		create_wall(t_md *md);
 
 //	update/update_plr_movement.c
 int		move_player(t_md *md, t_ent *e);
@@ -361,5 +360,6 @@ void	draw_from_pos(t_image *src, t_image *dst, t_vec2 pos, t_vec2 draw_strt);
 void	init_ent_pkteam(t_md *md, t_ent *e, int team_size);
 float	get_pitch_offset(t_md *md);
 void	update_sliders(t_md *md, t_menu *menu, t_vec2 sz);
+void	update_phys(t_md *md);
 
 #endif

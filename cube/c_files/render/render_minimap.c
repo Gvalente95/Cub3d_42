@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_minimap.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:59:55 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 13:27:51 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:31:12 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,30 @@ void	show_if_interior(t_md *md, t_ent *e, t_vec2 draw_p, int scale)
 void	show_minimap_entity(t_md *md, t_ent *e, t_image *screen, int no_redraw)
 {
 	int				draw_clr;
-	t_vec2			pos;
+	t_vec2			p;
 	int				icsz;
 
 	if (!e || (no_redraw && e->revealed))
 		return ;
-	draw_clr = md->rgb[e->type];
+	draw_clr = md->rgb[e->type] - e->pos.z;
 	icsz = md->mmap.ic_scl;
-	pos = (t_vec2){1 + e->coord.x * icsz, 1 + e->coord.y * icsz};
+	p = (t_vec2){1 + e->coord.x * icsz, 1 + e->coord.y * icsz};
 	if (e->type == nt_plr)
 	{
-		pos.x = 1 + (e->pos.x / md->t_len) * icsz;
-		pos.y = 1 + (e->pos.y / md->t_len) * icsz;
+		p.x = 1 + minmaxf(0, md->map.size.x - 1, (e->pos.x / md->t_len)) * icsz;
+		p.y = 1 + minmaxf(0, md->map.size.y - 1, (e->pos.y / md->t_len)) * icsz;
 		icsz /= 2;
 		draw_clr = md->rgb[RGB_BLUE + md->plr_in_house];
 	}
 	if (e->type == nt_empty)
-		pos = sub_vec2(pos, _v2(1));
-	draw_pixels(screen, sub_vec2(pos, _v2(1)), _v2(icsz + 1), _BLACK);
-	draw_pixels(screen, pos, _v2(icsz - 1), draw_clr);
+		p = sub_vec2(p, _v2(1));
+	draw_pixels(screen, sub_vec2(p, _v2(1)), _v2(icsz + 1), _BLACK);
+	draw_pixels(screen, p, _v2(icsz - 1), draw_clr);
 	if (!e->revealed && e->type != nt_plr)
 		md->mmap.revealed_cur++;
 	e->revealed = 1;
 	if (e->type == nt_plr)
-		show_if_interior(md, e, pos, -1);
+		show_if_interior(md, e, p, -1);
 }
 
 void	render_minimap(t_md *md, t_mmap *mp)

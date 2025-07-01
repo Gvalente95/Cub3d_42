@@ -6,11 +6,24 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:39:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/04/07 14:00:00 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 21:52:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
+
+void	init_ray_data(t_md *md)
+{
+	int	i;
+
+	i = -1;
+	while (++i < md->win_sz.x)
+	{
+		md->rays[i].dirty_checks = malloc(sizeof(int) * (md->win_sz.y + 1));
+		md->rays[i].hit_data = \
+		malloc(sizeof(t_hit_data) * MAX_RAY_SPRITE + 1);
+	}
+}
 
 void	init_thread_pool(t_md *md, int thread_count)
 {
@@ -22,6 +35,7 @@ void	init_thread_pool(t_md *md, int thread_count)
 	rm = &md->thrd_manager;
 	width = md->win_sz.x;
 	soft_barrier_init(&rm->barrier, thread_count + 1);
+	init_ray_data(md);
 	rm->threads_amount = thread_count;
 	i = -1;
 	while (++i < thread_count)

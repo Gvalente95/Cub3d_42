@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:44:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:04 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 14:41:41 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,29 @@ static int	solve_collision(t_ent *a, t_ent *b, t_vec2 a_size)
 	return (1);
 }
 
-int	is_collision(t_ent *a, t_ent *b, t_vec2 a_size)
+int	is_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 {
-	return (!(a->pos.y + a->mov.y + a_size.y < b->pos.y || \
+	const int	is_col = (!(a->pos.y + a->mov.y + a_size.y < b->pos.y || \
 		a->pos.y + a->mov.y > b->pos.y + b->size.y || \
 		a->pos.x + a->mov.x + a_size.x < b->pos.x || \
 		a->pos.x + a->mov.x > b->pos.x + b->size.x));
-}
 
-static int	handle_soft_collisions(t_md *md, t_ent *b)
-{
-	collect_item(md, &md->inv, b);
+	if (!is_col)
+		return (0);
+	if (a->coord.z == b->coord.z - 1)
+	{
+		if (fabsf(a->pos.z - (b->coord.z - 1) * md->t_len) < 10 && \
+			a->mov.z >= 0)
+		{
+			a->grounded = 1;
+			if (md->key_click != SPACE_KEY)
+				a->mov.z = 0;
+			a->on_floor = b->coord.z - 1;
+		}
+		return (0);
+	}
+	else if (b->coord.z != a->coord.z)
+		return (0);
 	return (1);
 }
 
@@ -60,23 +72,9 @@ static int	validate_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 	const int	btp = b->type;
 	const int	is_w = (btp == nt_wall || btp == nt_door || btp == nt_ext_wall);
 
-	if (!a || !b)
+	if (!b || !b->is_active || !is_w)
 		return (0);
-	if (btp == nt_item)
-		return (0);
-	if (btp == nt_empty)
-		return (0);
-	if (btp == nt_door && !b->hp)
-		return (0);
-	if (!a->is_active || !b->is_active)
-		return (0);
-	if (!md->prm.ent_mode && !is_w)
-		return (0);
-	if (btp == nt_item && is_collision(a, b, _v2(md->t_len * 2)))
-		handle_soft_collisions(md, b);
-	if (!is_w)
-		return (0);
-	if (!is_collision(a, b, a_size))
+	if (!is_collision(md, a, b, a_size))
 		return (0);
 	if (btp == nt_wall && b->overlay)
 		return (validate_portal_collision(md, b));
@@ -95,6 +93,7 @@ int	set_collisions(t_md *md, t_ent *e, t_vec2 e_size)
 
 	if (md->prm.fly_cam)
 		return (1);
+	e->on_floor = 0;
 	col_amount = 0;
 	e->col_hit = NULL;
 	i = -1;

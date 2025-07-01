@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 01:55:29 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 18:15:13 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:53:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ int	update_key_input(t_md *md, t_menu *menu, t_inventory *inv, unsigned int c)
 		set_inventory(md, &md->inv, !md->inv.active);
 	else if (c == ESC_KEY)
 		free_and_quit(md, NULL, NULL);
+	else if (c == DEL_KEY && md->cam.pointed)
+		remove_ent(md, md->cam.pointed);
+	else if (c == ENTER_KEY)
+		create_wall(md);
 	else if (c == SHIFT_KEY)
 		md->timer.tm_walk = md->timer.cur_tm - 1;
 	if (inv->active)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cast_threads.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:31:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 11:51:13 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:04:10 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	update_ray_data(t_md *md, t_ray *ray, t_vec3f dir_val)
 {
+	int	i;
+
+	i = -1;
+	while (++i < md->win_sz.y)
+		ray->dirty_checks[i] = 0;
 	ray->hit_data[0].hit = NULL;
 	ray->hit_data[0].vertical_hit_at_e = 0;
 	ray->hits_len = 0;
@@ -27,27 +32,29 @@ void	update_ray_data(t_md *md, t_ray *ray, t_vec3f dir_val)
 
 int	draw_stored_sprite_hits(t_md *md, t_ray *ray)
 {
-	t_hit_data		*hit_data;
+	t_hit_data		*hit_d;
 	int				ret_val;
+	int				hit_i;
 
+	hit_i = -1;
 	ret_val = 1;
-	while (ray->hits_len--)
+	while (++hit_i < ray->hits_len)
 	{
-		hit_data = &ray->hit_data[ray->hits_len];
-		if (!hit_data->hit)
+		hit_d = &ray->hit_data[hit_i];
+		if (!hit_d->hit)
 		{
 			ret_val = 0;
 			break ;
 		}
 		if (ray->check_hit && ray->check_hit->type == nt_door)
-		{
-			ret_val = 1;
 			break ;
-		}
-		ray->vertical_hit = hit_data->vertical_hit_at_e;
-		ray->pos = hit_data->post_at_hit;
-		draw_wall_line(md, hit_data->dist_at_e, hit_data->hit, ray);
+		ray->is_double_hit = hit_d->hit->type != nt_door && \
+			hit_i > 0 && ray->hit_data[hit_i - 1].hit == hit_d->hit;
+		ray->vertical_hit = hit_d->vertical_hit_at_e;
+		ray->pos = hit_d->post_at_hit;
+		draw_wall_line(md, hit_d->dist_at_e, hit_d->hit, ray);
 	}
+	ray->hits_len = 0;
 	return (ret_val);
 }
 

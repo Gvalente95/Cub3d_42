@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 02:01:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/26 18:31:02 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:42:13 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

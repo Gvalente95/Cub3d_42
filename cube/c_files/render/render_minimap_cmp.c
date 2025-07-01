@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:54:23 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 17:33:48 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 12:32:46 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	show_mmap_ent(t_md *md, t_ent *e, t_vec3f cosin, t_vec2 center)
 	dist = hypotf(md->plr.pos.x - e->pos.x, md->plr.pos.y - e->pos.y);
 	if (dist > cosin.z * md->t_len)
 		return ;
-	color = (md->rgb[e->type]);
+	color = (md->rgb[e->type] - e->pos.z);
 	if (e->type == nt_mob)
 		color = _RED;
 	pos.z = minmaxf(0.0f, 1.0f, dist / (cosin.z * md->t_len));

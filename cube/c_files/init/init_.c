@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:36:33 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 17:41:23 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 14:59:13 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ static void	init_game_params(t_md *md, t_parameters *prm, int start_debug)
 	prm->ray_mod = 1;
 	prm->show_fps = 1;
 	prm->show_hud = 1;
-	prm->super_view = 0;
+	prm->super_view = 1;
 	prm->max_view_sprite = MAX_RAY_SPRITE;
 	prm->au_on = !md->is_linux;
+	update_phys(md);
 }
 
 static void	init_var(t_md *md)
@@ -94,7 +95,7 @@ static void	init_var(t_md *md)
 	md->switch_interior = 0;
 	md->inv.active = 0;
 	md->prm.alternate_draw = 0;
-	md->autocam.active = 0;
+	md->autocam.active = 1;
 	md->map.accept_unvalid = 0;
 }
 

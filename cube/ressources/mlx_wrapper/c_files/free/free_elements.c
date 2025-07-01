@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 04:32:24 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 15:26:32 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/30 16:05:15 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	free_hud(t_md *md, t_hud *hud)
 	fa += free_image_data(md, hud->key_icon);
 	fa += free_image_data(md, hud->key2_icon);
 	fa += free_image_data(md, hud->hp_icon);
+	fa += free_image_data(md, hud->sun);
 	fa += free_image_data(md, hud->sky_buffer);
 	fa += free_image_data(md, hud->ceiling);
 	fa += free_image_data(md, hud->wall);

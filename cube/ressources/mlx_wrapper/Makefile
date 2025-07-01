@@ -14,7 +14,7 @@ c_files/string/string.c c_files/string/string_2.c c_files/draw/image_init.c c_fi
 c_files/draw/draw_image.c c_files/draw/edit_img.c c_files/draw/draw_tools.c c_files/draw/draw_triangle.c \
 c_files/draw/draw_rot.c c_files/draw/image_load.c c_files/draw/image_resize.c c_files/draw/draw_color.c \
 c_files/draw/draw_shape.c c_files/draw/draw_pixels.c c_files/draw/image_rotate.c c_files/draw/draw_triangle_tools.c \
-c_files/draw/draw_cube.c c_files/draw/draw_pixels_3.c
+c_files/draw/draw_cube.c c_files/draw/draw_pixels_3.c c_files/free/free_elements2.c 
 
 CFLAGS = -g
 ifeq ($(UNAME_S),Linux)

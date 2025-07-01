@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 23:46:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 16:14:23 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 04:33:59 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	render(t_md *md)
 		render_inventory(md, &md->inv);
 	render_minimap(md, &md->mmap);
 	render_time_logs(md, &md->timer);
+	render_sun(md);
 	if (md->prm.debug_mode)
 		show_update_information(md);
 	if (md->prm.show_fps)

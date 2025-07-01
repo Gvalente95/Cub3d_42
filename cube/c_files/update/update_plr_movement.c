@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 11:45:19 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/29 13:32:09 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 14:59:38 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,26 @@ static t_vec3f	set_input_mov_2(t_md *md, float spd, \
 		t_vec3f for_dir, t_vec3f rgt_dir)
 {
 	t_vec3f	mov;
-	float	mv_for;
-	float	mv_back;
-	float	mv_rght;
-	float	mv_lft;
+	float	mv_d[4];
 
 	mov = v3f(0);
 	if (md->inv.active)
 		return (mov);
-	mv_for = ((md->key_prs[W_KEY]) * spd);
-	mv_back = ((md->key_prs[S_KEY]) * spd);
-	mv_rght = ((md->key_prs[D_KEY]) * spd);
-	mv_lft = ((md->key_prs[A_KEY]) * spd);
-	mov.x = (mv_for - mv_back) * for_dir.x + (mv_rght - mv_lft) * -rgt_dir.x;
-	mov.y = (mv_for - mv_back) * for_dir.y + (mv_rght - mv_lft) * -rgt_dir.y;
+	mv_d[0] = ((md->key_prs[W_KEY]) * spd);
+	mv_d[1] = ((md->key_prs[S_KEY]) * spd);
+	mv_d[2] = ((md->key_prs[D_KEY]) * spd);
+	mv_d[3] = ((md->key_prs[A_KEY]) * spd);
+	mov.x = (mv_d[0] - mv_d[1]) * for_dir.x + (mv_d[2] - mv_d[3]) * -rgt_dir.x;
+	mov.y = (mv_d[0] - mv_d[1]) * for_dir.y + (mv_d[2] - mv_d[3]) * -rgt_dir.y;
 	if (md->key_click == SPACE_KEY && \
-		md->plr.pos.z + md->prm.height >= -EPSILON)
-		mov.z = - ((1 + (md->prm.mov_drift / 4) / md->res) * md->res);
+	(md->plr.on_floor || md->plr.pos.z + md->prm.height >= -EPSILON))
+	{
+		mov.z = md->v0;
+		md->plr.pos.z -= 10;
+	}
 	else if (md->key_prs[R_KEY] == 1)
 		mov.z = -(spd * .2);
-	md->cam.input_mov = get_v3f(mv_lft - mv_rght, mv_for - mv_back, \
+	md->cam.input_mov = get_v3f(mv_d[3] - mv_d[2], mv_d[0] - mv_d[1], \
 		md->key_click == SPACE_KEY || md->key_prs[LFTCMD_KEY] == 1);
 	return (mov);
 }
@@ -82,16 +82,20 @@ static t_vec3f	set_input_mov(t_md *md)
 
 void	set_plr_z(t_md *md, t_ent *plr)
 {
-	if (!md->prm.fly_cam)
+	if (md->prm.fly_cam)
+		return ;
+	plr->grounded = 0;
+	if (plr->pos.z + md->prm.height < 0 && !md->key_prs[R_KEY])
+		plr->mov.z += md->g * md->timer.delta_time;
+	else if (plr->pos.z + md->prm.height > 0)
 	{
-		plr->grounded = 0;
-		if (plr->pos.z + md->prm.height < 0 && !md->key_prs[R_KEY])
-			plr->mov.z += GRAVITY;
-		else if (plr->pos.z + md->prm.height > 0)
-		{
-			plr->pos.z = -md->prm.height;
-			plr->mov.z = 0;
-		}
+		plr->pos.z = -md->prm.height;
+		plr->mov.z = 0;
+	}
+	if (plr->on_floor != 0 && md->key_click != SPACE_KEY)
+	{
+		plr->pos.z = plr->on_floor * md->t_len;
+		plr->mov.z = 0;
 	}
 }
 

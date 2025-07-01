@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 00:11:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/24 11:51:26 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 05:00:44 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 pos)
 	e->anim = NULL;
 	e->frames = NULL;
 	e->overlay = NULL;
-	e->overlay_dir = -1;
 	e->character = c;
-	e->caught = 0;
 	e->type = minmax(0, ENT_TYPE_LEN - 1, \
 		get_char_index(md->txd.ents_tp_map[0], c));
 	init_ent_frames(md, &md->txd, e);
@@ -55,12 +53,14 @@ static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 pos)
 	e->pos.z = 0;
 	e->target_pos = e->pos;
 	e->start_pos = e->pos;
-	e->coord = v3(e->pos.x / md->t_len, e->pos.y / md->t_len, 0);
-	e->mov = get_v3f(0, 0, 0);
-	e->dir = get_v3f(0, 0, 0);
-	e->shot = 0;
-	e->was_hit = 0;
-	e->shot_timer = 0;
+	e->coord = div_v3(v3(e->pos.x, e->pos.y, e->pos.z), md->t_len);
+	if (c >= '3' && c <= '9')
+	{
+		e->pos.z = -md->t_len * (450 * ((c - '0') - 2));
+		e->coord.z = -(c - '0') / 2;
+	}
+	e->mov = v3f(0);
+	e->dir = v3f(0);
 	e->hp = 5;
 	e->is_active = 1;
 	e->in_screen = 0;
