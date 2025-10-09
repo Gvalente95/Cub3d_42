@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:13:20 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 16:01:25 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 17:34:38 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct s_draw_d
 	t_vec2	dst_pos;
 	t_vec2	pos;
 	float	blend_factor;
-	int		recolor;
 }	t_draw_d;
 
 typedef struct s_image_data
@@ -74,7 +73,6 @@ typedef struct s_texture_data
 	const char		*mob_names[MOB_TYPE_LEN];
 	const char		*item_names[PCKP_TYPE_LEN];
 	const char		*ents_act_names[ENT_ACTION_LEN];
-	const char		*pkmn_names[PKMN_TYPE_LEN];
 	const char		*plr_act_names[PLR_ACTION_LEN];
 	int				size_2d;
 	int				feet_offsets[PKMN_TYPE_LEN];

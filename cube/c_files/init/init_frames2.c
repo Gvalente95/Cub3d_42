@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:04 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 19:11:26 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_pk_framess(t_md *md, t_texture_data *td)
 		size = _v2(-1);
 		if (i == Dugtrio || i == Taurus)
 			size = _v2(64);
-		path = ft_megajoin("pokemons/", td->pkmn_names[i], "/", NULL);
+		path = ft_megajoin("pokemons/", get_pkmn_name(md, i), "/", NULL);
 		td->pkmn[i] = init_images(md, size, path);
 		td->pkmns_mini[i] = copy_image(md, \
 			td->pkmn[i][0], td->e_sizes2d[0], -1);

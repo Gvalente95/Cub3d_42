@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_fe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:24:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 18:10:07 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:05:29 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	update_and_render_fe(t_md *md, t_floor_draw_d *d, t_vec2 t_crd)
 	if (d->txp.x >= md->t_len || d->txp.x < 0 || \
 		d->txp.y >= md->t_len || d->txp.y < 0)
 		return (1);
+	if (!env->grass[t_crd.y][t_crd.x]) return (1);
 	fe = &env->grass[t_crd.y][t_crd.x][d->txp.y][d->txp.x];
 	if (!fe->active || fe->was_drawn == md->timer.time)
 		return (1);

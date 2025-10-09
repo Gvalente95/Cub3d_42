@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_inventory.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:51:20 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 16:56:13 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/07 01:15:57 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

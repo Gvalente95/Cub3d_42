@@ -6,13 +6,26 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:41:10 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 04:43:19 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 10:18:40 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-static void	init_action_labels(t_texture_data *td)
+const char* get_weapon_name(t_md* md, t_weapon_types type) {
+	return (md->txd.weapons_names[type]);
+}
+const char* get_item_name(t_md* md, t_pckp_types type) {
+	return (md->txd.item_names[type]);
+}
+const char	*get_mob_name(t_md *md, t_mob_types type) {
+	return (md->txd.mob_names[type]);
+}
+const char* get_ent_name(t_md* md, t_ent_type type) {
+	return (md->txd.ents_types_names[type]);
+}
+
+static void	init_action_labels(t_texture_data* td)
 {
 	td->ents_act_names[m_idle] = "IDLE";
 	td->ents_act_names[m_walk] = "WALK";
@@ -40,7 +53,7 @@ static void	init_ents_labels(t_texture_data *td)
 	td->ents_types_names[nt_wall] = "Wall";
 	td->ents_types_names[nt_ext_wall] = "ext_wall";
 	td->ents_types_names[nt_interior] = "interior";
-	td->ents_types_names[nt_grass] = "grass";
+	td->ents_types_names[nt_empty] = "Grass";
 	td->ents_types_names[nt_plr] = "Player";
 	td->ents_types_names[nt_mob] = "Mob";
 	td->ents_types_names[nt_door] = "Door";
@@ -48,7 +61,6 @@ static void	init_ents_labels(t_texture_data *td)
 	td->ents_types_names[nt_bush] = "Bush";
 	td->ents_types_names[nt_tree] = "Tree";
 	td->ents_types_names[nt_pokemon] = "Pokemon";
-	td->ents_types_names[nt_empty] = "Empty";
 	td->item_names[Keys] = "Keys";
 	td->item_names[HM] = "HM";
 	td->item_names[Health] = "Super Potion";
@@ -62,33 +74,9 @@ static void	init_ents_labels(t_texture_data *td)
 	td->mob_names[Mecha_Meister] = "Mecha Meister";
 }
 
-static void	init_pkmn_labels(t_texture_data *td)
-{
-	td->pkmn_names[Arbok] = "Arbok";
-	td->pkmn_names[Blastoise] = "Blastoise";
-	td->pkmn_names[Butterfree] = "Butterfree";
-	td->pkmn_names[Chansey] = "Chansey";
-	td->pkmn_names[Charizard] = "Charizard";
-	td->pkmn_names[Dodrio] = "Dodrio";
-	td->pkmn_names[Dragonite] = "Dragonite";
-	td->pkmn_names[Dugtrio] = "Dugtrio";
-	td->pkmn_names[Exeggutor] = "Exeggutor";
-	td->pkmn_names[Gengar] = "Gengar";
-	td->pkmn_names[Golem] = "Golem";
-	td->pkmn_names[Magneton] = "Magneton";
-	td->pkmn_names[Ninetales] = "Ninetales";
-	td->pkmn_names[Persian] = "Persian";
-	td->pkmn_names[Pidgeot] = "Pidgeot";
-	td->pkmn_names[Pikachu] = "Pikachu";
-	td->pkmn_names[Poliwrath] = "Poliwrath";
-	td->pkmn_names[Snorlax] = "Snorlax";
-	td->pkmn_names[Taurus] = "Tauros";
-}
-
 void	init_labels(t_texture_data *txd)
 {
 	txd->ents_tp_map[0] = "12IG*MDPBTK0";
-	init_pkmn_labels(txd);
 	init_weapon_labels(txd);
 	init_ents_labels(txd);
 	init_action_labels(txd);

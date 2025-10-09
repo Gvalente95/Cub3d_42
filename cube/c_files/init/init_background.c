@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 02:19:07 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 21:29:05 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 04:38:53 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void	init_nebulas(t_image *sky, t_vec2 win_sz)
 	while (++i < 50)
 	{
 		r_pos = v2(r_range(0, win_sz.x * .7), r_range(0, win_sz.y * .6));
-		rgb = v4(r_range(120, 120), r_range(0, 100), \
-			r_range(150, 255), 255);
+		rgb = v4(r_range(30, 80), r_range(0, 60), \
+			r_range(40, 100), 100);
 		base_color = v4_to_color(rgb.r, rgb.g, rgb.b, rgb.a);
 		draw_sphere(sky, r_pos, \
 _v2(r_range(win_sz.x * .2, win_sz.x * .3)), v3(base_color, 2, 1));
@@ -84,8 +84,8 @@ static void	init_sky(t_md *md, t_hud *hud, t_vec2 win_sz)
 	int		rad;
 
 	hud->base_sky = init_img(md, md->win_sz, NULL, hud->ceiling_color);
-	hud->sky = init_img(md, md->win_sz, NULL, hud->ceiling_color);
-	darken_towards_dir(hud->sky, left, .5);
+	hud->sky = init_img(md, md->win_sz, NULL, 0x00444444);
+	darken_towards_dir(hud->sky, left, .8);
 	init_nebulas(hud->sky, win_sz);
 	i = -1;
 	while (++i < STARS_AMOUNT)

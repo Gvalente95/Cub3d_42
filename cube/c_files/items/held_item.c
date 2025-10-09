@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:05:46 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/01 15:07:45 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,36 @@ int	use_held_item(t_md *md, t_inventory *inv, t_ent *pointed, int index)
 	return (0);
 }
 
-void	capture_pokemon(t_md *md, t_inventory *inv, t_ent *e)
-{
-	if (!e)
-		return ;
-	if (r_range(0, 4) == 0)
-	{
-		add_alert(md, 2, NULL, "Oh no! The pokemon resisted..");
-		play_sound(md, AU_PKB_FAIL);
-		e->caught = 0;
-		if (r_range(0, 15) > 3 && inv->team_size > 1)
-			start_battle(md, &md->battle_d, NULL, e);
-		return ;
-	}
-	if (inv->team_size > 5)
-		add_alert(md, 2, NULL, "Team already full, placing in computer");
+void	catch_pokemon(t_md* md, t_inventory* inv, t_ent* e) {
 	inv->pokemon_team[inv->team_size++] = e;
 	play_sound(md, AU_PKB_CATCH);
 	add_log_to_queue(md, _BLUE, "%s caught!", e->label);
 	remove_ent(md, e);
 	inv->update_img = 1;
 	e->is_active = 0;
+}
+
+int	try_catch_pokemon(t_md *md, t_inventory *inv, t_ent *e)
+{
+	if (!e)
+		return (0);
+	if (r_range_seed(&md->r_seed, 0, 2) == 1)
+	{
+		e->caught = 0;
+		if (get_valid_pkmn(md->inv.pokemon_team, md->inv.team_size))
+			start_battle(md, &md->BA_d, e);
+		else {
+			add_alert(md, 2, NULL, "Oh no! The pokemon resisted..");
+			play_sound(md, AU_PKB_FAIL);
+		}
+		return (0);
+	}
+	else if (inv->team_size > 5) {
+		e->caught = 0;
+		add_alert(md, 2, NULL, "Team already full, placing in computer");
+		return (0);
+	}
+	else
+		catch_pokemon(md, inv, e);
+	return (1);
 }

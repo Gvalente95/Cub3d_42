@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"cube.h": "c",
+		"math.h": "c",
+		"colors.h": "c",
+		"vectors.h": "c",
+		"__bit_reference": "c",
+		"ios": "c"
+	}
+}

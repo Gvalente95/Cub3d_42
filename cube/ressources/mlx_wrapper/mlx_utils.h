@@ -6,15 +6,21 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:42 by gvalente          #+#    #+#             */
-/*   Updated: 2025/07/01 14:48:58 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MLX_UTILS_H
 # define MLX_UTILS_H
 
+# define true 1
+# define false 0
+typedef int bool;
+
 # include "headers/vectors.h"
+# include "headers/pokemon.h"
 # include "headers/entity.h"
+# include "headers/battle.h"
 # include "headers/colors.h"
 # include "headers/game.h"
 # include "headers/rays.h"
@@ -76,7 +82,7 @@ typedef struct s_mmap
 	int			cmps;
 	int			comps_scl;
 	int			ic_scl;
-	int			active;
+	bool		active;
 	int			mray_len;
 	int			bgr_color;
 	int			revealed_cur;
@@ -132,36 +138,18 @@ typedef struct s_post_fx_data
 
 typedef struct s_parameters
 {
-	int				resolution;
-	int				show_rays;
-	int				view_2d;
-	int				debug_mode;
-	int				use_thrd;
-	int				show_fps;
-	int				fly_cam;
-	int				ent_mode;
-	int				max_view_sprite;
-	int				au_on;
+t_vec2f			grass_sz;
 	float			cap_fps;
-	int				show_ceiling;
-	int				show_floor;
-	int				super_view;
-	int				show_grass;
-	int				show_wmap;
-	int				show_walls;
-	int				show_hud;
-	int				show_sky;
-	int				alternate_draw;
 	float			ray_mod;
 	float			bob_amount;
 	float			sun_x;
 	float			sun_y;
-	t_vec2f			grass_sz;
 	float			fe_speed;
 	float			ray_depth;
 	float			height;
 	float			plr_speed;
 	float			rot_speed;
+	float			verticalStuff;
 	float			res_value;
 	float			txt_sc;
 	float			zoom;
@@ -171,6 +159,26 @@ typedef struct s_parameters
 	float			win_x;
 	float			floor_fov;
 	float			win_y;
+	int				resolution;
+	int				max_view_sprite;
+	bool			show_rays;
+	bool			view_2d;
+	bool			debug_mode;
+	bool			use_thrd;
+	bool			show_fps;
+	bool			fly_cam;
+	bool			ent_mode;
+	bool			au_on;
+	bool			show_ceiling;
+	bool			show_floor;
+	bool			super_view;
+	bool			show_grass;
+	bool			show_wmap;
+	bool			show_walls;
+	bool			x_vision;
+	bool			show_hud;
+	bool			show_sky;
+	bool			alternate_draw;
 }	t_parameters;
 
 typedef struct s_mouse
@@ -188,11 +196,11 @@ typedef struct s_mouse
 	t_vec2			lock_rot;
 	t_vec2f			scroll_delta;
 	t_vec2			scroll_raw;
-	int				focus;
-	int				pressed;
-	int				click;
-	int				locked;
-	int				hide;
+	bool			focus;
+	bool			pressed;
+	bool			click;
+	bool			locked;
+	bool			hide;
 }	t_mouse;
 
 typedef struct s_cam
@@ -212,7 +220,7 @@ typedef struct s_cam
 	t_ent			*prv_pointed_ent;
 	t_vec2			last_pointed_ent_pos;
 	float			bob_time;
-	int				is_moving;
+	bool			is_moving;
 	int				closest_x;
 	int				plr_map_i;
 	int				x_dir_start;
@@ -265,13 +273,14 @@ typedef struct s_md
 	t_portal		portal;
 	t_mmap			mmap;
 	t_autocam		autocam;
-	t_battle_d		battle_d;
+	t_BA_d		BA_d;
 	t_timer			timer;
 	t_fx_data		fx;
 	t_cube_drawd	cube_d;
 	t_mouse			mouse;
 	t_ray			rays[MAX_RAYS];
 	t_texture_data	txd;
+	t_pokemon_data	pkd;
 	t_vec2			input_to_char[34];
 	t_cam			cam;
 	t_parameters	prm;
@@ -284,10 +293,6 @@ typedef struct s_md
 	float			g;
 	float			v0;
 	unsigned int	r_seed;
-	int				plr_in_house;
-	int				strict_mode;
-	int				switch_interior;
-	int				plr_was_on_door;
 	int				key_prs[65536];
 	int				key_click;
 	int				res;
@@ -297,8 +302,11 @@ typedef struct s_md
 	int				t_len;
 	int				var;
 	int				score;
-	int				is_linux;
-	int				(*mlx_put)(void *mlx, void *win, void *img, int x, int y);
+	bool			plr_in_house;
+	bool			strict_mode;
+	bool			is_linux;
+	bool			plr_was_on_door;
+	int				(*mlx_put)(void* mlx, void* win, void* img, int x, int y);
 	void			*(*mlx_make)(void *mlx, char *name, int *with, int *height);
 }	t_md;
 
@@ -333,7 +341,7 @@ int		free_menu(t_md *md, t_menu *menu);
 int		free_ents(t_md *md);
 int		free_inv(t_md *md, t_inventory *inv);
 int		free_env(t_md *md, t_env_manager *env);
-int		free_battle_data(t_md *md, t_battle_d *bd);
+int		free_BA_data(t_md *md, t_BA_d *bd);
 int		free_ray_data(t_md *md);
 
 //		free/free.c

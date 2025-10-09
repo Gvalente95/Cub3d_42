@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:31:25 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/04/30 19:25:03 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 14:48:08 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,20 @@ void	close_option_pannel(t_inventory *inv)
 	inv->opt_i = 0;
 }
 
+
+void	add_item(t_md* md, t_pckp_types type, int amount)
+{
+	if (amount <= 0) return;
+	md->inv.items[type] += amount;
+	for (int i = 0; i < amount; i++) {
+		add_log_to_queue(md, _YELLOW, "you collected %s!", md->txd.item_names[type]);
+	}
+}
+
 void	collect_item(t_md *md, t_inventory *inv, t_ent *e)
 {
-	inv->items[e->pckp_type]++;
-	add_log_to_queue(md, _RED, "%s collected", e->label);
+	(void)inv;
+	add_item(md, e->pckp_type, 1);
 	play_sound(md, AU_TUK);
 	remove_ent(md, e);
 	e->is_active = 0;
@@ -30,7 +40,7 @@ void	collect_item(t_md *md, t_inventory *inv, t_ent *e)
 int	grab_item(t_md *md, t_inventory *inv, int item_index)
 {
 	char		*txt;
-	const char	*label = md->txd.item_names[item_index];
+	const char	*label = get_item_name(md, item_index);
 
 	if (!inv->items[item_index])
 	{

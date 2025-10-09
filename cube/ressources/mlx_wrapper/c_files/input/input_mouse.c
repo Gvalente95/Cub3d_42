@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_mouse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:57:28 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/11 18:12:16 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	mouse_motion_handler(int x, int y, void *param)
 	grid_pos = get_grid_pos(md, v3(msd->pos.x, msd->pos.y, 0));
 	msd->grid_pos = v2((grid_pos.x + md->cam.ofst.x) / md->t_len, \
 		(grid_pos.y + md->cam.ofst.y) / md->t_len);
-	if (msd->locked && !md->menu.active && !md->battle_d.active && \
+	if (msd->locked && !md->menu.active && !md->BA_d.active && \
 		(x < 50 || x > md->win_sz.x - 50 || y < 50 || y > md->win_sz.y - 50))
 		wrap_mouse(md, raw.x, raw.y);
 	return (msd->focus = 1, 0);
@@ -73,5 +73,5 @@ int	update_mouse(t_md *md)
 	msd = &md->mouse;
 	msd->world = v2(msd->pos.x + \
 		md->cam.ofst.x, msd->pos.y + md->cam.ofst.y);
-	return (cmp_vec2(msd->prev, v2((int)msd->pos.x, (int)msd->pos.y)));
+	return (same_vec2(msd->prev, v2((int)msd->pos.x, (int)msd->pos.y)));
 }

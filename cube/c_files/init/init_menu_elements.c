@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:25:49 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 04:04:10 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 14:08:41 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,21 @@ static void	init_sliders(t_md *md, t_parameters *pm, t_fx_data *fx)
 {
 	inisld(md, "Move speed", get_v4f(200, 800, 8000, 7801), &pm->plr_speed);
 	inisld(md, "Rotation speed", get_v4f(.01, MOUSESPD, 1, 10), &pm->rot_speed);
-	inisld(md, "Camera Height", get_v4f(0, 0, md->t_len, 100), &pm->height);
+	inisld(md, "Camera Height", get_v4f(0, md->t_len / 10, md->t_len, 100), &pm->height);
 	inisld(md, "Camera bob", get_v4f(0, BOB_AMOUNT, 1, 100), &pm->bob_amount);
 	inisld(md, "Cap FPS", get_v4f(1, 100, 100, 100), &pm->cap_fps);
 	inisld(md, "Ray modulator", get_v4f(1, 2.1, 20, 100), &pm->ray_mod);
 	inisld(md, "fov", get_v4f(1, 60, 600, 599), &pm->fov);
 	inisld(md, "fov floor", get_v4f(.1, .5, 1.5, 100), &pm->floor_fov);
 	inisld(md, "floor glide", get_v4f(0, 3, 3, 100), &pm->floor_glide);
-	inisld(md, "Grass width", get_v4f(2, 2, 50, 49), &pm->grass_sz.x);
-	inisld(md, "Grass height", get_v4f(1, 400, 800, 399), &pm->grass_sz.y);
+	inisld(md, "Vertical Stuff", get_v4f(0, 1, 1, 100), &pm->verticalStuff);
+	inisld(md, "Grass width", get_v4f(2, 5, 50, 49), &pm->grass_sz.x);
+	inisld(md, "Grass height", get_v4f(1, 100, 800, 399), &pm->grass_sz.y);
 	inisld(md, "Grass speed", get_v4f(0, 2, 3, 100), &pm->fe_speed);
 	inisld(md, "text size", get_v4f(10, pm->txt_sc, 30, 20), &pm->txt_sc);
 	inisld(md, "move drift", get_v4f(.1, ACCSPD, 1, 20), &pm->mov_drift);
-	inisld(md, "ray len", get_v4f(0, (md->map.size.x * 2) * \
-		md->t_len, 99999, 1000), &pm->ray_depth);
+	inisld(md, "ray len", get_v4f(0, md->map.size.x * \
+		md->t_len, md->map.size.x * 2 * md->t_len, md->map.size.x * 2 * md->t_len), &pm->ray_depth);
 	inisld(md, "Fog", get_v4f(0, .2, 3, 100), &md->fx.fog);
 	inisld(md, "noise", get_v4f(0, 0, 1, 100), &fx->noise);
 	inisld(md, "scanlines fx", get_v4f(0, 0, 1, 100), &fx->scanlines);
@@ -94,6 +95,7 @@ static void	init_buttons(t_md *md, t_menu *menu, t_parameters *prm, int i)
 	inibut(&menu->buttons[i++], &prm->show_floor, "B_Show floor", B_KEY);
 	inibut(&menu->buttons[i++], &prm->ent_mode, "E_Show sprites", E_KEY);
 	inibut(&menu->buttons[i++], &prm->show_grass, "G_Show grass", G_KEY);
+	inibut(&menu->buttons[i++], &prm->x_vision, "X_X vision", X_KEY);
 	inibut(&menu->buttons[i++], &prm->alternate_draw, "O_ALTERNATE", O_KEY);
 	inibut(&menu->buttons[i++], &prm->fly_cam, "F_Fly cam", F_KEY);
 	inibut(&menu->buttons[i++], &prm->use_thrd, "T_Use Threads", T_KEY);
@@ -101,7 +103,7 @@ static void	init_buttons(t_md *md, t_menu *menu, t_parameters *prm, int i)
 	inibut(&menu->buttons[i++], &prm->super_view, "V_Super view", V_KEY);
 	inibut(&menu->buttons[i++], &md->mmap.active, "M_Show minmap", M_KEY);
 	inibut(&menu->buttons[i++], &md->mmap.cmps, "N_Change minimap", N_KEY);
-	inibut(&menu->buttons[i++], &md->mouse.lock_rot.x, "X_x_mouse", X_KEY);
+	// inibut(&menu->buttons[i++], &md->mouse.lock_rot.x, "X_x_mouse", X_KEY);
 	inibut(&menu->buttons[i++], &md->mouse.lock_rot.y, "Y_y_mouse", Y_KEY);
 	inibut(&menu->buttons[i++], &menu->active, "TAB_back", -1);
 	menu->buttons[i].active = 0;

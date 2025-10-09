@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 23:00:24 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:04 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:06:37 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_image	*copy_image(t_md *md, t_image *src_img, t_vec2 size, int color)
 	new_img->size_line = src_img->size_line;
 	new_img->endian = src_img->endian;
 	ft_strlcpy(new_img->path, src_img->path, 10);
-	if (size.x > 0 && size.y > 0 && !cmp_vec2(new_img->size, size))
+	if (size.x > 0 && size.y > 0 && !same_vec2(new_img->size, size))
 		scale_imgd(md, new_img, size, 1);
 	if (color != -1)
 		flush_img(new_img, color, 0.5, 1);

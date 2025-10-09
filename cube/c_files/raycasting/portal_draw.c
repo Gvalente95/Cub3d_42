@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:09:50 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 04:57:44 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 10:57:13 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	update_wall_pointed(t_md *md, t_ent *e, t_vec2 draw_limits)
 		cam->prv_pointed = e;
 	if (e->type == nt_door)
 	{
-		if (e->was_hit)
+		if (e->was_hit && 0)
 			cam->pointed_door = cam->prv_pointed;
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:44:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 14:41:41 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 13:49:51 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,11 @@ int	is_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 
 static int	validate_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 {
-	const int	btp = b->type;
-	const int	is_w = (btp == nt_wall || btp == nt_door || btp == nt_ext_wall);
-
-	if (!b || !b->is_active || !is_w)
+	if (!b || !b->is_active || !b->hasCollision)
 		return (0);
 	if (!is_collision(md, a, b, a_size))
 		return (0);
-	if (btp == nt_wall && b->overlay)
+	if (b->type == nt_wall && b->overlay)
 		return (validate_portal_collision(md, b));
 	return (1);
 }

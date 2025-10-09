@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 21:31:39 by gvalente          #+#    #+#             */
-/*   Updated: 2025/04/28 10:32:55 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 13:39:28 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef struct s_thread_data
 	pthread_t		thread;
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
-	int				should_work;
-	int				should_exit;
+	bool			should_work;
+	bool			should_exit;
 }	t_thread_data;
 
 typedef struct s_soft_barrier

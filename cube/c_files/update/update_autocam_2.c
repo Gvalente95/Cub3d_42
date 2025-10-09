@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_autocam_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:31:03 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 18:10:07 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/08 13:42:15 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_fade_intro(t_md *md, double duration)
 	render_background(md);
 	if (elapsed > duration)
 	{
-		md->autocam.fade = 0;
+		md->autocam.hasFade = 0;
 		return ;
 	}
 	alpha = 1.0f - (elapsed / duration);

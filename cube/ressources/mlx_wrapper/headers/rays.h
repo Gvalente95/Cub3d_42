@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:11:19 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 01:04:14 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 14:04:27 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_ray_draw_d
 	t_vec3f	txd_crd;
 	int		pixel;
 	int		pass;
-	int		has_portal;
+	bool	has_portal;
 	int		y_max;
 	int		pxl_clr;
 	int		pxl_i;
@@ -73,7 +73,7 @@ typedef struct s_floor_draw_d
 	t_vec2f	dirr;
 	int		door_y_start;
 	t_vec2f	flr_t;
-	int		is_wmap;
+	bool	is_wmap;
 	float	rwd;
 	t_vec2f	stp;
 	t_vec2f	flr;
@@ -87,8 +87,8 @@ typedef struct s_ray
 {
 	t_hit_data	*hit_data;
 	int			hits_len;
-	t_ent		*wall_hit;
-	t_ent		*check_hit;
+	t_ent		* last_hit;
+	t_ent		* wall_hit;
 	t_ent		*door;
 	t_vec3f		pos;
 	t_vec3f		start;
@@ -97,9 +97,7 @@ typedef struct s_ray
 	t_vec3f		dir;
 	t_vec2f		delta;
 	t_vec2f		side_dist;
-	float		dda_dist;
 	float		distance;
-	float		sprite_distance;
 	float		angle;
 	int			*dirty_checks;
 	int			vertical_hit;
@@ -107,13 +105,13 @@ typedef struct s_ray
 	int			index;
 	int			is_double_hit;
 	int			color;
-	int			had_door;
 	float		dist_at_door;
-	int			is_floor_worker;
-	int			active;
 	int			steps;
 	int			init_steps;
-	int			teleported_once;
+	bool		on_grid;
+	bool		had_door;
+	bool		active;
+	bool		teleported_once;
 	t_vec2		wall_strip_pos;
 }	t_ray;
 

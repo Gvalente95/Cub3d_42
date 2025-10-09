@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:29:41 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 03:06:12 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 20:17:13 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,6 @@ typedef enum e_weapon_types
 	Rocket,
 	WEAPON_TYPE_LEN
 }	t_weapon_types;
-
-typedef enum e_pokemon_types
-{
-	Arbok,
-	Blastoise,
-	Butterfree,
-	Chansey,
-	Charizard,
-	Dodrio,
-	Dragonite,
-	Dugtrio,
-	Exeggutor,
-	Gengar,
-	Golem,
-	Magneton,
-	Ninetales,
-	Persian,
-	Pidgeot,
-	Pikachu,
-	Poliwrath,
-	Snorlax,
-	Taurus,
-	PKMN_TYPE_LEN
-}	t_pokemon_types;
 
 typedef enum e_mob_types
 {
@@ -147,36 +123,41 @@ typedef struct s_entity
 	t_vec3f			pos;
 	t_vec2			screen_p;
 	t_vec2			screen_sz;
+	t_vec2			crp_pxl;
 	t_vec3f			start_pos;
 	t_vec3			coord;
 	t_vec3f			target_pos;
+	t_vec3f			transitionOffset;
 	t_vec2			size;
 	t_image			*frame;
 	t_image			**frames;
 	t_image			***anim;
 	t_image			*overlay;
 	t_wrd_dir		overlay_dir;
+	t_move			*poke_moves;
+	t_status_data	pkStatus;
+	t_elType	elemType;
 	const char		*label;
-	double			shot_timer;
 	float			angle;
-	char			character;
 	float			hit_dist;
-	t_vec2			crp_pxl;
+	float			cam_distance;
 	int				team_sz;
 	int				ray_hit_index;
-	int				caught;
-	int				was_hit;
-	int				shot;
-	int				grounded;
-	int				on_floor;
 	int				map_index;
-	int				is_active;
 	int				hp;
 	int				max_hp;
 	int				frame_index;
-	int				in_screen;
-	int				revealed;
-	float			cam_distance;
+	bool			is_trainer;
+	bool			has_reached_coord;
+	bool			caught;
+	bool			was_hit;
+	bool			shot;
+	bool			grounded;
+	bool			on_floor;
+	bool			seen;
+	bool			revealed;
+	bool			hasCollision;
+	bool			is_active;
 }	t_ent;
 
 #endif

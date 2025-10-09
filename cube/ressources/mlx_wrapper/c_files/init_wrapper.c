@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:39:27 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 14:56:34 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 02:30:22 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	init_cursor(t_md *md)
 	md->cam.input_offst = _v2(0);
 	msd->prev = _v2(0);
 	msd->grid_pos = _v2(0);
+	md->prm.x_vision = 0;
 	msd->delta = v2f(0);
 	msd->scroll_delta = v2f(0);
 	msd->scroll_raw = _v2(0);

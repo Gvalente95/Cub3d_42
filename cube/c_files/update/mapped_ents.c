@@ -18,15 +18,24 @@ int	add_ent_at_cord(t_md *md, t_ent *e, t_vec2 new_cord)
 	t_ent			*prv;
 	const t_vec2	limit = md->map.size;
 
-	prv_crd = (t_vec2){e->coord.x, e->coord.y};
+	if (new_cord.x < 0 || new_cord.x > limit.x || \
+		new_cord.y < 0 || new_cord.y > limit.y) {
+		print_vec2(new_cord, "unvalid coord in AddEntAtCoord");
+		return 0;
+	}
+	prv_crd = (t_vec2){ e->coord.x, e->coord.y };
+	if (same_vec2(prv_crd, new_cord)) {
+		print_vec2(new_cord, "addEntAtCoord: same coord as cur");
+		return 0;
+	}
 	prv = get_mapped_at_cord(md, prv_crd);
 	if (prv && prv == e)
 		remove_ent(md, prv);
-	e->is_active = 1;
-	if (new_cord.x >= 0 && new_cord.x <= limit.x && \
-	new_cord.y >= 0 && new_cord.y <= limit.y)
-		md->map_ents[new_cord.x][new_cord.y] = e;
+	md->map_ents[new_cord.x][new_cord.y] = e;
 	e->coord = v3(new_cord.x, new_cord.y, e->coord.z);
+	if (md->timer.time < 10) return (1);
+	print_vec2(prv_crd, "addEntAtCoord: prev");
+	print_vec2(new_cord, "addEntAtCoord: new");
 	return (1);
 }
 

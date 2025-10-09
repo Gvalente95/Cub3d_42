@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cast_draw_ents.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:44:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 13:14:58 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:49:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,13 @@ static int	get_scale_and_pos(t_md *md, t_ent *e, t_vec2 win_sz, t_vec2 *draw_p)
 		(float)md->txd.feet_offsets[e->type]) / e->size.y) * scale;
 		scale *= 1.5;
 	}
-	if (e->type == nt_item)
+	else if (e->type == nt_mob || e->type == nt_bush || e->type == nt_tree) {
+		draw_p->y += dist * .005;
+	}
+	else {
 		draw_p->y += scale * (1.0f - (md->txd.e_scales[e->type] / md->t_len));
+		draw_p->y -= dist * .0025;
+	}
 	return (scale);
 }
 
@@ -58,14 +63,11 @@ void	draw_sprite_thread(t_md *md, t_ent *e, int had_door, float fogalpha)
 		v2(sz.x, sz.y * .25), v3(_BLACK, 3, 1));
 	if (had_door)
 		draw_alpha_img(img, md->screen, draw_p, .3f);
-	else if (md->cam.pointed_ent == e && !e->caught)
-		draw_img_contour(md, img, draw_p, (t_vec2){_MAGENT, 8});
 	else
 		draw_img(img, md->screen, draw_p, -1);
 	e->screen_p = draw_p;
 	e->screen_sz = img->size;
 	free_image_data(md, img);
-	e->in_screen = 1;
 }
 
 static void	sort_ent_list_by_distance(t_dblst **lst)
@@ -109,11 +111,14 @@ void	draw_found_ents(t_md *md, t_thrd_manager *mon)
 	node = dblst_first(mon->ents_to_draw);
 	while (node)
 	{
-		e = (t_ent *)node->content;
+		e = (t_ent*)node->content;
+		if (e->type == nt_empty || !e->is_active) continue;
 		fogalpha = 1 - minmaxf(0, .95, (e->hit_dist / 1000.0f) * md->fx.fog);
 		door = md->rays[e->ray_hit_index].door;
 		has_door = (door && door->hp && door->cam_distance < e->cam_distance);
 		draw_sprite_thread(md, e, has_door, fogalpha);
+		update_ent(md, e);
+		e->seen = 0;
 		node = node->next;
 	}
 	if (md->inv.held_i != Pokeball)

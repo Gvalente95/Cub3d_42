@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 21:53:43 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 14:59:02 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 22:19:32 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@
 //		RAYS
 # define RAY_DEPTH		50
 //		PLR
-# define PLRSPD			800
-# define ACCSPD			0.3
-# define HEIGHT			0
+# define PLRSPD			600
+# define ACCSPD			.2
 # define BOB_AMOUNT		.2
 # define BOB_SPD		7
 # define GRAVITY		0.0024
@@ -39,7 +38,7 @@
 # define MAX_AMMO		50
 # define MAX_KEY		3
 //		HUD
-# define STARS_AMOUNT	1000
+# define STARS_AMOUNT	500
 # define CROSS_SCALE	10
 //		ENNEMY
 # define ENNEMY_SPEED	.1
@@ -50,6 +49,8 @@
 # define FE_PER_TILE	50
 # define REVEAL_DISTANCE 5
 # define TARGET_FPS		100
+
+t_status_data	getStatusInfo(t_md* md, t_sType type);
 
 //		init/init_menu.c
 void	init_menu(t_md *md, t_menu *menu);
@@ -62,6 +63,8 @@ void	handle_mobs_frames(t_md *md, t_image ****frames, \
 void	init_mobs_frames(t_md *md);
 t_image	**init_mini(t_md *md, t_image ***mini, char *path);
 t_image	**init_weapon(t_md *md, t_image ***mini, char *path);
+char	*getPkStatusName(t_md* md, t_sType type);
+void	setStatus(t_md* md, t_status_data* status, t_sType type);
 
 //	init/init_hud.c
 void	init_fx(t_md *md, t_fx_data *fx);
@@ -112,9 +115,10 @@ int		update_ray_grid_pos(t_md *md, t_ray *ray);
 int		correct_fisheye(t_md *md, t_ray *ray, t_ent *e, float dist);
 int		get_wall_orientation(t_ray *ray);
 int		compute_row_start(t_md *md, t_ent *e, float ray_dst);
+void	end_action(t_md *md, t_BA_d* bd);
+void	init_pokemon_data(t_md* md);
 
 //	raycasting/ray_cast.c
-int		cast_check_ray(t_md *md, t_ray *ray, t_vec3f start_pos, t_ent *check);
 int		cast_ray(t_md *md, t_ray *ray, t_vec2 visu_offset);
 void	compute_ray_directions(t_md *md, t_vec3f *dir_vals, int rays_amount);
 void	cast_rays(t_md *md);
@@ -172,6 +176,7 @@ void	print_color(int color, const char *label);
 char	*get_rectangle(t_vec2 size);
 int		get_char_amount(char *buffer, char c);
 void	close_map(char *map, t_vec2 size, int len);
+void	set_bTransition(t_md* md, t_BA_d* bd, int pauseType, const char *format, ...);
 
 //	tools/text.c
 char	*get_img_path(char c);
@@ -201,8 +206,11 @@ void	update_mob_actions(t_md *md, t_ent *e);
 int		update_menu(t_md *md, t_menu *menu);
 
 //	update/update_ents.c
-void	update_ent_frame(t_ent *e);
+void	update_ent_frame(t_md *md, t_ent *e);
 int		update_ents(t_md *md);
+int		update_ent(t_md* md, t_ent* e);
+void	set_ent_target_pos(t_md* md, t_ent* e);
+void	add_item(t_md* md, t_pckp_types type, int amount);
 
 //	update/collisions.c
 int		is_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size);
@@ -262,18 +270,17 @@ void	render_slider(t_md *md, t_slider *sldr, t_image *screen, float alpha);
 
 int		update_key_input(t_md *md, t_menu *m, t_inventory *i, unsigned int c);
 
-int		draw_wall_line_dda(t_md *md, float dist, t_ent *hit, t_ray *ray);
-int		ray_move_dda(t_md *md, t_ray *ray);
 int		update_and_render_fe(t_md *md, t_floor_draw_d *d, t_vec2 t_crd);
 void	draw_raycast_background(t_md *md, t_ray *ray);
 void	draw_ceiling(t_md *md, t_floor_draw_d d, float pitch_offset);
-int		draw_stored_sprite_hits(t_md *md, t_ray *ray);
+int		draw_stored_door_hits(t_md *md, t_ray *ray);
 int		display_quick_letter(t_md *md, char c, t_txtd data);
 int		update_autocam(t_md *md, t_autocam *autocam);
 void	update_audio(t_md *md, t_au_manager *au);
 void	init_fade_intro(t_md *md, double duration);
 void	render_autocam_text(t_md *md, float t);
 int		add_ent_at_cord(t_md *md, t_ent *e, t_vec2 new_cord);
+void	render_raw(t_md* md);
 
 //		map_ents
 void	init_mapped_ent(t_md *md);
@@ -309,7 +316,7 @@ void	apply_contrast(t_image *img, float contrast);
 void	show_debug(t_md *md, char *msg, int *value, char *attribute);
 int		ent_sort_cmp(void *a, void *b);
 void	update_wall_pointed(t_md *md, t_ent *e, t_vec2 draw_limits);
-void	capture_pokemon(t_md *md, t_inventory *inv, t_ent *e);
+int		try_catch_pokemon(t_md* md, t_inventory* inv, t_ent* e);
 int		use_held_item(t_md *md, t_inventory *inv, t_ent *pointed, int index);
 void	show_debug_time(t_md *md, t_txtd txt_data);
 void	render_color_wheels(t_md *md, t_menu *menu, \
@@ -328,38 +335,54 @@ void	update_pointed_ent(t_md *md);
 void	inisld(t_md *md, char *label, t_vec4f data, float *value);
 void	render_used_shadow(t_md *md, t_vec2 usd_p, t_vec2 u_sz, double dur);
 int		update_inv_selection(t_md *md, t_inventory *inv);
+int		getPkElement(t_md* md, int type);
 
-//		battle_data
-void	init_battle_data(t_md *md, t_battle_d *bd);
-void	start_battle(t_md *md, t_battle_d *bd, t_ent *foe, t_ent *foe_pk);
-int		update_battle_scene(t_md *md, t_battle_d *bd);
+//		BA_data
+void	init_BA_data(t_md* md, t_BA_d* bd);
+const char	*try_start_battle(t_md* md, t_ent* opponent);
+void	start_battle(t_md* md, t_BA_d* bd, t_ent* foe);
+int		update_BA_scene(t_md *md, t_BA_d *bd);
 void	get_bt_butn(t_md *md, t_vec2 sz, t_vec2 pos, const char *label);
 void	draw_hp_bar(t_md *md, t_ent *e, t_vec2 pos, t_vec2 size);
-void	update_battle_text(t_battle_d *bd, const char *format, ...);
-void	refresh_battle_screen(t_md *md, t_battle_d *bd);
-void	exit_battle(t_md *md, t_battle_d *bd);
-void	render_trans_screen(t_md *md, t_battle_d *bd, double elapsed);
-void	wait_action(t_md *md, int incr_hp, const char *msg, int change_turn);
-int		set_battle_option(t_md *md, t_battle_d *bd);
-void	update_action(t_md *md, t_battle_d *bd);
+void	set_BA_text(t_BA_d *bd, const char *format, ...);
+void	render_battle(t_md *md, t_BA_d *bd);
+void	exit_battle(t_md *md, t_BA_d *bd);
+void	render_trans_screen(t_md *md, t_BA_d *bd, double elapsed);
+void	set_action(t_md* md, t_move* moveToUse, int actionType, const char* msg, ...);
+void	update_status_effect(t_md* md, t_ent *pk);
+void	render_BA_hud(t_md* md, t_BA_d* bd);
+void	BA_switch_turn(t_md* md, t_BA_d* bd);
+int		use_battle_move(t_md* md, t_BA_d *bd, t_ent *user, t_move* move);
+
+int		set_BA_option(t_md* md, t_BA_d* bd);
+void	update_action(t_md* md, t_BA_d* bd);
 t_ent	*get_valid_pkmn(t_ent **team, int team_size);
 int		change_pokemon(t_md *md, t_ent *new, int side, int change_turn);
-int		battle_use_attack(t_md *md, int dmg, const char *atk_name);
 char	get_input_char(t_md *md, int key);
-void	update_pk_frames(t_inventory *inv, t_ent *e);
-void	render_battle_buttons(t_md *md, t_battle_d *bd);
-void	render_team_logos(t_md *md, t_battle_d *bd, int side, int team_size);
-void	render_batt_pkmn_1(t_md *md, t_battle_d *bd, t_ent *pok, t_vec2 base_p);
-void	render_batt_pkmn_0(t_md *md, t_battle_d *bd, t_ent *pok, t_vec2 base_p);
-void	refresh_battleground(t_md *md, t_battle_d *bd);
-int		move_cam_to_start(t_md *md);
-void	update_trans_lvl(t_battle_d *bd, double elapsed);
-void	handle_pkmn_ko(t_md *md, t_battle_d *bd, t_ent *pk, int i);
-void	draw_grad_pxls(t_image *dst, t_vec2 pos, t_vec2 sz, t_vec3 clr);
+void	update_pk_frames(t_md* md, t_ent* e);
+void	render_BA_buttons(t_md* md, t_BA_d* bd);
+void	render_team_logos(t_md* md, t_BA_d* bd, int side, int team_size);
+void	refresh_battleground(t_md *md, t_BA_d *bd);
+int		move_cam_to_start(t_md* md);
+int		update_bstate(t_md* md, t_BA_d* bd, double elapsed);
+int		shouldQuitBattle(t_md* md, t_BA_d *bd);
+int		handle_ennemy_pkmn_ko(t_md* md, t_BA_d* bd);
+int		handle_my_pkmn_ko(t_md* md, t_BA_d* bd);
+void	draw_grad_pxls(t_image* dst, t_vec2 pos, t_vec2 sz, t_vec3 clr);
 void	draw_from_pos(t_image *src, t_image *dst, t_vec2 pos, t_vec2 draw_strt);
 void	init_ent_pkteam(t_md *md, t_ent *e, int team_size);
 float	get_pitch_offset(t_md *md);
 void	update_sliders(t_md *md, t_menu *menu, t_vec2 sz);
-void	update_phys(t_md *md);
+void	update_phys(t_md* md);
+
+int		getPkElColor(t_md* md, t_elType type);
+t_move* get_valid_move(t_ent* e);
+void	clear_BA_text(t_BA_d* bd);
+
+const char* get_weapon_name(t_md* md, t_weapon_types type);
+const char* get_item_name(t_md * md, t_pckp_types type);
+const char* get_mob_name(t_md * md, t_mob_types type);
+const char* get_ent_name(t_md * md, t_ent_type type);
+const char* get_pkmn_name(t_md* md, t_pokemon_types type);
 
 #endif

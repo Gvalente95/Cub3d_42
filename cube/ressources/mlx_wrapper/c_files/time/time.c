@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:55:38 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/04/28 10:35:30 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 21:20:34 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_timer(t_md *md, t_timer *tm)
 	tm->tm_anim = 0;
 	tm->tm_walk = 0;
 	tm->trig_anim = 0;
-	tm->logs_p = (t_vec2){win_sz.x * .8, win_sz.y * .5};
+	tm->logs_p = (t_vec2){win_sz.x * .1, win_sz.y * .9};
 	tm->no_portal_cooldown = 0;
 	tm->prev_time = get_time_in_seconds();
 	tm->fps_tm = tm->game_start;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_time_events.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:08:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/06 17:59:45 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	add_log_to_queue(t_md *md, int color, const char *format, ...)
 	logs->txt_d.onto = md->screen;
 	logs->txt_d.scale = md->prm.txt_sc;
 	logs->txt_d.color = color;
-	logs->duration = 20;
+	logs->duration = 6;
 	logs->out_cond = NULL;
 	logs->timer_start = md->timer.cur_tm;
 	new = dblst_new(logs);
@@ -110,9 +110,10 @@ void	update_timers(t_md *md, t_timer *tm)
 
 void	render_time_logs(t_md *md, t_timer *timer)
 {
+	if (md->BA_d.active) return;
 	update_timers(md, timer);
 	if (timer->cur_tm < md->alert.duration)
 		rnd_fast_txt(md, md->alert.txt_d, md->alert.buffer);
-	if (!timer->logs)
+	if (timer->logs)
 		update_and_render_logs(md, timer);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cast_pointed.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:49:34 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/06 18:00:09 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:43:06 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	show_pointed_data(t_md *md, t_vec2 p, t_ent *e)
 	draw_pixels(md->screen, p, sz, set_alpha(_BLACK, .4));
 	if (e->type == nt_pokemon)
 	{
-		rnd_fast_txt(md, txt, md->txd.pkmn_names[e->mob_type]);
+		rnd_fast_txt(md, txt, md->pkd.pkmn_names[e->mob_type]);
 		display_options(md, e, "Capture", txt);
 	}
 	else if (e->type == nt_item)
@@ -89,7 +89,7 @@ void	update_pointed_ent(t_md *md)
 		last_p = md->cam.last_pointed_ent_pos;
 	if (md->prm.alternate_draw && md->timer.time % 2 != 0)
 		return ;
-	if (md->cam.pointed && !md->cam.pointed->in_screen)
+	if (md->cam.pointed && !md->cam.pointed->seen)
 		md->cam.pointed_ent = NULL;
 	if (!md->inv.held_i && !v2_touch(last_p, mouse_r, _v2(2), _v2(md->t_len)))
 		md->cam.pointed_ent = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_frames.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 15:00:32 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:14:17 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	store_entities_sizes(t_texture_data *td, int base)
 		td->e_sizes2d[i] = _v2(td->size_2d);
 	td->e_scales[nt_plr] = base * .2;
 	td->e_scales[nt_mob] = base * .5;
+	td->e_scales[nt_bush] = base * .5;
+	td->e_scales[nt_tree] = base * .5;
 	td->e_scales[nt_item] = base * .15;
 	td->e_scales[nt_door] = base;
 	td->e_scales[nt_wall] = base;
-	td->e_scales[nt_bush] = base * .5;
-	td->e_scales[nt_tree] = base * .5;
 	td->e_scales[nt_pokemon] = base * .35;
 }
 

@@ -41,7 +41,7 @@ void	init_fe(t_md *md, t_fe *fe)
 	fe->active = r_range(0, FE_PER_TILE) == 0;
 	if (!fe->active)
 		return ;
-	fe->type = get_random_fe_type();
+	fe->type = fe_grass;
 	fe->cut_len = 0;
 	fe->base_color = \
 		v4_to_color(r_range(0, 20), r_range(120, 200), r_range(0, 40), 255);
@@ -74,9 +74,11 @@ int	free_env(t_md *md, t_env_manager *env)
 		map.x = -1;
 		while (++map.x < mapsz.x)
 		{
+			if (!env->grass[map.y][map.x]) continue;
 			cord.y = -1;
-			while (++cord.y < md->t_len)
+			while (++cord.y < md->t_len) {
 				free(env->grass[map.y][map.x][cord.y]);
+			}
 			free(env->grass[map.y][map.x]);
 		}
 		free(env->grass[map.y]);
@@ -103,7 +105,13 @@ void	init_fes(t_md *md, t_env_manager *env, int tlen)
 		while (++map.x < mapsz.x)
 		{
 			cord.y = -1;
-			env->grass[map.y][map.x] = md_malloc(md, sizeof(t_fe *) * tlen);
+			int index = map.x + map.y * (md->map.size.y + 1);
+			char c = md->map.buffer[index];
+			if (c != 'g') {
+				env->grass[map.y][map.x] = NULL;
+				continue;
+			}
+			env->grass[map.y][map.x] = md_malloc(md, sizeof(t_fe*) * tlen);
 			while (++cord.y < tlen)
 			{
 				env->grass[map.y][map.x][cord.y] = \
@@ -114,16 +122,4 @@ void	init_fes(t_md *md, t_env_manager *env, int tlen)
 			}
 		}
 	}
-}
-
-void	init_ent_pkteam(t_md *md, t_ent *e, int team_size)
-{
-	int	i;
-
-	e->pk_team = md_malloc(md, sizeof(t_ent *) * (team_size + 1));
-	i = -1;
-	while (++i < team_size)
-		e->pk_team[i] = init_ent(md, 'K', _v2(-1), -1);
-	e->pk_team[i] = NULL;
-	e->team_sz = team_size;
 }

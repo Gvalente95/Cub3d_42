@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:43:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 17:39:28 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:05:50 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	update_player_action(t_md *md, t_ent *plr)
 	t_ent_action	prv_action;
 
 	prv_action = plr->action;
-	is_moving = !cmp_vec3f(md->plr.mov, v3f(0), EPSILON);
+	is_moving = !same_vec3f(md->plr.mov, v3f(0), EPSILON);
 	if (is_moving)
 	{
 		set_collisions(md, plr, v2(plr->size.x, plr->size.y));

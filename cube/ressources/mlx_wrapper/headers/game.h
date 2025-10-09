@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:30:54 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/29 23:54:35 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 13:57:55 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,48 +156,19 @@ typedef struct s_menu
 	int				active;
 }	t_menu;
 
-typedef struct s_battle_d
-{
-	t_image			*overlay;
-	t_ent			*pk[2];
-	t_vec2			pk_p[2];
-	t_vec2			pk_basep[2];
-	t_vec2			pk_sz;
-	t_vec2			but_sz;
-	t_vec2			hp_pos[2];
-	char			log_message[60];
-	t_ent			*trainer;
-	int				trans_lvl;
-	t_image			*buttons[4];
-	t_vec2			pk_slotsz;
-	t_vec2			but_ps[4];
-	int				but_i;
-	int				sub_i;
-	int				opt_i;
-	int				in_sub;
-	double			action_end;
-	double			action_dur;
-	double			trans_dur;
-	double			trans_start;
-	int				my_turn;
-	int				active;
-	int				quitting;
-	int				stored_dealt[2];
-}	t_battle_d;
-
 typedef struct s_auto_screen_data
 {
-	t_vec2	center;
-	t_vec3f	start_plr_pos;
-	float	map_w;
-	float	map_h;
-	float	map_diag;
-	float	acc_spd;
-	float	base_y;
-	int		start_cam_x;
-	int		fade;
-	int		active;
-	int		quitting;
+	t_vec2			center;
+	t_vec3f			start_plr_pos;
+	float			map_w;
+	float			map_h;
+	float			map_diag;
+	float			acc_spd;
+	float			base_y;
+	int				start_cam_x;
+	bool			hasFade;
+	bool			active;
+	bool			quitting;
 }	t_autocam;
 
 #endif

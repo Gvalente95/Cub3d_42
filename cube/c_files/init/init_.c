@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:36:33 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 14:59:13 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_colors(t_md *md)
 	md->rgb[RGB_BLUE] = _BLUE;
 	md->rgb[RGB_CYAN] = _CYAN;
 	md->rgb[RGB_MAGENT] = _MAGENT;
-	md->rgb[RGB_GRAY] = _GRAY;
+	md->rgb[RGB_GREY] = _GREY;
 	md->rgb[RGB_BROWN] = _BROWN;
 	md->rgb[RGB_TEAL] = _TEAL;
 	md->rgb[RGB_LIME] = _LIME;
@@ -48,11 +48,11 @@ static void	init_portal_data(t_md *md)
 static void	init_game_params(t_md *md, t_parameters *prm, int start_debug)
 {
 	prm->debug_mode = start_debug;
-	prm->show_rays = prm->debug_mode;
+	prm->show_rays = true;
 	prm->ray_depth = md->t_len * RAY_DEPTH;
 	prm->resolution = RESOLUTION;
 	prm->fly_cam = 0;
-	prm->ent_mode = 0;
+	prm->ent_mode = 1;
 	prm->use_thrd = 1;
 	prm->show_grass = 0;
 	prm->view_2d = 0;
@@ -64,7 +64,6 @@ static void	init_game_params(t_md *md, t_parameters *prm, int start_debug)
 	prm->ray_mod = 1;
 	prm->show_fps = 1;
 	prm->show_hud = 1;
-	prm->super_view = 1;
 	prm->max_view_sprite = MAX_RAY_SPRITE;
 	prm->au_on = !md->is_linux;
 	update_phys(md);
@@ -92,7 +91,6 @@ static void	init_var(t_md *md)
 	md->au.wind_pid = 0;
 	md->au.walk_index = 0;
 	md->txd.size_2d = SCRN_H / 20;
-	md->switch_interior = 0;
 	md->inv.active = 0;
 	md->prm.alternate_draw = 0;
 	md->autocam.active = 1;
@@ -103,6 +101,7 @@ int	init_cube(t_md *md, char *file_arg, int strictMode)
 {
 	md->strict_mode = !strictMode;
 	init_colors(md);
+	init_pokemon_data(md);
 	init_game_params(md, &md->prm, 0);
 	init_var(md);
 	md->hud.fog_color = _WHITE;
@@ -110,7 +109,7 @@ int	init_cube(t_md *md, char *file_arg, int strictMode)
 	init_ents_data(md, &md->txd);
 	init_map(md, file_arg);
 	init_inventory(md, &md->inv);
-	init_battle_data(md, &md->battle_d);
+	init_BA_data(md, &md->BA_d);
 	md->init_steps++;
 	init_hud(md, &md->hud);
 	init_entities(md, v2(0, 0));

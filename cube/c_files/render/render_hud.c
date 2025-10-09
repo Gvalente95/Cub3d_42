@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:50:32 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 14:12:22 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 21:24:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	render_hud_elements(t_md *md, t_hud *hud)
 	{
 		img = hud->center;
 		if (md->cam.prv_pointed_ent || md->cam.pointed_door)
-			img = md->mouse.cursor;
+			img = md->mouse.pressed ? md->mouse.curs_grb : md->mouse.curs_dtc;
 		cross_pos = sub_vec2(div_v2(md->win_sz, 2), div_v2(img->size, 2));
 		draw_img(img, md->screen, cross_pos, -1);
 	}

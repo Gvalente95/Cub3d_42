@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minimap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:48:25 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 13:26:09 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/07 16:46:55 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 01:55:29 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 12:53:23 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 11:07:42 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,9 @@ static int	try_open_door(t_md *md, t_ent *door)
 
 static int	update_mouse_input(t_md *md, t_ent *wall, t_ent *ent, t_ent *door)
 {
-	t_ent	*pk;
-	t_ent	*enm_pk;
-
-	if (md->mouse.click == MOUSE_RELEASE && md->inv.held_i > -1)
+	if (md->mouse.click == MOUSE_PRESS && md->inv.held_i > -1)
 		return (use_held_item(md, &md->inv, ent, md->inv.held_i));
-	if (md->mouse.click != MOUSE_RELEASE || (!wall && !ent && !door))
+	if (md->mouse.click != MOUSE_PRESS || (!wall && !ent && !door))
 		return (0);
 	if (wall && wall->type == nt_wall && md->key_prs[X_KEY])
 		return (remove_ent(md, wall));
@@ -89,13 +86,8 @@ static int	update_mouse_input(t_md *md, t_ent *wall, t_ent *ent, t_ent *door)
 		try_open_door(md, door);
 	if (ent && ent->type == nt_mob)
 	{
-		pk = get_valid_pkmn(md->inv.pokemon_team, md->inv.team_size);
-		if (!pk)
-			return (add_alert(md, .5f, NULL, "No Valid pokemon to fight"), 0);
-		enm_pk = get_valid_pkmn(ent->pk_team, ent->team_sz);
-		if (!enm_pk)
-			return (add_alert(md, .5f, NULL, "Trainer's pokemon are Ko.."), 0);
-		return (start_battle(md, &md->battle_d, ent, enm_pk), 1);
+		const char* fightIssue = try_start_battle(md, ent);
+		if (fightIssue) add_alert(md, .5, NULL, fightIssue);
 	}
 	return (0);
 }
@@ -113,8 +105,10 @@ void	update_input(t_md *md)
 		return ;
 	c = &md->cam;
 	r_spd = ARROW_ROT_SPEED;
-	if (md->key_prs[SHIFT_KEY])
+	if (md->key_prs[SHIFT_KEY]) {
 		r_spd *= 2;
+		md->prm.fov = 60;
+	}
 	md->prm.fov = minmax(10, 360, md->prm.fov + md->mouse.scroll_delta.y * 10);
 	c->rot.x += ((md->key_prs[RIGHT_KEY] - md->key_prs[LEFT_KEY]) * r_spd);
 	c->rot.y += ((md->key_prs[DOWN_KEY] - md->key_prs[UP_KEY]) * r_spd);

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:54:50 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 15:05:29 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:06:07 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_vec3	v3(int x, int y, int z)
 	return (ret);
 }
 
-int	cmp_vec3(t_vec3 a, t_vec3 b)
+int	same_vec3(t_vec3 a, t_vec3 b)
 {
 	return (a.x == b.x && a.y == b.y && a.z == b.z);
 }

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:45:36 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 14:12:05 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	update_audio(t_md *md, t_au_manager *au)
 		return ;
 	if (md->cam.pos.z + md->prm.height < -.5 && !md->plr.on_floor)
 		return ;
-	if (!cmp_vec3f(md->plr.mov, v3f(0), .01))
+	if (!same_vec3f(md->plr.mov, v3f(0), .01))
 		md->au.walk_index = \
 			play_rand_sound(md, AU_WALK_GRASS, 8, md->au.walk_index);
 }
@@ -107,8 +107,9 @@ int	update_and_render(t_md *md)
 {
 	if (md->autocam.active)
 		return (update_autocam(md, &md->autocam));
-	if (md->battle_d.active)
-		return (update_battle_scene(md, &md->battle_d));
+	if (md->BA_d.active)
+		return (update_BA_scene(md, &md->BA_d),
+			reset_mlx_values(md), 0);
 	if (!md->map.explored_all && md->mmap.revealed_cur == md->mmap.revealed_len)
 	{
 		md->map.explored_all = 1;
@@ -119,14 +120,12 @@ int	update_and_render(t_md *md)
 	if (md->menu.active)
 		return (update_menu(md, &md->menu));
 	update_input(md);
-	if (md->battle_d.active)
+	if (md->BA_d.active)
 		return (0);
 	update_mouse(md);
 	if (md->inv.active)
 		update_inventory(md, &md->inv);
 	if (md->timer.time > 5)
 		update_player(md, &md->plr);
-	if (md->prm.ent_mode)
-		update_ents(md);
 	return (render(md), reset_mlx_values(md), 0);
 }

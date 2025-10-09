@@ -1,43 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ba_Init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:37:26 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 14:09:21 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 21:35:06 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	start_battle(t_md *md, t_battle_d *bd, t_ent *ennemy, t_ent *ennemy_pok)
+const char* try_start_battle(t_md* md, t_ent* opponent) {
+	if (!opponent) return "No Opponent";
+	if (!opponent->is_trainer || !opponent->pk_team || opponent->team_sz <= 0) return "Not a trainer";
+	if (md->inv.team_size <= 0) return "You have no pokemons to fight";
+	if (!get_valid_pkmn(opponent->pk_team, opponent->team_sz)) return "opponent's pokemon are Ko..";
+	if (!get_valid_pkmn(md->inv.pokemon_team, md->inv.team_size)) return "All your pokemons are ko..";
+	start_battle(md, &md->BA_d, opponent);
+	return NULL;
+}
+
+void	start_battle(t_md* md, t_BA_d* bd, t_ent* opponent)
 {
-	if (!ennemy_pok)
-		return ;
-	bd->active = 1;
-	bd->trainer = ennemy;
-	bd->pk[0] = ennemy_pok;
-	bd->sub_i = -1;
-	bd->pk[1] = get_valid_pkmn(md->inv.pokemon_team, md->inv.team_size);
+	bd->active = true;
+	bd->quitting = false;
+	bd->pk[BFOE] = NULL;
+	bd->pk[BME] = NULL;
+	bd->last_move_used = NULL;
 	bd->stored_dealt[0] = 0;
 	bd->stored_dealt[1] = 0;
+	bd->trans_dur = 2.5;
+	bd->opponent = opponent;
+	if (!opponent->is_trainer) bd->pk[BFOE] = opponent;
+	bd->sub_i = -1;
+	md->alert.duration = 3;
 	refresh_battleground(md, bd);
-	bd->pk_basep[0] = (t_vec2){-bd->pk_sz.x, bd->pk_p[0].y};
-	bd->pk_basep[1] = (t_vec2){md->win_sz.x, bd->pk_p[1].y};
-	bd->my_turn = 1;
+	bd->pk_basep[BFOE] = (t_vec2){-bd->pk_sz.x, bd->pk_p[BFOE].y };
+	bd->pk_basep[BME] = (t_vec2){md->win_sz.x, bd->pk_p[BME].y};
+	bd->my_turn = 0;
 	bd->opt_i = 0;
 	bd->in_sub = 0;
-	bd->trans_lvl = 1;
-	bd->quitting = 0;
-	bd->trans_start = md->timer.cur_tm;
 	stop_sound(md->au.mus_pid);
-	if (ennemy)
-		update_battle_text(bd, "%s wants a challenge!", ennemy->label);
-	else
-		update_battle_text(bd, "A fow %s wants to fight", ennemy_pok->label);
-	refresh_battle_screen(md, bd);
+	set_bTransition(md, bd, BT_START, NULL);
+	render_battle(md, bd);
 }
 
 void	get_bt_butn(t_md *md, t_vec2 sz, t_vec2 p, const char *label)
@@ -45,12 +52,12 @@ void	get_bt_butn(t_md *md, t_vec2 sz, t_vec2 p, const char *label)
 	int				txt_scl;
 	t_vec2			txt_p;
 	const int		l = 2;
-	t_battle_d		*bd;
+	t_BA_d		*bd;
 	t_image			*img;
 
 	img = init_img(md, sz, NULL, -1);
 	flush_gradient(img, _YELLOW, _ORANGE, 10);
-	bd = &md->battle_d;
+	bd = &md->BA_d;
 	draw_pixels(img, _v2(0), (t_vec2){sz.x - l, l}, _BLACK);
 	draw_pixels(img, (t_vec2){0, sz.y - l}, (t_vec2){sz.x - l, l}, _BLACK);
 	draw_pixels(img, _v2(0), (t_vec2){l, sz.y}, _BLACK);
@@ -74,7 +81,7 @@ void	draw_hp_bar(t_md *md, t_ent *e, t_vec2 pos, t_vec2 sz)
 
 	hp_prc = (e->hp * sz.x) / e->max_hp;
 	bgr = md->screen;
-	if (!md->battle_d.active)
+	if (!md->BA_d.active)
 		bgr = md->inv.img;
 	img = init_img(md, sz, NULL, _BLACK);
 	inside = init_img(md, sub_vec2(sz, _v2(4)), NULL, -1);
@@ -91,7 +98,7 @@ void	draw_hp_bar(t_md *md, t_ent *e, t_vec2 pos, t_vec2 sz)
 	free_image_data(md, img);
 }
 
-void	draw_team_slot(t_md *md, t_battle_d *bd, t_vec2 p, int i)
+void	draw_team_slot(t_md *md, t_BA_d *bd, t_vec2 p, int i)
 {
 	t_image		*img;
 	t_vec2		sz;
@@ -118,16 +125,15 @@ void	draw_team_slot(t_md *md, t_battle_d *bd, t_vec2 p, int i)
 	}
 }
 
-void	init_battle_data(t_md *md, t_battle_d *bd)
+void	init_BA_data(t_md *md, t_BA_d *bd)
 {
 	const t_vec2	win_sz = md->win_sz;
 	const t_vec2	but_sz = (t_vec2){md->prm.txt_sc * 10, md->prm.txt_sc * 2};
 	t_vec2			ps;
 
 	bd->pk_sz = _v2(win_sz.x * .23);
-	bd->pk_p[0] = v2(win_sz.x * .8 - bd->pk_sz.x, win_sz.y * .2);
-	bd->pk_p[1] = v2(bd->pk_sz.x / 2, win_sz.y * .8 - bd->pk_sz.y);
-	bd->trans_dur = 1;
+	bd->pk_p[BFOE] = v2(win_sz.x * .8 - bd->pk_sz.x, win_sz.y * .2);
+	bd->pk_p[BME] = v2(bd->pk_sz.x / 2, win_sz.y * .8 - bd->pk_sz.y);
 	bd->overlay = init_img(md, win_sz, NULL, _WHITE);
 	bd->action_dur = 1;
 	bd->pk_slotsz = div_v2(win_sz, 6);

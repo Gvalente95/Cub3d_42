@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 14:38:37 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/01 09:18:26 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 22:27:53 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define AU_PKB_FAIL		"ressources/audio/pokemon/battle/bl_fail.mp3"
 # define AU_PKB_MV			"ressources/audio/pokemon/battle/bl_mv.mp3"
 # define AU_PKB_SUCCESS		"ressources/audio/pokemon/battle/bl_success.mp3"
+# define AU_PKB_WIN			"ressources/audio/pokemon/battle/Battle_won.mp3"
 # define AU_PKB_FAIL		"ressources/audio/pokemon/battle/bl_fail.mp3"
 # define AU_PKB_ESCAPE		"ressources/audio/pokemon/battle/escape.mp3"
 
@@ -48,7 +49,7 @@
 
 typedef struct s_au_manager
 {
-	pid_t		battle_pid;
+	pid_t		BA_pid;
 	pid_t		wind_pid;
 	pid_t		amb_pid;
 	pid_t		mus_pid;

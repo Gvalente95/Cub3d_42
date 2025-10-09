@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:14:54 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 12:43:09 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	free_md(t_md *md, int quit)
 	if (md->init_steps > 1)
 		fa += free_env(md, &md->env);
 	fa += free_ents(md);
-	fa += free_battle_data(md, &md->battle_d);
+	fa += free_BA_data(md, &md->BA_d);
 	fa += free_txd(md, &md->txd, -1);
 	fa += free_void(md->mlx);
 	fa += free_ray_data(md);

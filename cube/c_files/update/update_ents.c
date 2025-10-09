@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   update_ents.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:57:44 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/26 18:29:56 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	update_pk_frames(t_inventory *inv, t_ent *e)
+void	update_pk_frames(t_md *md, t_ent *e)
 {
 	int	i;
+	t_inventory* inv;
 
+	inv = &md->inv;
 	if (inv->active)
 	{
 		i = -1;
@@ -29,14 +31,15 @@ void	update_pk_frames(t_inventory *inv, t_ent *e)
 				return ;
 		}
 	}
-	e->frame_index++;
+	if (!md->BA_d.active || e->hp)
+		e->frame_index++;
 	if (!e->frames[e->frame_index])
 		e->frame_index = 0;
 	e->frame = e->frames[e->frame_index];
 	return ;
 }
 
-void	update_ent_frame(t_ent *e)
+void	update_ent_frame(t_md *md, t_ent *e)
 {
 	if (e->was_hit == 1)
 	{
@@ -53,7 +56,18 @@ void	update_ent_frame(t_ent *e)
 	if (!e->anim[e->action][e->frame_index])
 	{
 		e->frame_index = 0;
-		if (e->action == m_death)
+		if (e->action == m_idle) {
+			int chance = r_range(0, 10);
+			if (chance == m_walk && 0) {
+				e->action = m_walk;
+				set_ent_target_pos(md, e);
+			}
+			else if (chance == m_atk)
+				e->action = m_atk;
+		}
+		else if (e->action == m_atk)
+			e->action = m_idle;
+		else if (e->action == m_death)
 		{
 			e->is_active = 0;
 			return ;
@@ -92,9 +106,8 @@ static int	update_wall(t_md *md, t_ent *e)
 	return (1);
 }
 
-static int	update_ent(t_md *md, t_ent *e)
+int	update_ent(t_md *md, t_ent *e)
 {
-	e->in_screen = 0;
 	if (e->type == nt_wall)
 		return (update_wall(md, e));
 	if (e->type == nt_door)
@@ -104,9 +117,9 @@ static int	update_ent(t_md *md, t_ent *e)
 	if (md->timer.trig_anim)
 	{
 		if (e->type == nt_pokemon)
-			update_pk_frames(&md->inv, e);
+			update_pk_frames(md, e);
 		else if (e->type == nt_mob)
-			update_ent_frame(e);
+			update_ent_frame(md, e);
 	}
 	if (e->type != nt_mob || !e->is_active)
 		return (1);
@@ -114,7 +127,6 @@ static int	update_ent(t_md *md, t_ent *e)
 		update_mob_actions(md, e);
 	else
 		e->action = m_death;
-	e->in_screen = 0;
 	return (1);
 }
 
@@ -125,6 +137,7 @@ int	update_ents(t_md *md)
 	t_dblst	*next;
 	int		upd_render;
 
+	return (0);
 	upd_render = 0;
 	node = md->entities;
 	while (node)

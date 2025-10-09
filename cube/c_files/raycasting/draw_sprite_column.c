@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 04:30:37 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 04:42:00 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 20:45:25 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,60 @@ void	draw_wall_shadow(t_md *md, t_ray_draw_d *d, int prev_start)
 		while (!d->ray->dirty_checks[y] && y < md->win_sz.y)
 			draw_pixel(md->screen, v2(d->ray->index, y++), _BLACK, .1);
 	}
+}
+
+int	draw_stored_door_hits_rev(t_md *md, t_ray *ray)
+{
+	t_hit_data		*hit_d;
+	int				ret_val;
+	int				hit_i;
+
+	hit_i = -1;
+	ret_val = 1;
+	while (++hit_i < ray->hits_len)
+	{
+		hit_d = &ray->hit_data[hit_i];
+		if (!hit_d->hit)
+		{
+			ret_val = 0;
+			break ;
+		}
+		ray->is_double_hit = hit_d->hit->type == nt_wall && \
+			hit_i > 0 && ray->hit_data[hit_i - 1].hit == hit_d->hit;
+		ray->vertical_hit = hit_d->vertical_hit_at_e;
+		ray->pos = hit_d->post_at_hit;
+		draw_wall_line(md, hit_d->dist_at_e, hit_d->hit, ray);
+		if (hit_d->hit != ray->last_hit) ray->last_hit = hit_d->hit;
+	}
+	ray->hits_len = 0;
+	return (ret_val);
+}
+
+int	draw_stored_door_hits(t_md *md, t_ray *ray)
+{
+	t_hit_data		*hit_d;
+	int				ret_val;
+	int				hit_i;
+
+	if (!md->prm.x_vision)
+		return (draw_stored_door_hits_rev(md, ray));
+	ret_val = 1;
+	if (ray->hits_len <= 0)
+		return (ray->hits_len = 0, 1);
+	hit_i = ray->hits_len - 1;
+	while (hit_i >= 0)
+	{
+		hit_d = &ray->hit_data[hit_i];
+		if (!hit_d->hit)
+			return (ray->hits_len = 0, 0);
+		ray->is_double_hit = \
+hit_d->hit->type == nt_wall && (hit_i + 1) < ray->hits_len && \
+ray->hit_data[hit_i + 1].hit == hit_d->hit;
+		ray->vertical_hit = hit_d->vertical_hit_at_e;
+		ray->pos = hit_d->post_at_hit;
+		draw_wall_line(md, hit_d->dist_at_e, hit_d->hit, ray);
+		--hit_i;
+		if (hit_d->hit != ray->last_hit) ray->last_hit = hit_d->hit;
+	}
+	return (ray->hits_len = 0, ret_val);
 }

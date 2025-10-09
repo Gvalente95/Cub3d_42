@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_gen_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 05:17:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 18:03:59 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:59:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	set_characters(char *map, int difficulty)
 	mobs_amount = minmax(1, 30, space / 10);
 	space = get_char_amount(map, '0');
 	item_amount = minmax(1, 30, space / 10);
-	set_character('P', item_amount, map, len);
-	set_character('K', mobs_amount / 3, map, len);
-	set_character('M', mobs_amount / 3, map, len);
+	set_character(nt_item, item_amount, map, len);
+	set_character(nt_pokemon, mobs_amount / 3, map, len);
+	set_character(nt_mob, mobs_amount / 3, map, len);
 	door_amount = len / 20;
 	set_doors(map, door_amount);
 }

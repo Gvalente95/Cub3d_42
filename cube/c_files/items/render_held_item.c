@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 00:26:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 13:48:48 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 20:47:12 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,7 @@ static t_vec2	get_pos(t_md *md, t_vec2 sz, float t)
 static void	end_used_state(t_md *md, t_inventory *inv, t_ent *sel, t_ent *door)
 {
 	if (inv->held_i == Pokeball && sel && sel->type == nt_pokemon)
-	{
-		capture_pokemon(md, inv, sel);
-		add_log_to_queue(md, _GREEN, "%s was caught", sel->label);
-	}
+		try_catch_pokemon(md, inv, sel);
 	else if (inv->held_i == Pokeball)
 		add_alert(md, 2, NULL, "Not a Pokemon");
 	if (inv->held_i == Keys && door)
@@ -89,7 +86,7 @@ void	render_used(t_md *md, t_inventory *inv, double dur, int item_index)
 
 	sel = md->cam.pointed_ent;
 	sz = get_size(md, elapsed, dur, inv->held_sz.x);
-	if (!cmp_vec2(sz, inv->held_screen_img->size))
+	if (!same_vec2(sz, inv->held_screen_img->size))
 	{
 		free_image_data(md, inv->held_screen_img);
 		inv->held_screen_img = \

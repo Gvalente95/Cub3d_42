@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:31:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 01:04:10 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 14:03:04 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,40 +22,12 @@ void	update_ray_data(t_md *md, t_ray *ray, t_vec3f dir_val)
 	ray->hit_data[0].hit = NULL;
 	ray->hit_data[0].vertical_hit_at_e = 0;
 	ray->hits_len = 0;
+	ray->last_hit = NULL;
 	init_base_ray(ray, ray->index, md->cam.pos, 0);
 	ray->wall_strip_pos = _v2(md->hud.floor_start);
 	ray->dir = get_v3f(dir_val.x, dir_val.y, 0);
 	ray->angle = dir_val.z;
-	ray->check_hit = NULL;
 	ray->wall_hit = NULL;
-}
-
-int	draw_stored_sprite_hits(t_md *md, t_ray *ray)
-{
-	t_hit_data		*hit_d;
-	int				ret_val;
-	int				hit_i;
-
-	hit_i = -1;
-	ret_val = 1;
-	while (++hit_i < ray->hits_len)
-	{
-		hit_d = &ray->hit_data[hit_i];
-		if (!hit_d->hit)
-		{
-			ret_val = 0;
-			break ;
-		}
-		if (ray->check_hit && ray->check_hit->type == nt_door)
-			break ;
-		ray->is_double_hit = hit_d->hit->type != nt_door && \
-			hit_i > 0 && ray->hit_data[hit_i - 1].hit == hit_d->hit;
-		ray->vertical_hit = hit_d->vertical_hit_at_e;
-		ray->pos = hit_d->post_at_hit;
-		draw_wall_line(md, hit_d->dist_at_e, hit_d->hit, ray);
-	}
-	ray->hits_len = 0;
-	return (ret_val);
 }
 
 //	x = (from x index, to x index)
@@ -90,12 +62,12 @@ int	cast_thread_ray(t_md *md, int x, int *last_valid)
 	ray->index = x;
 	update_ray_data(md, ray, md->thrd_manager.dir_vals[ray->index]);
 	ray_move(md, ray, md->thrd_manager.ray_visu_offset);
-	if (!ray->check_hit && ray->wall_hit != NULL)
+	if (ray->wall_hit)
 		draw_wall_line(md, ray->distance, ray->wall_hit, ray);
 	draw_raycast_background(md, ray);
 	*last_valid = x;
-	if (ray->hits_len > 0)
-		return (draw_stored_sprite_hits(md, ray));
+	if (ray->hits_len)
+		return (draw_stored_door_hits(md, ray));
 	return (1);
 }
 
@@ -103,7 +75,6 @@ void	*cast_thread_batch(void *content)
 {
 	t_thread_worker	*thread;
 	t_md			*md;
-	t_ray			*ray;
 	int				i;
 	int				ray_index;
 
@@ -115,8 +86,6 @@ void	*cast_thread_batch(void *content)
 		ray_index = thread->index + i;
 		if (ray_index >= md->win_sz.x)
 			break ;
-		ray = &md->rays[thread->index + i];
-		ray->is_floor_worker = ((i + 1) % FLOOR_WORKERS == 0);
 		if (!cast_thread_ray(md, ray_index, NULL))
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:54:50 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 15:05:31 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:05:50 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_vec3f	get_v3f(float x, float y, float z)
 	return (ret);
 }
 
-int	cmp_vec3f(t_vec3f a, t_vec3f b, float margin)
+int	same_vec3f(t_vec3f a, t_vec3f b, float margin)
 {
 	return (
 		fabsf(a.x - b.x) < margin && \

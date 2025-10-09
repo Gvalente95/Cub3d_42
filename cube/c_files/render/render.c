@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 23:46:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 04:33:59 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 21:28:09 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	render_2d_ent(t_md *md, t_ent *e, t_vec2 centr)
 		img = td->pkmns_mini[e->mob_type];
 	else if (e->type == nt_ext_wall)
 		img = td->ext_wall_mini;
-	else if (e->type == nt_grass)
+	else if (e->type == nt_empty)
 		img = td->grass_mini;
 	else if (e->type == nt_plr)
 	{
@@ -110,9 +110,18 @@ void	apply_fx(t_md *md, t_image *screen, t_fx_data *fx)
 	return ;
 }
 
+void	render_raw(t_md* md) {
+	if (md->prm.show_sky && !same_vec2(md->mouse.delta_raw, _v2(0)))
+		render_sky(md);
+	cast_ray_threads_lp(md);
+	render_sun(md);
+	apply_fx(md, md->screen, &md->fx);
+	mlx_put_image_to_window(md->mlx, md->win, md->screen->img, 0, 0);
+}
+
 void	render(t_md *md)
 {
-	if (md->prm.show_sky && !cmp_vec2(md->mouse.delta_raw, _v2(0)))
+	if (md->prm.show_sky && !same_vec2(md->mouse.delta_raw, _v2(0)))
 		render_sky(md);
 	cast_ray_threads_lp(md);
 	if (md->prm.view_2d)

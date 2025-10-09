@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:30:15 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:56 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:07:02 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ typedef struct s_Vector4f
 //		VECTOR_2.c
 t_vec2	v2(int x, int y);
 t_vec2	v3_to_v2(t_vec3 vec);
-int		cmp_vec2(t_vec2 a, t_vec2 b);
+int		same_vec2(t_vec2 a, t_vec2 b);
 int		print_vec2(t_vec2 a, const char *label);
 int		v2_touch(t_vec2 a, t_vec2 a_size, t_vec2 b, t_vec2 b_size);
 
 //		VECTOR_2f.c
 t_vec2f	v3_to_v2f(t_vec3 vec);
-int		cmp_vec2f(t_vec2f a, t_vec2f b, float margin);
+int		same_vec2f(t_vec2f a, t_vec2f b, float margin);
 t_vec2f	get_v2f(float x, float y);
 int		print_vec2f(t_vec2f a, const char *label);
 
@@ -84,24 +84,24 @@ int		v2f_touch(t_vec2f a, t_vec2f a_size, t_vec2f b, t_vec2f b_size);
 
 //		VECTOR_3f.c
 t_vec3f	get_v3f(float x, float y, float z);
-int		cmp_vec3f(t_vec3f a, t_vec3f b, float margin);
+int		same_vec3f(t_vec3f a, t_vec3f b, float margin);
 int		print_vec3f(t_vec3f a, const char *label);
 
 //		VECTOR_3.c
 t_vec3	v3(int x, int y, int z);
 t_vec3	v2_to_v3(t_vec2 vec);
-int		cmp_vec3(t_vec3 a, t_vec3 b);
+int		same_vec3(t_vec3 a, t_vec3 b);
 int		print_vec3(t_vec3 a, const char *label);
 
 //		VECTOR_3f.c
 t_vec3f	get_v3f(float x, float y, float z);
-int		cmp_vec3f(t_vec3f a, t_vec3f b, float margin);
+int		same_vec3f(t_vec3f a, t_vec3f b, float margin);
 int		print_vec3f(t_vec3f a, const char *label);
 
 //		VECTOR_4.c
 t_vec4	v4(int r, int g, int b, int a);
 t_vec3	v4_to_v3(t_vec4 a);
-int		cmp_vec4(t_vec4 a, t_vec4 b);
+int		same_vec4(t_vec4 a, t_vec4 b);
 int		print_vec4(t_vec4 a, const char *label);
 
 //		VECTOR_4f.c

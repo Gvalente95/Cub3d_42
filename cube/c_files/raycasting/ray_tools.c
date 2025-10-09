@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 02:01:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/29 13:42:13 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 10:54:59 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,22 @@ t_vec2	get_2d_ray_pos(t_md *md)
 int	render_ray(t_md *md, t_ray *ray, t_vec2 visu_offset)
 {
 	t_vec2	_2d_pos;
+	int		color;
 
+	color = ray->color + ray->hits_len * 1000;
 	if (!md->prm.view_2d || !md->prm.show_rays)
 		return (0);
 	_2d_pos.x = visu_offset.x + (ray->pos.x / md->t_len) * md->txd.size_2d;
 	_2d_pos.y = visu_offset.y + (ray->pos.y / md->t_len) * md->txd.size_2d;
 	if (!is_in_screen(md, v2_to_v3(_2d_pos), v2(1, 1)))
 		return (0);
-	draw_pixel(md->screen, _2d_pos, ray->color, .3);
+	draw_pixel(md->screen, _2d_pos, color, .3);
 	return (1);
 }
 
 void	init_base_ray(t_ray *ray, int index, t_vec3f start_pos, float distance)
 {
 	ray->index = index;
-	ray->check_hit = NULL;
 	ray->had_door = 0;
 	ray->init_steps = 0;
 	ray->color = _BLACK;
@@ -65,7 +66,6 @@ void	init_base_ray(t_ray *ray, int index, t_vec3f start_pos, float distance)
 	ray->side_dist = v2f(0);
 	ray->pos = start_pos;
 	ray->step = _v2(0);
-	ray->dda_dist = 0;
 	ray->distance = distance;
 	ray->vertical_hit = 0;
 	ray->wall_strip_pos = _v2(-1);
@@ -74,27 +74,21 @@ void	init_base_ray(t_ray *ray, int index, t_vec3f start_pos, float distance)
 
 int	validate_check_hit(t_md *md, t_ray *ray, t_ent *ent, t_ent_type tp)
 {
-	const int	is_wall = tp == nt_door || tp == nt_wall || tp == nt_ext_wall;
+	const int	is_wall = tp == nt_door || tp == nt_wall || tp == nt_ext_wall || tp == nt_grass;
 
-	if (tp == nt_empty || tp == nt_plr || tp == nt_grass)
+	if (tp == nt_plr || tp == nt_empty || !ent->is_active || ent->seen)
 		return (0);
-	if (!md->prm.ent_mode && !is_wall)
-		return (0);
-	if (ray->hits_len > 0 && \
-		ray->hit_data[ray->hits_len - 1].hit == ent && !md->prm.super_view)
-		return (0);
-	if (ray->check_hit && ray->check_hit != ent)
+	if (tp == nt_door && ray->last_hit == ent)
 		return (0);
 	if (is_wall)
 		return ((v3f_bounds(ray->pos, v3f(0), \
 			ent->pos, get_v3f(ent->frame->size.x + 1, ent->frame->size.y, 0))));
-	else if (!ent->is_active)
+	if (!md->prm.ent_mode)
 		return (0);
-	if (is_in_list(md->thrd_manager.ents_to_draw, ent))
+	if (!same_vec2f((t_vec2f) { ray->pos.x, ray->pos.y }, \
+	(t_vec2f){ent->pos.x + ent->size.x / 2 + ent->transitionOffset.x, ent->pos.y + ent->size.y / 2 + ent->transitionOffset.y}, 2))
 		return (0);
-	if (!cmp_vec2f((t_vec2f){ray->pos.x, ray->pos.y}, \
-	(t_vec2f){ent->pos.x + ent->size.x / 2, ent->pos.y + ent->size.y / 2}, 1))
-		return (0);
-	dblst_add_back(&md->thrd_manager.ents_to_draw, dblst_new((t_ent *)ent));
+	ent->seen = 1;
+	dblst_add_back(&md->thrd_manager.ents_to_draw, dblst_new((t_ent*)ent));
 	return (ent->hit_dist = ray->steps, ent->ray_hit_index = ray->index, 0);
 }

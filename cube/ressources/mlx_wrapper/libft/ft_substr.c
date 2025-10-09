@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:15:45 by gvalente          #+#    #+#             */
-/*   Updated: 2024/10/04 16:10:41 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:09:01 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*return_empty(void)
+static char	*return_Grass(void)
 {
 	char	*new_str;
 
@@ -33,7 +33,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-		return (return_empty());
+		return (return_Grass());
 	if (len > s_len - start)
 		len = s_len - start;
 	new_str = malloc(len + 1);

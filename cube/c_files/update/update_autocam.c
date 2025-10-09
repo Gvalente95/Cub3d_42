@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 22:58:02 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 04:02:49 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 14:11:40 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ static int	exit_autocam(t_md *md, t_autocam *autocam)
 	md->key_click = -1;
 	md->prm.fly_cam = 0;
 	md->prm.show_ceiling = 1;
+	md->prm.ent_mode = 1;
 	md->fx.fog = .2f;
+	md->prm.ray_depth = md->map.size.x * 1.5 * md->t_len;
 	autocam->active = 0;
 	autocam->quitting = 0;
+	add_item(md, Pokeball, 5);
+	add_item(md, Keys, 2);
+	add_item(md, Health, 5);
 	return (1);
 }
 
@@ -41,23 +46,23 @@ static void	init_autocam(t_md *md, t_autocam *autocam)
 	const float		map_h = minf(40, md->map.size.y) * md->t_len;
 	const float		map_diag = sqrtf(map_w * map_w + map_h * map_h);
 
-	autocam->fade = 1;
+	autocam->hasFade = true;
+	autocam->quitting = false;
 	autocam->center = center;
 	autocam->map_w = map_w;
 	autocam->map_h = map_h;
 	autocam->map_diag = map_diag;
-	autocam->quitting = 0;
 	autocam->acc_spd = 0.0f;
 	autocam->base_y = 80 - md->map.size.y;
 	md->plr.angle = M_PI_2;
 	md->plr.pos.z = -md->t_len * minf(8, (md->map.size.y / 2));
-	md->prm.fly_cam = 1;
-	md->prm.show_ceiling = 0;
 	md->fx.fog = .05f;
-	md->prm.super_view = 1;
-	md->prm.ent_mode = 0;
-	md->hud.floor_start = md->win_sz.y * .4;
 	md->timer.time = 10;
+	md->prm.ray_depth = md->map.size.x * 4 * md->t_len;
+	md->prm.fly_cam = true;
+	md->prm.show_ceiling = false;
+	md->prm.super_view = true;
+	md->prm.ent_mode = false;
 }
 
 void	update_player_orbit(t_md *md, t_autocam *aut)

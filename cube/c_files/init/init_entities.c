@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 00:11:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 05:00:44 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 13:46:57 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 static void	set_type_specifics(t_md *md, t_ent *e, t_ent_type type)
 {
 	int	i;
+
+	e->hasCollision = \
+		type != nt_tree && \
+		type != nt_item && \
+		type != nt_bush && \
+		type != nt_empty && \
+		type != nt_grass && \
+		type != nt_plr;
 
 	if (type == nt_wall)
 	{
@@ -29,31 +37,44 @@ static void	set_type_specifics(t_md *md, t_ent *e, t_ent_type type)
 	}
 	else
 		e->dir = get_v3f(r_range(-1, 1), r_range(-1, 1), r_range(-1, 1));
-	if (e->type == nt_mob)
-		init_ent_pkteam(md, e, r_range(1, 5));
-	if (e->type == nt_pokemon)
+	if (type == nt_mob) {
+		e->is_trainer = true;
+		init_ent_pkteam(md, e, r_range_seed(&md->r_seed, 1, 6));
+	}
+	else if (e->type == nt_pokemon)
 	{
+		e->elemType = getPkElement(md, e->mob_type);
+		e->pkStatus.active = 0;
 		e->max_hp = r_range(70, 140);
 		e->hp = e->max_hp;
+		e->poke_moves = malloc(sizeof(t_move) * 4);
+		t_move *moveSet = md->pkd.PokemonMoves[e->mob_type];
+		for (int i = 0; i < 4; i++) {
+			e->poke_moves[i] = moveSet[i];
+			e->poke_moves[i].cc = moveSet[i].ccMax;
+		}
 	}
 }
 
-static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 pos)
+static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 cord)
 {
+	e->is_trainer = false;
+	e->is_active = true;
+	e->revealed = false;
+	e->poke_moves = NULL;
 	e->anim = NULL;
 	e->frames = NULL;
 	e->overlay = NULL;
-	e->character = c;
 	e->type = minmax(0, ENT_TYPE_LEN - 1, \
 		get_char_index(md->txd.ents_tp_map[0], c));
 	init_ent_frames(md, &md->txd, e);
 	e->size = e->frame->size;
-	e->pos.x = (pos.x * md->t_len) + (md->t_len - e->size.x) * 0.5f;
-	e->pos.y = (pos.y * md->t_len) + (md->t_len - e->size.y) * 0.5f;
+	e->pos.x = (cord.x * md->t_len) + (md->t_len - e->size.x) * 0.5f;
+	e->pos.y = (cord.y * md->t_len) + (md->t_len - e->size.y) * 0.5f;
 	e->pos.z = 0;
 	e->target_pos = e->pos;
+	e->transitionOffset = v3f(0);
 	e->start_pos = e->pos;
-	e->coord = div_v3(v3(e->pos.x, e->pos.y, e->pos.z), md->t_len);
 	if (c >= '3' && c <= '9')
 	{
 		e->pos.z = -md->t_len * (450 * ((c - '0') - 2));
@@ -62,12 +83,9 @@ static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 pos)
 	e->mov = v3f(0);
 	e->dir = v3f(0);
 	e->hp = 5;
-	e->is_active = 1;
-	e->in_screen = 0;
-	e->revealed = 0;
 }
 
-static void	init_player(t_md *md, char c, t_vec2 pos, int map_index)
+static void	init_player(t_md *md, char c, t_vec2 cord, int map_index)
 {
 	char	base_c;
 	t_ent	*e;
@@ -75,7 +93,7 @@ static void	init_player(t_md *md, char c, t_vec2 pos, int map_index)
 	e = &md->plr;
 	base_c = c;
 	c = '*';
-	set_ent_values(md, &md->plr, c, pos);
+	set_ent_values(md, &md->plr, c, cord);
 	e->map_index = map_index;
 	md->cam.rot.x = -90;
 	if (base_c == 'S')
@@ -91,16 +109,16 @@ static void	init_player(t_md *md, char c, t_vec2 pos, int map_index)
 	e->pos.x += md->t_len / 2;
 	e->start_pos.x = e->pos.x;
 	md->cam.pos = e->pos;
-	add_ent_at_cord(md, e, pos);
+	add_ent_at_cord(md, e, cord);
 }
 
-t_ent	*init_ent(t_md *md, char c, t_vec2 pos, int map_index)
+t_ent	*init_ent(t_md *md, char c, t_vec2 cord, int map_index)
 {
 	t_ent	*e;
 
 	e = malloc(sizeof(t_ent));
 	memset(e, 0, sizeof(t_ent));
-	set_ent_values(md, e, c, pos);
+	set_ent_values(md, e, c, cord);
 	e->cam_distance = 99999;
 	e->map_index = map_index;
 	e->screen_p = _v2(-1);
@@ -108,8 +126,8 @@ t_ent	*init_ent(t_md *md, char c, t_vec2 pos, int map_index)
 	e->target_pos = v3f(0);
 	e->pk_team = NULL;
 	set_type_specifics(md, e, e->type);
-	if (pos.x > -1 && pos.y > -1)
-		add_ent_at_cord(md, e, pos);
+	if (map_index != -1)
+		add_ent_at_cord(md, e, cord);
 	return (e);
 }
 

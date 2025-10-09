@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:49:48 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 04:13:31 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:05:50 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	update_cam(t_md *md, t_cam *cam)
 	else if (cam->prv_pointed)
 		cam->pointed = cam->prv_pointed;
 	cam->prv_pointed = NULL;
-	cam->is_moving = !cmp_vec3f(cam->input_mov, v3f(0), .01);
+	cam->is_moving = !same_vec3f(cam->input_mov, v3f(0), .01);
 	if (prv_is_moving != cam->is_moving)
 		md->timer.tm_walk = 0;
 	update_plr_offsets(md, cam);

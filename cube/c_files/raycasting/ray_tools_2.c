@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 02:04:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 01:25:20 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 17:09:46 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	set_ray_color(t_md *md, t_ray *ray)
 {
 	ray->color = md->rgb[RGB_GREEN + ray->hits_len] + \
 	(350 * (ray->vertical_hit));
-	if (ray->check_hit != NULL)
-		ray->color = _GOLD;
 }
 
 int	update_ray_grid_pos(t_md *md, t_ray *ray)

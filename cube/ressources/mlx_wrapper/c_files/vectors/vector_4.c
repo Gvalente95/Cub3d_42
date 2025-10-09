@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 00:07:17 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/28 15:05:34 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 19:07:02 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_vec3	v4_to_v3(t_vec4 a)
 	return (ret);
 }
 
-int	cmp_vec4(t_vec4 a, t_vec4 b)
+int	same_vec4(t_vec4 a, t_vec4 b)
 {
 	return (a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a);
 }

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 04:32:24 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/30 16:05:15 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 00:12:32 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,9 @@ int	free_ent(t_md *md, t_ent *e)
 		while (e->team_sz)
 			fa += free_ent(md, e->pk_team[--e->team_sz]);
 		free(e->pk_team);
+	}
+	if (e->poke_moves) {
+		free(e->poke_moves);
 	}
 	if (e->frames)
 		fa += free_images_data(md, e->frames, "e frames");

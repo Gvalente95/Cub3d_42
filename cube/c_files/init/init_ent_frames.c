@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_ent_frames.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:42:52 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/06/01 14:18:01 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:18:40 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ void	set_item_frame(t_md *md, t_texture_data *txd, t_ent *e)
 		e->frame = txd->item_txtr[4][e->wpn_type];
 }
 
-void	set_ent_label(t_texture_data *txd, t_ent *e, t_ent_type type)
+void	set_ent_label(t_md *md, t_ent *e, t_ent_type type)
 {
 	e->label = NULL;
 	if (type == nt_mob)
-		e->label = txd->mob_names[e->mob_type];
+		e->label = get_mob_name(md, e->mob_type);
 	else if (type == nt_door)
 		e->label = "DOOR";
 	else if (type == nt_pokemon)
-		e->label = txd->pkmn_names[e->mob_type];
+		e->label = get_pkmn_name(md, (int)e->mob_type);
 	else if (type == nt_item)
-		e->label = txd->item_names[e->pckp_type];
+		e->label = get_item_name(md, e->pckp_type);
 }
 
 void	init_ent_frames(t_md *md, t_texture_data *txd, t_ent *e)
@@ -88,11 +88,9 @@ void	init_ent_frames(t_md *md, t_texture_data *txd, t_ent *e)
 	e->pckp_type = -1;
 	e->action = 0;
 	e->frame_index = 0;
-	if (e->type == nt_empty)
-		e->frame = md->hud.floor;
-	else if (e->type == nt_wall)
+	if (e->type == nt_wall)
 		e->frame = txd->wall_img[0];
-	else if (e->type == nt_mob)
+	else if (e->type == nt_mob || e->type == nt_plr)
 		copy_anim_frames(md, e);
 	else if (e->type == nt_door)
 		e->frame = txd->door_txtr;
@@ -100,13 +98,17 @@ void	init_ent_frames(t_md *md, t_texture_data *txd, t_ent *e)
 		set_item_frame(md, txd, e);
 	else if (e->type == nt_ext_wall)
 		e->frame = txd->ext_wall;
-	else if (e->type == nt_grass)
+	else if (e->type == nt_empty)
 		e->frame = txd->grass_tile;
+	else if (e->type == nt_bush)
+		e->frame = txd->bush_txtr[r_range(0, 4)];
+	else if (e->type == nt_tree)
+		e->frame = txd->tree_txtr[r_range(0, 4)];
 	else
 	{
 		e->mob_type = r_range_seed(&md->r_seed, 0, PKMN_TYPE_LEN - 1);
 		e->frames = copy_action_frames(md, md->txd.pkmn[e->mob_type]);
 		e->frame = e->frames[0];
 	}
-	set_ent_label(txd, e, e->type);
+	set_ent_label(md, e, e->type);
 }

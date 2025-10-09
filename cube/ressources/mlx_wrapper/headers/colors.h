@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 05:11:14 by gvalente          #+#    #+#             */
-/*   Updated: 2025/07/01 03:06:28 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/08 17:40:23 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned char	get_b(int trgb);
 # define RGB_BLUE	2
 # define RGB_CYAN	3
 # define RGB_MAGENT	4
-# define RGB_GRAY	5
+# define RGB_GREY	5
 # define RGB_BROWN	6
 # define RGB_WHITE	7
 # define RGB_TEAL	8
@@ -45,10 +45,10 @@ unsigned char	get_b(int trgb);
 
 # define _RED					0x00FF0000
 # define _GREEN					0x0000FF00
-# define _BLUE					0x000000FF
+# define _BLUE					0x000100FF
 # define _CYAN					0x0000FFFF
 # define _MAGENT				0x00FF00FF
-# define _GRAY					0x00A9A9A9
+# define _GREY					0x00A9A9A9
 # define _BROWN					0x008B4513
 # define _TEAL					0x00008080
 # define _LIME					0x0000FF00
@@ -62,7 +62,12 @@ unsigned char	get_b(int trgb);
 # define _BLACK					0x00000000
 # define _YELLOW				0x00FFFF00
 # define _ORANGE				0x00FFA500
-# define _NULL					0x00000000
+# define _NULL					0x000000FF
+# define  _PINK					0xFFAAAA
+
+#define _BEIGE 					0xF5F5DC
+#define _DARKPURPLE 			0x301934
+#define _DARKGREEN 				0x013220
 
 # define COLOR_TXT_RED				"\033[31m"
 # define COLOR_TXT_RESET			"\033[0m"

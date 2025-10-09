@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 04:54:44 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/24 12:37:33 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:42:25 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	init_au(t_md *md, t_au_manager *au)
 	i = -1;
 	while (++i < PKMN_TYPE_LEN)
 	{
-		full_path = ft_megajoin(path, md->txd.pkmn_names[i], ".mp3", NULL);
+		full_path = ft_megajoin(path, md->pkd.pkmn_names[i], ".mp3", NULL);
 		if (!full_path)
 			free_and_quit(md, "alloc in init_au", NULL);
 		ft_strlcpy(au->pokemon_cries[i], full_path, 50);
