@@ -1,0 +1,120 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_ent_frames.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 21:42:52 by giuliovalen       #+#    #+#             */
+/*   Updated: 2025/10/15 01:40:56 by giuliovalen      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../cube.h"
+
+static t_image	**copy_action_frames(t_md *md, t_image **base_images)
+{
+	int		j;
+	int		frame_count;
+	t_image	**action_images;
+
+	if (!base_images)
+		return (NULL);
+	frame_count = 0;
+	while (base_images[frame_count])
+		frame_count++;
+	action_images = md_malloc(md, sizeof(t_image*) * (frame_count + 1));
+	j = -1;
+	while (++j < frame_count) {
+		action_images[j] = copy_image(md, base_images[j], v2(-1, -1), -1);
+		if (!action_images[j])
+			free_and_quit(md, "Error in copy_action_frames", NULL);
+	}
+	action_images[j] = NULL;
+	return (action_images);
+}
+
+static int	copy_anim_frames(t_md *md, t_ent *e)
+{
+	t_image		***ent_images;
+	t_image		***base_images;
+	int			i;
+
+	e->mob_type = r_range_seed(&md->r_seed, 0, MOB_TYPE_LEN - 1);
+	base_images = md->txd.mobs_txtrs[e->mob_type];
+	ent_images = malloc(sizeof(t_image **) * (ENT_ACTION_LEN + 1));
+	if (!ent_images)
+		return (printf("Error alloc of image in copy anim\n"), 0);
+	i = -1;
+	while (++i < ENT_ACTION_LEN)
+	{
+		ent_images[i] = copy_action_frames(md, base_images[i]);
+		if (ent_images[i])
+			continue ;
+		while (--i >= 0)
+			free(ent_images[i]);
+		free(ent_images);
+		return (printf("Error alloc of image in copy anim\n"), 0);
+	}
+	ent_images[i] = NULL;
+	e->anim = ent_images;
+	e->frame = e->anim[0][0];
+	return (1);
+}
+
+void	set_item_frame(t_md *md, t_texture_data *txd, t_ent *e)
+{
+	e->pckp_type = r_range_seed(&md->r_seed, 0, PCKP_TYPE_LEN - 1);
+	e->wpn_type = r_range(0, 3);
+	e->frame = txd->item_txtr[e->pckp_type][0];
+	if (e->pckp_type == Weapon)
+		e->frame = txd->item_txtr[4][e->wpn_type];
+}
+
+void	set_ent_label(t_md *md, t_ent *e, t_ent_type type)
+{
+	e->label = NULL;
+	if (type == nt_mob)
+		e->label = get_mob_name(md, e->mob_type);
+	else if (type == nt_door)
+		e->label = "DOOR";
+	else if (type == nt_pokemon)
+		e->label = get_pkmn_name(md, (int)e->mob_type);
+	else if (type == nt_item)
+		e->label = get_item_name(md, e->pckp_type);
+}
+
+void	init_ent_frames(t_md *md, t_ent *e)
+{
+	t_texture_data* txd = &md->txd;
+	e->pckp_type = -1;
+	e->action = 0;
+	e->frame_index = 0;
+	if (e->type == nt_wall)
+		e->frame = md->txd.wall_img[0];
+	else if (e->type == nt_mob || e->type == nt_plr)
+		copy_anim_frames(md, e);
+	else if (e->type == nt_door)
+		e->frame = txd->door_txtr;
+	else if (e->type == nt_item)
+		set_item_frame(md, txd, e);
+	else if (e->type == nt_ext_wall)
+		e->frame = txd->ext_wall;
+	else if (e->type == nt_empty)
+		e->frame = txd->grass_tile;
+	else if (e->type == nt_bush)
+		e->frame = txd->bush_txtr[r_range(0, 4)];
+	else if (e->type == nt_tree)
+		e->frame = txd->tree_txtr[r_range(0, 4)];
+	else
+	{
+		e->mob_type = r_range_seed(&md->r_seed, 0, PKMN_TYPE_LEN - 1);
+		e->frames = copy_action_frames(md, md->txd.pkmn[e->mob_type]);
+		if (!e->frames) {
+			free_and_quit(md, "No frames in init_ent_frames", NULL);
+			return;
+		}
+		e->frame = e->frames[0];
+	}
+	set_ent_label(md, e, e->type);
+}

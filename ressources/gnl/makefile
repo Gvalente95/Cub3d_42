@@ -1,0 +1,36 @@
+SOURCES = get_next_line.c get_next_line_utils.c
+
+OBJ = $(SOURCES:.c=.o)
+
+OBJ_BONUS = $(BONUS:.c=.o)
+
+NAME = get_next_line.a
+
+CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=$(BUFFER_SIZE)
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+GREEN = 	\033[0;32m
+RESET = 	\033[0m
+
+BUFFER_SIZE ?= 30
+
+$(NAME): $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
+
+test:
+	@cc -fsanitize=address -g *.c -D BUFFER_SIZE=$(BUFFER_SIZE)
+
+clean:
+	@rm -f $(OBJ)
+	@if [ -z "$(QUIET)" ]; then echo "$(GREEN)GNL clean$(RESET)"; fi
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo "$(GREEN)GNL fclean.$(RESET)"
+
+all: $(NAME)
+
+re: fclean all
+	@echo "$(GREEN)GNL	successfully compiled.$(RESET)"
