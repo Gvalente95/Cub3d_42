@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:11:19 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:15:25 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:41:05 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,25 @@ typedef struct s_portal_wall
 	t_vec2		out;
 }	t_portal_wall;
 
-typedef struct s_portal
+typedef struct s_portal_data
 {
 	t_portal_wall	ends[2];
 	t_vec2			out_pos;
 	t_ent			*found;
 	int				last_shot_index;
-}	t_portal;
+}	t_portal_data;
+
+// typedef struct s_portal
+// {
+// 	t_ent* a;
+// 	t_ent* b;
+// 	t_dir a_dir;
+// 	t_dir b_dir;
+// 	t_vec2 a_out;
+// 	t_vec2 a_in;
+// 	t_vec2 b_out;
+// 	t_vec2 b_in;
+// }	t_portal_data;
 
 typedef struct s_hit_data
 {
@@ -113,7 +125,7 @@ typedef struct s_ray
 	int			color;
 	float		dist_at_door;
 	int			steps;
-	int			init_steps;
+	bool		had_ground_wall;
 	bool		on_grid;
 	bool		had_door;
 	bool		active;

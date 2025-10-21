@@ -6,11 +6,12 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 22:42:23 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/10 12:30:34 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:05:13 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../mlx_utils.h"
+
 
 void	cap_fps(t_md *md, int fps)
 {

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 12:48:34 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/07/01 01:04:03 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:08:12 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	draw_flr_px(t_md *md, t_floor_draw_d *d, t_vec2 t_crd, int has_flr)
 
 	d->fogalpha = -1;
 	if (md->fx.fog > 0)
-		d->fogalpha = minmaxf(0, 1, (d->rwd / 10.0f) * md->fx.fog);
+		d->fogalpha = minmaxf(0, 1, (d->rwd / 10) * md->fx.fog);
 	if (d->fogalpha >= 1)
 		return (draw_pixel(md->screen, d->win, fog_clr, d->fogalpha), 1);
 	if (has_flr)

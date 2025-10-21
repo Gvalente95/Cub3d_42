@@ -6,13 +6,13 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:09:50 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/14 00:42:46 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:33:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-static void	set_portal_pos(t_ent *e, int x_pos_offset, t_vec2 *out_pos)
+static void	set_portal_data_pos(t_ent *e, int x_pos_offset, t_vec2 *out_pos)
 {
 	t_wrd_dir	dir;
 
@@ -45,7 +45,7 @@ void	draw_portal(t_md *md, t_ent *e, t_vec2 pos)
 	t_vec2	draw_p;
 	t_vec2	out_pos;
 
-	if (md->portal.found || e->overlay || e->type != nt_wall)
+	if (md->portal_data.found || e->overlay || e->type != nt_wall)
 		return ;
 	(void)pos;
 	play_sound(md, AU_PORTAL_SHOOT);
@@ -53,10 +53,10 @@ void	draw_portal(t_md *md, t_ent *e, t_vec2 pos)
 	draw_p = v2(e->size.x / 2 - draw_sz.x / 2, \
 		md->t_len * .25);
 	e->overlay = copy_image(md, e->frame, e->frame->size, -1);
-	set_portal_pos(e, e->size.x / 2, &out_pos);
+	set_portal_data_pos(e, e->size.x / 2, &out_pos);
 	draw_pixels(e->overlay, draw_p, draw_sz, _BLUE);
-	md->portal.found = e;
-	md->portal.out_pos = out_pos;
+	md->portal_data.found = e;
+	md->portal_data.out_pos = out_pos;
 }
 
 void	update_wall_pointed(t_md *md, t_ent *e, t_vec2 draw_limits)
@@ -73,13 +73,14 @@ void	update_wall_pointed(t_md *md, t_ent *e, t_vec2 draw_limits)
 		cam->prv_pointed = e;
 	// if (e->type == nt_door)
 	// {
-	// 	if (!cam->pointed_door || !cam->prv_door)
+	// 	if (e->was_hit && 0)
 	// 		cam->pointed_door = cam->prv_pointed;
-	// 	if (cam->prv_door == cam->pointed_door && cam->pointed_door->hp)
-	// 		cam->pointed_door = cam->prv_pointed;
-	// }
-	// else {
-	// 	cam->pointed_door = NULL;
-	// 	cam->prv_door = NULL;
+	// 	else
+	// 	{
+	// 		if (!cam->pointed_door || !cam->prv_door)
+	// 			cam->pointed_door = cam->prv_pointed;
+	// 		if (cam->prv_door == cam->pointed_door && cam->pointed_door->hp)
+	// 			cam->pointed_door = cam->prv_pointed;
+	// 	}
 	// }
 }

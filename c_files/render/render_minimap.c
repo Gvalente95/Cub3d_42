@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:59:55 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/10 11:54:29 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 10:54:49 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	show_revl_done(t_md *md, t_vec2 pos)
 	color = -1;
 	data = (t_txtd){pos.x, pos.y, color, md->prm.txt_sc, NULL};
 	rnd_fast_txt(md, data, "%.1f/", revealed_perc_);
+
+	if (!md->map.explored_all && md->mmap.revealed_cur == md->mmap.revealed_len)
+	{
+		md->map.explored_all = 1;
+		add_alert(md, 10, NULL, "Map fully explored, gg..");
+	}
 }
 
 void	render_minimap_ray(t_md *md)
@@ -94,11 +100,8 @@ void	show_minimap_entity(t_md *md, t_ent *e, t_image *screen, int no_redraw)
 		p = sub_vec2(p, _v2(1));
 	draw_pixels(screen, sub_vec2(p, _v2(1)), _v2(icsz + 1), _BLACK);
 	draw_pixels(screen, p, _v2(icsz - 1), draw_clr);
-	if (!e->revealed && e->type != nt_plr) {
+	if (!e->revealed && e->type != nt_plr)
 		md->mmap.revealed_cur++;
-		if (md->mmap.revealed_cur == md->mmap.revealed_len)
-			add_alert(md, 10, NULL, "Map fully explored, gg..");
-	}
 	e->revealed = 1;
 	if (e->type == nt_plr)
 		show_if_interior(md, e, p, -1);

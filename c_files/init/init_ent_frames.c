@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:42:52 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:40:56 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:31:48 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ static t_image	**copy_action_frames(t_md *md, t_image **base_images)
 	frame_count = 0;
 	while (base_images[frame_count])
 		frame_count++;
-	action_images = md_malloc(md, sizeof(t_image*) * (frame_count + 1));
+	action_images = malloc(sizeof(t_image *) * (frame_count + 1));
+	if (!action_images)
+		return (NULL);
 	j = -1;
-	while (++j < frame_count) {
+	while (++j < frame_count)
 		action_images[j] = copy_image(md, base_images[j], v2(-1, -1), -1);
-		if (!action_images[j])
-			free_and_quit(md, "Error in copy_action_frames", NULL);
-	}
 	action_images[j] = NULL;
 	return (action_images);
 }
@@ -86,12 +85,14 @@ void	set_ent_label(t_md *md, t_ent *e, t_ent_type type)
 
 void	init_ent_frames(t_md *md, t_ent *e)
 {
-	t_texture_data* txd = &md->txd;
+	t_texture_data	*txd;
+
+	txd = &md->txd;
 	e->pckp_type = -1;
 	e->action = 0;
 	e->frame_index = 0;
 	if (e->type == nt_wall)
-		e->frame = md->txd.wall_img[0];
+		e->frame = txd->wall_img[0];
 	else if (e->type == nt_mob || e->type == nt_plr)
 		copy_anim_frames(md, e);
 	else if (e->type == nt_door)
@@ -110,10 +111,6 @@ void	init_ent_frames(t_md *md, t_ent *e)
 	{
 		e->mob_type = r_range_seed(&md->r_seed, 0, PKMN_TYPE_LEN - 1);
 		e->frames = copy_action_frames(md, md->txd.pkmn[e->mob_type]);
-		if (!e->frames) {
-			free_and_quit(md, "No frames in init_ent_frames", NULL);
-			return;
-		}
 		e->frame = e->frames[0];
 	}
 	set_ent_label(md, e, e->type);

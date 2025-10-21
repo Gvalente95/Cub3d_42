@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:10:05 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:38:03 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 15:16:46 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,5 @@ int	init_map(t_md *md, char *file_name)
 	if (!md->map.accept_unvalid && !validate_map(md, md->map.buffer))
 		free_and_quit(md, NULL, NULL);
 	md->map.size.x--;
-
-	if (!md->txd.wall_img) free_and_quit(md, "No wall img", NULL);
-	for (int i = 0; i < 4; i++) if (!md->txd.wall_img[i]) free_and_quit(md, "No wall img of index", NULL);
 	return (1);
 }

@@ -74,11 +74,11 @@ int	free_env(t_md *md, t_env_manager *env)
 		map.x = -1;
 		while (++map.x < mapsz.x)
 		{
-			if (!env->grass[map.y][map.x]) continue;
+			if (!env->grass[map.y][map.x])
+				continue ;
 			cord.y = -1;
-			while (++cord.y < md->t_len) {
+			while (++cord.y < md->t_len)
 				free(env->grass[map.y][map.x][cord.y]);
-			}
 			free(env->grass[map.y][map.x]);
 		}
 		free(env->grass[map.y]);
@@ -91,27 +91,25 @@ int	free_env(t_md *md, t_env_manager *env)
 
 void	init_fes(t_md *md, t_env_manager *env, int tlen)
 {
-	const t_vec2	mapsz = md->map.size;
 	t_vec2			map;
 	t_vec2			cord;
 
 	env->grass_overlay = init_img(md, md->win_sz, NULL, _NULL);
-	env->grass = md_malloc(md, sizeof(t_fe ***) * mapsz.y);
+	env->grass = md_malloc(md, sizeof(t_fe ***) * md->map.size.y);
 	map.y = -1;
-	while (++map.y < mapsz.y)
+	while (++map.y < md->map.size.y)
 	{
-		env->grass[map.y] = md_malloc(md, sizeof(t_fe **) * mapsz.x);
+		env->grass[map.y] = md_malloc(md, sizeof(t_fe **) * md->map.size.x);
 		map.x = -1;
-		while (++map.x < mapsz.x)
+		while (++map.x < md->map.size.x)
 		{
 			cord.y = -1;
-			int index = map.x + map.y * (md->map.size.y + 1);
-			char c = md->map.buffer[index];
-			if (c != 'g') {
+			if (md->map.buffer[map.x + map.y * (md->map.size.y + 1)] != 'g')
+			{
 				env->grass[map.y][map.x] = NULL;
-				continue;
+				continue ;
 			}
-			env->grass[map.y][map.x] = md_malloc(md, sizeof(t_fe*) * tlen);
+			env->grass[map.y][map.x] = md_malloc(md, sizeof(t_fe *) * tlen);
 			while (++cord.y < tlen)
 			{
 				env->grass[map.y][map.x][cord.y] = \

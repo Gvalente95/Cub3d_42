@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:36:33 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/16 10:46:55 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:33:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ static void	init_colors(t_md *md)
 	md->rgb[RGB_NULL] = _NULL;
 }
 
-static void	init_portal_data(t_md *md)
+static void	init_portal_data_data(t_md *md)
 {
-	md->portal.ends[0].e = NULL;
-	md->portal.ends[1].e = NULL;
-	md->portal.found = NULL;
-	md->portal.last_shot_index = 0;
-	md->portal.out_pos = _v2(90);
+	(void)md;
+	return;
+	md->portal_data.ends[0].e = NULL;
+	md->portal_data.ends[1].e = NULL;
+	md->portal_data.found = NULL;
+	md->portal_data.last_shot_index = 0;
+	md->portal_data.out_pos = _v2(90);
 }
 
 static void	init_game_params(t_md *md, t_parameters *prm, int start_debug)
@@ -105,7 +107,7 @@ int	init_cube(t_md *md, char *file_arg, int strictMode)
 	init_game_params(md, &md->prm, 0);
 	init_var(md);
 	md->hud.fog_color = _WHITE;
-	init_portal_data(md);
+	init_portal_data_data(md);
 	init_ents_data(md, &md->txd);
 	init_map(md, file_arg);
 	init_inventory(md, &md->inv);
@@ -122,7 +124,6 @@ int	init_cube(t_md *md, char *file_arg, int strictMode)
 	md->timer.elapsed_pause = md->timer.game_start;
 	md->init_steps++;
 	ft_strlcpy(md->plr_name, " ", 15);
-	md->plr_name_indx = 0;
 	show_init_information(md);
 	return (0);
 }

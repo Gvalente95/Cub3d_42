@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_inventory.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:30:56 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/06 12:15:00 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/16 11:47:05 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	refresh_inv_bgr(t_md *md, t_inventory *inv)
 	if (inv->page == 0)
 		draw_inv_labels(md, inv, td, brdsz);
 	else if (inv->page == 1)
-		draw_pokemon_team(md, inv, td, brdsz);
+		draw_pkmn_team(md, inv, td, brdsz);
 	inv->update_img = 0;
 }
 

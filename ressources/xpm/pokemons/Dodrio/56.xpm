@@ -1,5 +1,5 @@
 /* XPM */
-static char *e09c064248f34853a16eb353adadd810cHMZ2RD7gSbV5z6E_148[] = {
+static char *e09c064248f34853a16eb353adadd810cHMZ2RD7gSbV5z6E_149[] = {
 /* columns rows colors chars-per-pixel */
 "70 76 16 1 ",
 "  c None",
@@ -74,9 +74,9 @@ static char *e09c064248f34853a16eb353adadd810cHMZ2RD7gSbV5z6E_148[] = {
 "       O==#.                      ooo&&&&&&&&oooo.                    ",
 "       O==O                         ..o&&&&&oooo.                     ",
 "       O==.                         .o..&&&ooooo.                     ",
-"        O=.                       OO###.....ooo.                      ",
-"         O                      OO#==##..   .o##.                     ",
-"                               O#===O..      .##.                     ",
+"        O=.                       OO###.....ooo...                    ",
+"         O                      OO#==##..   .o##..                    ",
+"                               O#===O..      .##..                    ",
 "                              O===..         .##.                     ",
 "                              ==#.           .=#.                     ",
 "                           O==ooo           O#=O                      ",

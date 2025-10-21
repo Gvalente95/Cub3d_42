@@ -6,15 +6,17 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:28:59 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/10 13:59:10 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:55:20 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	clear_BA_text(t_BA_d* bd) {
+void	clear_BA_text(t_BA_d* bd)
+{
 	bd->log_message[0] = '\0';
 }
+
 void	set_BA_text(t_BA_d* bd, const char* format, ...)
 {
 	va_list	args;
@@ -48,7 +50,7 @@ bool	handle_my_pkmn_ko(t_md* md, t_BA_d* bd)
 			return (0);
 		}
 	}
-	set_bTransition(md, bd, bd->opponent->is_trainer ?
+	set_bTransition(md, bd->opponent->is_trainer ?
 		BT_PUNITION : BT_QUIT, "All your pokemons are ko..");
 	return (1);
 }
@@ -68,21 +70,21 @@ int	handle_ennemy_pkmn_ko(t_md* md, t_BA_d* bd)
 	bd->stored_dealt[BME] = 0;
 	stop_sound(md->au.BA_pid);
 	if (bd->opponent->is_trainer)
-		set_bTransition(md, bd, BT_REWARD, "You Beat %s", bd->opponent->label);
+		set_bTransition(md, BT_REWARD, "You Beat %s", bd->opponent->label);
 	else
-		set_bTransition(md, bd, BT_WON, "foe %s is ko..", bd->opponent->label);
+		set_bTransition(md, BT_WON, "foe %s is ko..", bd->opponent->label);
 	return (1);
 }
 
 int	battleHasEnded(t_md* md, t_BA_d* bd) {
 	printf("Acton ended check");
 	if (!bd->pk[BME] && !get_valid_pkmn(md->inv.pokemon_team, md->inv.team_size))
-		set_bTransition(md, bd, bd->opponent->is_trainer ?
+		set_bTransition(md, bd->opponent->is_trainer ?
 			BT_PUNITION : BT_QUIT, "All your pokemons are ko..");
 	else if (bd->opponent->is_trainer && bd->opponent->hp <= 0)
-		set_bTransition(md, bd, BT_WON, "foe %s is ko..", bd->opponent->label);
+		set_bTransition(md, BT_WON, "foe %s is ko..", bd->opponent->label);
 	else if (!bd->pk[BFOE] && !get_valid_pkmn(bd->opponent->pk_team, bd->opponent->team_sz))
-		set_bTransition(md, bd, BT_REWARD, "You Beat %s", bd->opponent->label);
+		set_bTransition(md, BT_REWARD, "You Beat %s", bd->opponent->label);
 	else return (0);
 	exit(0);
 	return (1);

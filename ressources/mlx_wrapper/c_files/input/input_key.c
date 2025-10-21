@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_key.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
+/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:33:59 by gvalente          #+#    #+#             */
-/*   Updated: 2025/10/15 01:00:49 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/05/26 19:41:41 by gvalente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	handle_key_press(int keycode, t_md *md)
 	md->last_key = keycode;
 	md->key_click = keycode;
 	md->key_prs[keycode] = 1;
-	// if (keycode == ESC_KEY)
-	// 	free_and_quit(md, "Esc key Pressed", NULL);
 	return (0);
 }
 

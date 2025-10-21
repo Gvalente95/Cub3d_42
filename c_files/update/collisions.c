@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:44:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/13 21:46:53 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:03:33 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	is_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 		return (0);
 	if (a->coord.z == b->coord.z - 1)
 	{
-		if (fabsf(a->pos.z - (b->coord.z - 1) * md->t_len) < 10 && \
+		if (fabsf(a->pos.z - (b->coord.z - 1) * md->t_len) < 20 && \
 			a->mov.z >= 0)
 		{
 			a->grounded = 1;
@@ -69,12 +69,10 @@ int	is_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 
 static int	validate_collision(t_md *md, t_ent *a, t_ent *b, t_vec2 a_size)
 {
-	if (!b || !b->is_active || !b->hp || !b->hasCollision)
+	if (!b || !b->is_active || !b->hasCollision || !b->hp)
 		return (0);
 	if (!is_collision(md, a, b, a_size))
 		return (0);
-	if (b->type == nt_wall && b->overlay)
-		return (validate_portal_collision(md, b));
 	return (1);
 }
 

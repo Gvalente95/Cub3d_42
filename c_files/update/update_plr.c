@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:43:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/13 23:32:33 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:04:51 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static void	update_player_rot(t_md *md)
 		md->cam.rot.x -= 360.0f;
 	if (!md->mouse.lock_rot.y && md->mouse.delta.y && md->mouse.focus)
 		md->cam.rot.y += md->mouse.delta.y * speed;
-	md->cam.rot.y = minmaxf(-80, 80, md->cam.rot.y);
-	// md->cam.rot.x = minmaxf(-180, 180, md->cam.rot.x);
+	if (md->prm.fly_cam)
+		md->cam.rot.y = minmaxf(-140, 140, md->cam.rot.y);
+	else
+		md->cam.rot.y = minmaxf(-80, 80, md->cam.rot.y);
 	md->cam.rot.z = 0;
 	md->plr.angle = md->cam.rot.x * (_PI / 180.0f);
 	md->plr.dir.x = cosf(md->plr.angle);

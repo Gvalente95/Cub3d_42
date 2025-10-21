@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 02:19:07 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/07 04:38:53 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 13:04:49 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,11 @@ void	init_background(t_md *md, t_hud *hud, t_vec2 win_sz)
 	hud->sun = init_img(md, _v2(md->win_sz.x / 30), NULL, _NULL);
 	flush_img(hud->sun, _NULL, 10, 0);
 	draw_sphere(hud->sun, _v2(0), hud->sun->size, (t_vec3){_WHITE, 1000, 1});
-	hud->ceiling = init_img(md, _v2(md->t_len), "utils/ceiling.xpm", -1);
-	hud->floor = init_img(md, _v2(md->t_len), "utils/floor.xpm", -1);
+	if (!hud->ceiling)
+		hud->ceiling = init_img(md, _v2(md->t_len), "utils/ceiling.xpm", -1);
+	if (!hud->floor)
+		hud->floor = init_img(md, _v2(md->t_len), "utils/floor.xpm", -1);
+	printf("%s\n", hud->ceiling->path);
 	hud->wall = init_img(md, _v2(md->t_len), "utils/wall.xpm", -1);
 	hud->floor2d = copy_image(md, hud->wall, _v2(md->txd.size_2d), -1);
 	flush_img(hud->floor, hud->floor_color, 0.5, 0);

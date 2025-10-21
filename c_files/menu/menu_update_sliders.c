@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:34:39 by gvalente          #+#    #+#             */
-/*   Updated: 2025/10/13 21:55:51 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/06/28 16:51:43 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int	update_slider(t_md *md, t_slider *sld)
 		((float)sld->point / (sld->steps - 1)));
 	if (md->prm.fov <= 0)
 		md->prm.fov = 1;
+	md->plr.pos.z = -md->prm.height;
+	md->cam.pos.z = md->plr.pos.z - md->prm.height;
 	if (!ft_strncmp(sld->label, "win", 3))
-		return (replace_window(md, md->prm.win_x, md->prm.txtY));
+		return (replace_window(md, md->prm.win_x, md->prm.win_y));
 	render(md);
 	return (1);
 }
@@ -45,10 +47,12 @@ int	update_hov_slider(t_md *md, t_slider *sld)
 		((float)sld->point / (sld->steps - 1)));
 	if (md->prm.fov <= 0)
 		md->prm.fov = 1;
+	md->plr.pos.z = -md->prm.height;
+	md->cam.pos.z = md->plr.pos.z - md->prm.height;
 	md->menu.refresh_bg = 1;
 	md->menu.refresh_ui = 1;
 	if (!ft_strncmp(sld->label, "win", 3))
-		return (replace_window(md, md->prm.win_x, md->prm.txtY));
+		return (replace_window(md, md->prm.win_x, md->prm.win_y));
 	render(md);
 	return (1);
 }

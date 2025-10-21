@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:34:13 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:08:31 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@ void	init_pk_frames(t_md *md, t_texture_data *td)
 		if (i == Dugtrio || i == Taurus)
 			size = _v2(64);
 		path = ft_megajoin("pokemons/", get_pkmn_name(md, i), "/", NULL);
-		if (!path) {
-			free_and_quit(md, "No path in init_pk_frames", NULL);
-			return;
-		}
 		td->pkmn[i] = init_images(md, size, path);
 		td->pkmns_mini[i] = copy_image(md, \
 			td->pkmn[i][0], td->e_sizes2d[0], -1);
@@ -59,8 +55,6 @@ void	handle_mobs_frames(t_md *md, t_image ****frames, \
 	while (++action < ENT_ACTION_LEN)
 	{
 		path = ft_megajoin(base_path, td->ents_act_names[action], "/", NULL);
-		if (!path)
-			free_and_quit(md, "No path in Handle_mobs_frames", NULL);
 		(*frames)[action] = init_images(md, _v2(-1), path);
 		(*mini)[action] = init_images(md, md->txd.e_sizes2d[nt_mob], path);
 		free(path);

@@ -1,30 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ba_actions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/16 11:55:48 by giuliovalen       #+#    #+#             */
+/*   Updated: 2025/10/16 12:01:19 by giuliovalen      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cube.h"
 
-int	change_pokemon(t_md *md, t_ent *newEnt, int side, int change_turn)
+int	change_pokemon(t_md *md, t_ent *new_ent, int side, int change_turn)
 {
 	t_BA_d	*bd;
-	char		*msg;
+	char	*msg;
 
 	bd = &md->BA_d;
-	if (newEnt == bd->pk[side] && change_turn)
+	if (new_ent == bd->pk[side] && change_turn)
 		return (1);
-	if (!newEnt || newEnt->hp <= 0)
+	if (!new_ent || new_ent->hp <= 0)
 		return (0);
-	bd->pk[side] = newEnt;
+	bd->pk[side] = new_ent;
 	if (side == 1)
-		msg = ft_strjoin("Go! ", newEnt->label);
+		msg = ft_strjoin("Go! ", new_ent->label);
 	else if (bd->opponent)
-		msg = ft_megajoin(bd->opponent->label, " sent out ", newEnt->label, NULL);
+		msg = ft_megajoin(bd->opponent->label, \
+			" sent out ", new_ent->label, NULL);
 	else
 		msg = ft_strdup("Error | No opponent on change_pokemon side");
-	play_sound(md, md->au.pokemon_cries[newEnt->mob_type]);
-	set_bTransition(md, bd, change_turn ?
-		BT_SWITCH_TURN : BT_WAIT, msg);
+	play_sound(md, md->au.pokemon_cries[new_ent->mob_type]);
+	if (change_turn)
+		set_bTransition(md, BT_SWITCH_TURN, msg);
+	else
+		set_bTransition(md, BT_WAIT, msg);
 	free(msg);
 	return (1);
 }
 
-int	use_battle_item(t_md* md, t_BA_d* bd, int item_index)
+int	use_battle_item(t_md *md, t_BA_d *bd, int item_index)
 {
 	const char	*item_name = md->txd.item_names[item_index];
 
@@ -42,12 +57,13 @@ int	use_battle_item(t_md* md, t_BA_d* bd, int item_index)
 		set_BA_text(bd, "Can't use %s in combat", item_name);
 		return (1);
 	}
-	set_bTransition(md, bd, BT_SWITCH_TURN, "Used a super potion");
+	set_bTransition(md, BT_SWITCH_TURN, "Used a super potion");
 	md->inv.items[item_index]--;
 	return (1);
 }
 
-void	update_move_action(t_md *md, t_BA_d *bd) {
+void	update_move_action(t_md *md, t_BA_d *bd)
+{
 	int		hp_changed;
 	int		i;
 	int		incr;
@@ -59,21 +75,22 @@ void	update_move_action(t_md *md, t_BA_d *bd) {
 	while (++i < 2)
 	{
 		if (bd->stored_dealt[i] == 0)
-			continue;
+			continue ;
 		incr = -1 + ((bd->stored_dealt[i] < 0) * 2);
 		bd->stored_dealt[i] += incr;
 		pk = bd->pk[i];
-		if (!pk) continue;
+		if (!pk)
+			continue ;
 		new_hp = minmax(0, pk->max_hp, pk->hp + incr);
 		if (new_hp != pk->hp)
 		{
 			pk->hp = new_hp;
 			hp_changed = 1;
 		}
-		if (pk->hp <= 0) {
+		if (pk->hp <= 0)
 			bd->stored_dealt[i] = 0;
-		}
-		else if (pk->hp >= pk->max_hp) {
+		else if (pk->hp >= pk->max_hp)
+		{
 			bd->stored_dealt[i] = 0;
 			pk->hp = pk->max_hp;
 		}
@@ -85,12 +102,20 @@ void	update_move_action(t_md *md, t_BA_d *bd) {
 
 int	use_battle_move(t_md *md, t_BA_d *bd, t_ent *user, t_move *move)
 {
-	if (!move) return (0);
-	if (!user) return (0);
-	int isFoe = bd->turn == BFOE;
-	const char* foe = isFoe ? "foe " : "";
-	if (!strncmp(move->name, "struggle", 8)) {
-		if (move->cc <= 0) {
+	int			is_foe;
+	const char	*foe;
+
+	if (!move || !user)
+		return (0);
+	is_foe = bd->turn == BFOE;
+	if (is_foe)
+		foe = "foe ";
+	else
+		foe = "";
+	if (!strncmp(move->name, "struggle", 8))
+	{
+		if (move->cc <= 0)
+		{
 			set_action(md, NULL, BT_WAIT, " can't be used: no cc..");
 			return (0);
 		}
@@ -100,19 +125,19 @@ int	use_battle_move(t_md *md, t_BA_d *bd, t_ent *user, t_move *move)
 	if (st.active) {
 		int miss = r_range(0, 100) < st.missProbability;
 		if (miss) {
-			set_bTransition(md, bd, BT_SWITCH_TURN,
+			set_bTransition(md, BT_SWITCH_TURN,
 				"%s%s missed it's attack because he's %s", foe, user->label, st.name);
 			return (1);
 		}
 		else if (st.type == sConfusion && r_range(0, 100) > st.missProbability){
-			set_bTransition(md, NULL, BA_MOVE_SELF,
+			set_bTransition(md, BA_MOVE_SELF,
 				"%s%s attacked itself because he's %s", foe, user->label, st.name);
 			return (1);
 		}
 	}
 	if (r_range(0, 10) == 0)
 	{
-		set_bTransition(md, bd,
+		set_bTransition(md, 
 			BT_SWITCH_TURN, "%s%s missed it's attack...", foe, user->label);
 		return (1);
 	}
@@ -127,16 +152,6 @@ void	update_action(t_md *md, t_BA_d *bd)
 	else if (md->mouse.click == MOUSE_RELEASE)
 		end_action(md, bd);
 }
-
-// int	shouldQuitBattle(t_md* md, t_BA_d* bd) {
-// 	t_ent* myPk = bd->pk[BME];
-// 	t_ent* ennemyPk = bd->pk[BFOE];
-// 	if (myPk && myPk->hp <= 0 && handle_my_pkmn_ko(md, bd))
-// 		return (1);
-// 	if (ennemyPk && ennemyPk->hp <= 0 && handle_ennemy_pkmn_ko(md, bd))
-// 		return (1);
-// 	return (0);
-// }
 
 void	switch_turn(t_md* md, t_BA_d* bd) {
 	bd->turn = !bd->turn;
@@ -162,33 +177,40 @@ int	try_set_status(t_md* md, t_BA_d* bd, t_ent* victim, t_move* move) {
 	return (1);
 }
 
-void	end_action(t_md* md, t_BA_d* bd) {
+void	end_action(t_md* md, t_BA_d* bd)
+{
+	int		prev_action;
+	t_move	*last_move;
+	bool	has_given_status;
+
+	prev_action = bd->action_type;
+	last_move = bd->last_move_used;
+	has_given_status = false;
 	bd->log_message[0] = '\0';
-	bd->opt_i = 0; bd->sub_i = 0;
-	int prevAction = bd->action_type;
-	t_move* lastMove = bd->last_move_used;
-	bool hasGivenStatus = false;
+	bd->opt_i = 0;
+	bd->sub_i = 0;
 	bd->last_move_used = NULL;
 	bd->action_type = BA_NO_ACTION;
 	if (battleHasEnded(md, bd))
-		return;
-	if (prevAction == BA_MOVE_SELF)
-		set_bTransition(md, bd, BT_SWITCH_TURN, "%s hurt itself in confusion..", bd->pk[bd->turn]);
-	else if (prevAction != BA_STATUS_EFFECT && lastMove) {
+		return ;
+	if (prev_action == BA_MOVE_SELF)
+		set_bTransition(md, BT_SWITCH_TURN, "%s hurt itself in confusion..", bd->pk[bd->turn]);
+	else if (prev_action != BA_STATUS_EFFECT && last_move) {
 		t_ent* victim = bd->turn == BME ? bd->pk[BME] : bd->opponent->is_trainer ? bd->pk[BFOE] : bd->opponent;
-		hasGivenStatus = try_set_status(md, bd, victim, lastMove);
+		has_given_status = try_set_status(md, bd, victim, last_move);
 	}
-	if (hasGivenStatus)
-		set_bTransition(md, bd, BT_SWITCH_TURN, NULL);
-	else {
+	if (has_given_status)
+		set_bTransition(md, BT_SWITCH_TURN, NULL);
+	else
+	{
 		switch_turn(md, bd);
 		bd->bstate = BT_ON;
 	}
 }
 
-void	set_action(t_md* md, t_move *moveToUse, int actionType, const char* format, ...)
+void	set_action(t_md *md, t_move *moveToUse, int actionType, const char* format, ...)
 {
-	t_BA_d* bd;
+	t_BA_d	*bd;
 
 	bd = &md->BA_d;
 	bd->action_type = actionType;
@@ -222,7 +244,7 @@ void	set_action(t_md* md, t_move *moveToUse, int actionType, const char* format,
 int	set_BA_option(t_md *md, t_BA_d *bd)
 {
 	if (bd->opt_i == 3) {
-		set_bTransition(md, bd, BT_QUIT, "You run away");
+		set_bTransition(md, BT_QUIT, "You run away");
 		return (0);
 	}
 	if (!bd->in_sub)

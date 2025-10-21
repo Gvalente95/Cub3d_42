@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:28:17 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/05 14:10:20 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:47:05 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	draw_team_slot(t_md *md, t_txtd td, t_vec2 spacing, t_vec2 base)
 	rnd_fast_txt(md, td, pk->label);
 }
 
-void	draw_pokemon_team(t_md *md, t_inventory *inv, t_txtd td, int brdsz)
+void	draw_pkmn_team(t_md *md, t_inventory *inv, t_txtd td, int brdsz)
 {
 	const t_vec2	slt_sz = _v2(inv->sz.x / 4);
 	const t_vec2	spacing = v2(slt_sz.x - 10, slt_sz.y + 10);

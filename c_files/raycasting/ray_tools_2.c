@@ -6,17 +6,18 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 02:04:12 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:11:48 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 14:56:49 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	set_ray_color(t_md *md, t_ray *ray)
+void	set_ray_color(t_md* md, t_ray* ray)
 {
 	ray->color = md->rgb[RGB_GREEN + ray->hits_len] + \
 	(350 * (ray->vertical_hit));
 }
+
 
 void	setCorner(int tlen, t_vec2f off, t_ray* ray) {
 	float lim = 5.0f;
@@ -30,6 +31,7 @@ void	setCorner(int tlen, t_vec2f off, t_ray* ray) {
 		ray->corner = CORNER_BR;
 	else ray->corner = CORNER_NONE;
 }
+
 
 int	update_ray_grid_pos(t_md *md, t_ray *ray)
 {
@@ -85,13 +87,13 @@ int	get_wall_orientation(t_ray *ray)
 	return (NORTH);
 }
 
-int	compute_row_start(t_md *md, t_ent *e, float ray_dst)
+
+int	compute_row_start(t_md* md, float ray_dst)
 {
 	float	pitch_factor;
 	int		pitch_offset;
 	float	vertical_offset;
 
-	(void)e;
 	pitch_factor = tanf(md->cam.rot.y * (_PI / 180.0f));
 	vertical_offset = (md->cam.pos.z * md->win_sz.y) / (ray_dst + 1.0f);
 	pitch_offset = (-pitch_factor * md->win_sz.y / 2) - vertical_offset;

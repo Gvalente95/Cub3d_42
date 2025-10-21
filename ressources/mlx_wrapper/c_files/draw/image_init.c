@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:31:53 by gvalente          #+#    #+#             */
-/*   Updated: 2025/06/28 16:22:40 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 12:33:32 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ t_image	*init_img(t_md *md, t_vec2 img_size, char *path, int color)
 	else
 		img_data->img = mlx_new_image(md->mlx, img_size.x, img_size.y);
 	if (!img_data->img)
-		return (printf("ERR: Failed to set image\n"), img_data);
+		return (printf("ERR: Failed to set image\n"), free(img_data), NULL);
 	img_data->size = v2(img_size.x, img_size.y);
 	img_data->addr = mlx_get_data_addr(img_data->img, &img_data->bpp, \
 		&img_data->size_line, &img_data->endian);
 	if (!img_data->addr)
-		return (printf("ERR: Failed to get image data address\n"), img_data);
+		return (printf("ERR: Failed to get image data address\n"), free(img_data), NULL);
 	img_data->src = (int *)img_data->addr;
 	if (!img_data->src)
-		return (printf("ERR: Failed to get src data\n"), img_data);
+		return (printf("ERR: Failed to get src data\n"), free(img_data), NULL);
 	if (color != -1)
 		flush_img(img_data, color, -1, path != NULL);
 	if (path)

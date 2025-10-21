@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 22:14:54 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:21:44 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:28:47 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	free_and_quit(t_md *md, const char *msg, const char *attribute)
 	}
 	printf("%sExit after %s%.2fs\n", \
 		PBLUE, PRESET, md->timer.cur_tm - md->timer.game_start);
-	cleanup_thread_pool(md);
 	stop_sound(md->au.wind_pid);
 	stop_sound(md->au.mus_pid);
+	cleanup_thread_pool(md);
 	free_md(md, 1);
 	exit(0);
 	return (1);

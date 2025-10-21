@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:56:10 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/14 01:53:52 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 13:54:28 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	calculate_door_y(t_md *md, t_floor_draw_d d)
 		return (door_y);
 	fisheye = correct_fisheye(md, d.ray, d.ray->door, dist);
 	door_y = md->win_sz.y / 2 - fisheye / 2 - 1;
-	door_y += compute_row_start(md, d.ray->door, dist);
+	door_y += compute_row_start(md, dist);
 	return (door_y);
 }
 

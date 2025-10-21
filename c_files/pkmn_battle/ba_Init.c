@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:37:26 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/10 13:21:32 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:43:58 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	start_battle(t_md* md, t_BA_d* bd, t_ent* opponent)
 	bd->opt_i = 0;
 	bd->in_sub = 0;
 	stop_sound(md->au.mus_pid);
-	set_bTransition(md, bd, BT_START, NULL);
+	set_bTransition(md, BT_START, NULL);
 	render_battle(md, bd);
 }
 

@@ -15,7 +15,7 @@ c_files/raycasting/draw_fe.c c_files/raycasting/draw_floor.c c_files/raycasting/
 c_files/raycasting/draw_wall_column.c c_files/raycasting/portal_draw.c c_files/raycasting/portal_raycast.c \
 c_files/raycasting/ray_cast.c c_files/raycasting/ray_cast_draw_ents.c c_files/raycasting/ray_cast_pointed.c \
 c_files/raycasting/ray_cast_threads.c c_files/raycasting/ray_cast_threads_Loop.c c_files/raycasting/ray_move.c \
-c_files/raycasting/ray_tools.c c_files/raycasting/ray_tools_2.c c_files/items/held_item.c \
+c_files/raycasting/ray_tools.c c_files/raycasting/ray_tools_2.c c_files/items/held_item.c c_files/tools/get_labels.c \
 c_files/items/init_inventory.c c_files/items/inventory.c c_files/items/render_held_item.c c_files/items/render_inv_team.c \
 c_files/items/render_inventory.c c_files/items/update_inventory.c c_files/render/filters_0.c c_files/render/filters_1.c \
 c_files/render/filters_2.c c_files/render/render.c c_files/render/render_background.c c_files/render/render_hud.c \

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 02:01:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:43:27 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 14:45:10 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,23 @@ void	init_base_ray(t_ray *ray, int index, t_vec3f start_pos, float distance)
 {
 	ray->index = index;
 	ray->had_door = 0;
-	ray->init_steps = 0;
+	ray->had_ground_wall = 0;
 	ray->color = _BLACK;
 	ray->steps = -1;
 	ray->door = NULL;
 	ray->start = start_pos;
+	ray->delta = v2f(0);
+	ray->side_dist = v2f(0);
 	ray->pos = start_pos;
+	ray->step = _v2(0);
 	ray->distance = distance;
 	ray->vertical_hit = 0;
 	ray->wall_strip_pos = _v2(-1);
+	ray->teleported_once = 0;
 }
 
-int	validate_check_hit(t_md *md, t_ray *ray, t_ent *ent, t_ent_type tp)
+
+int	check_hit(t_md *md, t_ray *ray, t_ent *ent, t_ent_type tp)
 {
 	const int	is_wall = tp == nt_door || tp == nt_wall || tp == nt_ext_wall || tp == nt_grass;
 
@@ -79,8 +84,7 @@ int	validate_check_hit(t_md *md, t_ray *ray, t_ent *ent, t_ent_type tp)
 	if (is_wall)
 		return ((v3f_bounds(ray->pos, v3f(0), \
 			ent->pos, get_v3f(ent->frame->size.x + 1, ent->frame->size.y, 0))));
-	if (!md->prm.ent_mode || ent->seen || ray->corner != CORNER_TL || (ray->last_hit &&
-		(ray->last_hit->type == nt_wall || ray->last_hit->type == nt_ext_wall) && ray->last_hit->pos.z == 0))
+	if (!md->prm.ent_mode || ent->seen || ray->corner != CORNER_TL || ray->had_ground_wall)
 		return (0);
 	// if (!same_vec2f((t_vec2f) { ray->pos.x, ray->pos.y }, \
 	// (t_vec2f){ent->pos.x + ent->size.x / 2 + ent->transitionOffset.x, ent->pos.y + ent->size.y / 2 + ent->transitionOffset.y}, 1))

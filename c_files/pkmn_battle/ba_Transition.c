@@ -27,13 +27,13 @@ void	render_trans_screen(t_md *md, t_BA_d *bd, double elapsed)
 	reset_mlx_values(md);
 }
 
-void	set_bTransition(t_md* md, t_BA_d* bd, int type, const char* format, ...) {
-	bd->bstate = type;
-	bd->trans_start = md->timer.cur_tm;
+void	set_bTransition(t_md* md, int type, const char* format, ...) {
+	md->BA_d.bstate = type;
+	md->BA_d.trans_start = md->timer.cur_tm;
 	if (format) {
 		va_list	args;
 		va_start(args, format);
-		vsnprintf(bd->log_message, sizeof(bd->log_message), format, args);
+		vsnprintf(md->BA_d.log_message, sizeof(md->BA_d.log_message), format, args);
 		va_end(args);
 	}
 }
@@ -44,9 +44,9 @@ int	update_bstate(t_md* md, t_BA_d* bd, double elapsed)
 		render_trans_screen(md, bd, elapsed);
 		if (elapsed > bd->trans_dur) {
 			if (bd->opponent->is_trainer)
-				set_bTransition(md, bd, BT_OPPPKSET, "%s wants to fight!", bd->opponent->label);
+				set_bTransition(md, BT_OPPPKSET, "%s wants to fight!", bd->opponent->label);
 			else
-				set_bTransition(md, bd, BT_MYPKSET, "A wild %s appeared!", bd->opponent->label);
+				set_bTransition(md, BT_MYPKSET, "A wild %s appeared!", bd->opponent->label);
 		}
 		return (1);
 	}
@@ -68,14 +68,14 @@ int	update_bstate(t_md* md, t_BA_d* bd, double elapsed)
 		case BT_PUNITION:
 			bd->turn = BME;
 			md->plr.pos = md->plr.start_pos;
-			set_bTransition(md, bd, BT_QUIT, "you gave %s a %s", bd->opponent->label, get_item_name(md, md->inv.items[0]));
+			set_bTransition(md, BT_QUIT, "you gave %s a %s", bd->opponent->label, get_item_name(md, md->inv.items[0]));
 			break;
 		case BT_REWARD:
 		{
 				bd->turn = BME;
 				int item = r_range(0, PCKP_TYPE_LEN - 1);
 				add_item(md, item, 1);
-				set_bTransition(md, bd, BT_QUIT, "%s gave you a %s", bd->opponent->label, get_item_name(md, item));
+				set_bTransition(md, BT_QUIT, "%s gave you a %s", bd->opponent->label, get_item_name(md, item));
 				break;
 			}
 		break;
@@ -84,7 +84,7 @@ int	update_bstate(t_md* md, t_BA_d* bd, double elapsed)
 			break;
 		default:
 			set_BA_text(bd, "");
-			set_bTransition(md, bd, BT_ON, NULL);
+			set_bTransition(md, BT_ON, NULL);
 		break;
 	}
 	bd->stored_dealt[BME] = 0;

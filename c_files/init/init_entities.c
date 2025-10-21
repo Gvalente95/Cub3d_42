@@ -6,24 +6,37 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 00:11:00 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:41:11 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:49:47 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
+static void	set_pokemon_specifics(t_md *md, t_ent *e)
+{
+	int				i;
+	const t_move	*move_set = md->pkd.PokemonMoves[e->mob_type];
+
+	e->elemType = getPkElement(md, e->mob_type);
+	e->pkStatus.active = 0;
+	e->max_hp = r_range(70, 140);
+	e->hp = e->max_hp;
+	e->poke_moves = malloc(sizeof(t_move) * 4);
+	i = -1;
+	while (++i < 4)
+	{
+		e->poke_moves[i] = move_set[i];
+		e->poke_moves[i].cc = move_set[i].ccMax;
+	}
+}
+
 static void	set_type_specifics(t_md *md, t_ent *e, t_ent_type type)
 {
 	int	i;
 
-	e->hasCollision = \
-		type != nt_tree && \
-		type != nt_item && \
-		type != nt_bush && \
-		type != nt_empty && \
-		type != nt_grass && \
-		type != nt_plr;
-
+	e->hasCollision = type != nt_tree && type != nt_item && \
+		type != nt_bush && type != nt_empty && \
+		type != nt_grass && type != nt_plr;
 	if (type == nt_wall)
 	{
 		e->crp_pxl = v2(\
@@ -37,23 +50,13 @@ static void	set_type_specifics(t_md *md, t_ent *e, t_ent_type type)
 	}
 	else
 		e->dir = get_v3f(r_range(-1, 1), r_range(-1, 1), r_range(-1, 1));
-	if (type == nt_mob) {
+	if (type == nt_mob)
+	{
 		e->is_trainer = true;
 		init_ent_pkteam(md, e, r_range_seed(&md->r_seed, 1, 6));
 	}
 	else if (e->type == nt_pokemon)
-	{
-		e->elemType = getPkElement(md, e->mob_type);
-		e->pkStatus.active = 0;
-		e->max_hp = r_range(70, 140);
-		e->hp = e->max_hp;
-		e->poke_moves = malloc(sizeof(t_move) * 4);
-		t_move *moveSet = md->pkd.PokemonMoves[e->mob_type];
-		for (int i = 0; i < 4; i++) {
-			e->poke_moves[i] = moveSet[i];
-			e->poke_moves[i].cc = moveSet[i].ccMax;
-		}
-	}
+		set_pokemon_specifics(md, e);
 }
 
 static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 cord)
@@ -66,7 +69,7 @@ static void	set_ent_values(t_md *md, t_ent *e, char c, t_vec2 cord)
 	e->frames = NULL;
 	e->overlay = NULL;
 	e->type = minmax(0, ENT_TYPE_LEN - 1, \
-		get_char_index(md->txd.ents_tp_map, c));
+		get_char_index(md->txd.ents_tp_map[0], c));
 	init_ent_frames(md, e);
 	e->size = e->frame->size;
 	e->pos.x = (cord.x * md->t_len) + (md->t_len - e->size.x) * 0.5f;
@@ -148,7 +151,7 @@ void	init_entities(t_md *md, t_vec2 pos)
 			pos = (t_vec2){-1, pos.y + 1};
 		else if (char_in_str(c, "NSEW"))
 			init_player(md, c, pos, i);
-		else if (!char_in_str(c, " BT0\n"))
+		else if (!char_in_str(c, " \n"))
 			dblst_add_back(&ents, dblst_new((void *)init_ent(md, c, pos, i)));
 		pos.x++;
 	}

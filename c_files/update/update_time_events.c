@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:08:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/10 12:24:12 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:04:33 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	update_timers(t_md *md, t_timer *tm)
 	if (tm->cur_tm - tm->elapsed_pause >= 1)
 	{
 		tm->elapsed_pause = tm->cur_tm;
-		tm->prv_fps = tm->fps;
 		if (md->prm.cap_fps > 5)
 			cap_fps(md);
+		tm->prv_fps = tm->fps;
 		tm->fps = 0;
 	}
 	upd_timer(&tm->tm_fe, tm->cur_tm, .005 / md->prm.fe_speed, &tm->trig_fe);

@@ -1,5 +1,5 @@
 /* XPM */
-static char *_46e5657b759458ace6fa36706edd330KNGxWf31U7CSxgSd_59[] = {
+static char *_46e5657b759458ace6fa36706edd330KNGxWf31U7CSxgSd_60[] = {
 /* columns rows colors chars-per-pixel */
 "76 59 16 1 ",
 "  c None",
@@ -63,18 +63,18 @@ static char *_46e5657b759458ace6fa36706edd330KNGxWf31U7CSxgSd_59[] = {
 "          X&&&&$$$.OOOOOOOOOOOOOO.$$$$$X$$$$$$$$.   .$$$$.                  ",
 "          X&&&OO$$.OOOOOOOOOOOOO.$$&&$X$$$$$$$..    .$$$$@.                 ",
 "          .###OO$.OOOOOOOOOOOOOO.$&&&&X$$$$$..X.     .$$@@@.                ",
-"          ..#OOO.OOOOOOOOOOOOOO.$$&&&&.$$$..XXXX.     .@@@@.                ",
-"         .@&....OOOOOOOOOOOOOOO.$$&&&&.... .XXXX.      .@@@.                ",
-"          .$&.OOOOOOOOOOOOOOOO.$$$&&&&.    .XXX.       .@@@.                ",
-"         .@$&&.OOOOOOOOOOOOOOO..$$&&&&.  .XXXX.         .@@@.               ",
-"         .@@&&...OOOOOOOOOOOOO..$$$&&.  .+++X.          .@@@.               ",
-"         @@@@@.  ....OOOOOOOO.  .$$$$.  .++++.          .++=+.              ",
-"        .@@@.X       ...OO.OO.   .X@@.  .....           .++=+.              ",
-"       .++@..           .O..O.   .@X@.                   .....              ",
-"        .+++.            .  .    .@@@.                                      ",
-"        ....                     .$$@.                                      ",
-"                                 .$$$.                                      ",
-"                                .$$$.                                       ",
+"           .#OOO.OOOOOOOOOOOOOO.$$&&&&.$$$..XXXX.     .@@@@.                ",
+"            ....OOOOOOOOOOOOOOO.$$&&&&.... .XXXX.      .@@@.                ",
+"            ..OOOOOOOOOOOOOOOO.$$$&&&&.    .XXX.       .@@@.                ",
+"             @.OOOOOOOOOOOOOOO..$$&&&&.  .XXXX.         .@@@.               ",
+"            .....OOOOOOOOOOOOO..$$$&&.  .+++X.          .@@@.               ",
+"             @@@@....OOOOOOOO.  .$$$$.  .++++.          .++=+.              ",
+"             .@@@.   ...OO.OO.   .X@@.  .....           .++=+.              ",
+"              @@@.      .O..O.   .@X@.                   .....              ",
+"             .+@@.       .  .    .@@@.                                      ",
+"             .++++               .$$@.                                      ",
+"              .++.               .$$$.                                      ",
+"              . .               .$$$.                                       ",
 "                               .+=+@.                                       ",
 "                               .+=++.                                       ",
 "                               .....                                        "

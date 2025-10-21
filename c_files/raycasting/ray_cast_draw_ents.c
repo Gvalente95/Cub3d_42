@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:44:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/09 10:49:23 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:53:26 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ static int	get_scale_and_pos(t_md *md, t_ent *e, t_vec2 win_sz, t_vec2 *draw_p)
 		(float)md->txd.feet_offsets[e->type]) / e->size.y) * scale;
 		scale *= 1.5;
 	}
-	else if (e->type == nt_mob || e->type == nt_bush || e->type == nt_tree) {
+	else if (e->type == nt_mob)
 		draw_p->y += dist * .005;
-	}
 	else {
 		draw_p->y += scale * (1.0f - (md->txd.e_scales[e->type] / md->t_len));
 		draw_p->y -= dist * .0025;

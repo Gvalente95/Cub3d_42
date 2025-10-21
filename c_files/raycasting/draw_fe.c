@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:24:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/14 23:57:10 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 10:05:29 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	render_world_map(t_md *md, t_floor_draw_d d, int y_size)
 	c = md->map.buffer[map_i];
 	if (c == '0' || c == ' ')
 		return ;
-	clr = md->rgb[get_char_index(md->txd.ents_tp_map, c)];
+	clr = md->rgb[get_char_index(md->txd.ents_tp_map[0], c)];
 	draw_pixels(md->screen, v2(draw_p.x, draw_p.y), v2(1, y_size), clr);
 }
 

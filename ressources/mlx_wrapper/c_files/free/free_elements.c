@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 04:32:24 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/08 00:12:32 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:33:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ int	free_var(t_md *md, t_mmap *mmap, t_fx_data *fx, t_mouse *mouse)
 	i = -1;
 	while (++i < 256)
 		fa += free_image_data(md, md->txd.font[i]);
-	i = -1;
-	while (++i < 2)
-		if (md->portal.ends[i].e && md->portal.ends[i].e->overlay)
-			fa += free_image_data(md, md->portal.ends[i].e->overlay);
+	// i = -1;
+	// while (++i < 2)
+	// 	if (md->portal_data.ends[i].e && md->portal_data.ends[i].e->overlay)
+	// 		fa += free_image_data(md, md->portal_data.ends[i].e->overlay);
 	printf("VAR %-5s%d%s\n", PGREEN, fa, PRESET);
 	return (fa);
 }

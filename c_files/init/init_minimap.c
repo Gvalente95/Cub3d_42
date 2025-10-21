@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:48:25 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/14 23:57:06 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 16:46:55 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_image	*init_full_map(t_md *md, t_vec2 win_sz, t_vec2 map_sz)
 			continue ;
 		map_pos = v2(i % (map_sz.x + 1), i / (map_sz.x + 1));
 		draw_pixels(img, v2(t_sz.x * map_pos.x, t_sz.y * map_pos.y), \
-		t_sz, md->rgb[get_char_index(md->txd.ents_tp_map, c)]);
+		t_sz, md->rgb[get_char_index(md->txd.ents_tp_map[0], c)]);
 	}
 	return (img);
 }

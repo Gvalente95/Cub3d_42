@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 21:26:11 by gvalente          #+#    #+#             */
-/*   Updated: 2025/10/15 00:53:09 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 13:15:15 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static void	trigger_threads(t_md *md)
 {
 	t_thrd_manager	*rm;
 	int				i;
+
 	rm = &md->thrd_manager;
 	i = -1;
-	return;
 	while (++i < rm->threads_amount)
 	{
 		pthread_mutex_lock(&rm->thrdlp[i].mutex);
@@ -64,7 +64,7 @@ void	cast_ray_threads_lp(t_md *md)
 	if (!md->prm.use_thrd)
 	{
 		cast_rays(md);
-		return;
+		return ;
 	}
 	md->env.overlay_y_start = md->win_sz.y;
 	rm = &md->thrd_manager;
@@ -79,4 +79,9 @@ void	cast_ray_threads_lp(t_md *md)
 	}
 	if (rm->ents_to_draw)
 		draw_found_ents(md, rm);
+	md->cam.pointed_door = NULL;
+	if (md->cam.pointed && md->cam.pointed->type == nt_door) {
+		md->cam.pointed_door = md->cam.pointed;
+		md->cam.pointed = NULL;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 23:21:21 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/10 01:42:33 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 22:12:29 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	setStatus(t_md *md, t_status_data* status, t_sType type) {
 	*status = md->pkd.statusData[type];
 	status->active = true;
 	status->turns = 0;
+	printf("ST NAME; %s ST ABBREV: %s\n", status->name, status->abbrev);
 }
 
 void	initStatusNames(t_pokemon_data* pkd) {

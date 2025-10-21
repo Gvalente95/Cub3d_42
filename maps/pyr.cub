@@ -2,6 +2,9 @@ NO ressources/xpm/utils/NORTH.xpm
 SO ressources/xpm/utils/SOUTH.xpm
 WE ressources/xpm/utils/EAST.xpm
 EA ressources/xpm/utils/WEST.xpm
+FLOOR ressources/xpm/utils/NORTH.xpm
+CEILING ressources/xpm/utils/ceiling.xpm
+
 F 200,100,100
 C 200,200,150
 B 200,200,100

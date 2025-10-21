@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:32:42 by gvalente          #+#    #+#             */
-/*   Updated: 2025/10/15 01:26:34 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 15:33:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ typedef struct s_hud
 	t_image		*sky_flipy;
 	t_image		*sky_buffer;
 	t_image		*floor;
-	t_image		*wall;
 	t_image		*ceiling;
+	t_image		*wall;
 	t_image		*floor2d;
 	t_image		*lock_x_icon;
 	t_image		*lock_y_icon;
@@ -158,7 +158,7 @@ t_vec2f			grass_sz;
 	float			fov;
 	float			win_x;
 	float			floor_fov;
-	float			txtY;
+	float			win_y;
 	int				resolution;
 	int				max_view_sprite;
 	bool			show_rays;
@@ -270,7 +270,7 @@ typedef struct s_md
 	t_hud			hud;
 	t_menu			menu;
 	t_map			map;
-	t_portal		portal;
+	t_portal_data	portal_data;
 	t_mmap			mmap;
 	t_autocam		autocam;
 	t_BA_d			BA_d;

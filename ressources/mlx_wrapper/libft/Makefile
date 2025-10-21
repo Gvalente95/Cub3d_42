@@ -20,20 +20,20 @@ CC = gcc
 NAME = libft.a
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS)
-	@ar rcs $(NAME) $(OBJECTS)
+	ar rcs $(NAME) $(OBJECTS)
 
 all: $(NAME)
 
 bonus: $(ALL_OBJ)
-	@ar rcs $(NAME) $(ALL_OBJ)
+	ar rcs $(NAME) $(ALL_OBJ)
 
 clean:
-	@rm -f $(ALL_OBJ)
+	rm -f $(ALL_OBJ)
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all

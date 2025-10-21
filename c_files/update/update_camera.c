@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:49:48 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/07 19:05:50 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 14:55:02 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ void	update_cam(t_md *md, t_cam *cam)
 t_vec3f	update_fly_cam(t_md *md, t_cam *cam, float spd)
 {
 	t_vec3f			mov;
-	const t_vec3f	cam_forward = normalize_vec3f(md->plr.dir);
+	t_vec3f	cam_forward = normalize_vec3f(md->plr.dir);
 	const t_vec3f	cam_right = get_v3f(-cam_forward.y, cam_forward.x, 0);
 	const t_vec3f	cam_up = get_v3f(0, 0, -1);
 
+	cam_forward.z *= .35;
 	mov = v3f(0);
 	if (md->key_prs[W_KEY])
 		mov = add_vec3f(mov, scale_vec3f(cam_forward, spd));

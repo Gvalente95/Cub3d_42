@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 23:01:50 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:50:51 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 14:59:38 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ static int	pxl_draw(t_md *md, t_ray_draw_d *d, t_ent *hit)
 		d->ray->wall_strip_pos.x = d->winp.y;
 	if (md->prm.show_walls != 1)
 		return (1);
-	if (d->ray->is_double_hit) {
-		if (hit->type == nt_wall && hit->pos.z < 0)
-			d->pxl_clr = 0x333333;
-	}
+	if (d->ray->is_double_hit && hit->type == nt_wall)
+		d->pxl_clr = 0x333333;
 	if (md->cam.pointed == hit)
 		d->pxl_clr = blend_color(d->pxl_clr, _WHITE, 0.21f);
 	draw_pixel(md->screen, d->winp, d->pxl_clr, 1);
@@ -46,6 +44,17 @@ static int	pxl_draw(t_md *md, t_ray_draw_d *d, t_ent *hit)
 	d->ray->wall_strip_pos.y = d->winp.y;
 	d->ray->dirty_checks[d->winp.y] = 1;
 	return (1);
+}
+
+static void draw_bottom_strip(t_md* md, t_ray_draw_d* d) {
+	t_vec2 p = d->winp;
+	int raw_winy = 0;
+	for (int i = 0; i < raw_winy; i++) {
+		p.y++;
+		if (d->ray->dirty_checks[p.y])
+			continue;
+		draw_pixel(md->screen, p, _RED, 1);
+	}
 }
 
 static void	draw_wall_strip(t_md *md, t_ray_draw_d *d, t_ent *hit, float step)
@@ -68,6 +77,8 @@ static void	draw_wall_strip(t_md *md, t_ray_draw_d *d, t_ent *hit, float step)
 		if (!pxl_draw(md, d, hit))
 			return ;
 	}
+	if (hit->pos.z < 0)
+		draw_bottom_strip(md, d);
 	if (hit->pos.z < 0 && !md->prm.x_vision)
 		draw_wall_shadow(md, d, prev_start);
 }
@@ -100,7 +111,7 @@ static t_vec2	render_strip(t_md *md, t_ray *ray, \
 		.y_start = (md->win_sz.y / 2 - txtr_crd.y / 2) - 1,
 		.y_end = (md->win_sz.y / 2 + txtr_crd.y / 2),
 		.winp = (t_vec2){ 0, 0 } };
-	draw_d.winp.y = draw_d.y_start + draw_d.win_start.y - md->cam.pos.z + (ray->wall_hit->pos.z / ray->distance) * 1.6;
+	draw_d.winp.y = draw_d.y_start + draw_d.win_start.y - md->cam.pos.z + (ray->wall_hit->pos.z / ray->distance) * 1.75;
 	if (draw_d.winp.y < 0) {
 		draw_d.y_start += -draw_d.winp.y;
 		draw_d.winp.y = 0;
@@ -141,7 +152,7 @@ int	draw_wall_line(t_md *md, float dist, t_ent *hit, t_ray *ray)
 	else
 		txtr_cord.x = (int)fmod(ray->pos.x, hit->size.x);
 	screen_pos.x = ray->index;
-	screen_pos.y = compute_row_start(md, hit, ray->distance);
+	screen_pos.y = compute_row_start(md, ray->distance);
 	screen_pos.z = ray->hits_len > 0;
 	render_strip(md, ray, txtr_cord, screen_pos);
 	if (md->cam.closest_x == ray->index)

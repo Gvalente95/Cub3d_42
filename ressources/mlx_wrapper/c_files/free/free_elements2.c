@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:51:14 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:20:35 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/07/01 00:46:11 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	free_ray_data(t_md *md)
 	int	i;
 	int	fa;
 
-	fa = 0;
 	i = -1;
+	fa = 0;
 	while (++i < md->win_sz.x)
 	{
 		free(md->rays[i].dirty_checks);

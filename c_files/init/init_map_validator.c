@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:32:22 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:35:22 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 10:06:44 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,12 @@ int	validate_map(t_md *md, char *map)
 	char	unvalid_char;
 	char	*valid_ch;
 
-	if (md->strict_mode) {
-		printf("YOOOOOO\n");
-		exit(0);
-	}
 	if (!are_bounds_valid(map, md->map.size))
 		return (printf("\n%sError\nUnvalid Bounds%s\n\n", PRED, PRESET), 0);
 	if (md->strict_mode)
 		valid_ch = ft_strdup(" 10NSEW\n");
 	else
-		valid_ch = md_strjoin(md, md->txd.ents_tp_map, " 1234567890NSEWg\n");
+		valid_ch = md_strjoin(md, md->txd.ents_tp_map[0], " 1234567890NSEWg\n");
 	unvalid_char = find_unvalid_char(map, valid_ch);
 	free(valid_ch);
 	if (unvalid_char != '\0')

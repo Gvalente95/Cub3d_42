@@ -6,12 +6,11 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:39:01 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/16 10:47:22 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 10:46:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
-
 
 void	init_ray_data(t_md *md)
 {
@@ -25,7 +24,6 @@ void	init_ray_data(t_md *md)
 		malloc(sizeof(t_hit_data) * MAX_RAY_SPRITE);
 	}
 }
-
 
 void	init_thread_pool(t_md *md, int thread_count)
 {

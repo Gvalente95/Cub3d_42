@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:05:46 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/09 22:55:58 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 16:58:14 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	catch_pokemon(t_md* md, t_inventory* inv, t_ent* e) {
 	add_log_to_queue(md, _BLUE, "%s caught!", e->label);
 	remove_ent(md, e);
 	inv->update_img = 1;
-	e->is_active = false;
+	e->is_active = 0;
 }
 
 int	try_catch_pokemon(t_md *md, t_inventory *inv, t_ent *e)

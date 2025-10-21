@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 01:55:29 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:02:41 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 13:14:15 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	update_buttons_triggers(t_md *md, t_menu *menu, unsigned int c)
 
 int	update_key_input(t_md *md, t_menu *menu, t_inventory *inv, unsigned int c)
 {
-	printf("%c\n", c);
 	if (update_buttons_triggers(md, menu, c))
 		return (1);
 	if (c == TAB_KEY)
@@ -81,13 +80,14 @@ static int	update_mouse_input(t_md *md, t_ent *wall, t_ent *ent, t_ent *door)
 		return (use_held_item(md, &md->inv, ent, md->inv.held_i));
 	if (md->mouse.click != MOUSE_PRESS || (!wall && !ent && !door))
 		return (0);
+	if (wall && wall->type == nt_wall && md->key_prs[X_KEY])
+		return (remove_ent(md, wall));
 	if (door)
 		try_open_door(md, door);
 	if (ent && ent->type == nt_mob)
 	{
 		const char* fightIssue = try_start_battle(md, ent);
 		if (fightIssue) add_alert(md, .5, NULL, fightIssue);
-		else start_battle(md, &md->BA_d, ent);
 	}
 	return (0);
 }
@@ -109,8 +109,7 @@ void	update_input(t_md *md)
 		r_spd *= 2;
 		md->prm.fov = 60;
 	}
-	else
-		md->prm.fov = minmax(10, 360, md->prm.fov + md->mouse.scroll_delta.y * 10);
+	md->prm.fov = minmax(10, 360, md->prm.fov + md->mouse.scroll_delta.y * 10);
 	c->rot.x += ((md->key_prs[RIGHT_KEY] - md->key_prs[LEFT_KEY]) * r_spd);
 	c->rot.y += ((md->key_prs[DOWN_KEY] - md->key_prs[UP_KEY]) * r_spd);
 	if (!md->inv.active)

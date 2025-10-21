@@ -6,16 +6,19 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:31:58 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:42:48 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 14:03:04 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
-#include <malloc/malloc.h>
 
 void	update_ray_data(t_md *md, t_ray *ray, t_vec3f dir_val)
 {
-	memset(ray->dirty_checks, 0, sizeof(int) * (md->win_sz.y));
+	int	i;
+
+	i = -1;
+	while (++i < md->win_sz.y)
+		ray->dirty_checks[i] = 0;
 	ray->hit_data[0].hit = NULL;
 	ray->hit_data[0].vertical_hit_at_e = 0;
 	ray->hits_len = 0;

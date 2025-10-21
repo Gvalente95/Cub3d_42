@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 11:45:19 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/13 23:26:20 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 14:49:58 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	move_player(t_md *md, t_ent *e)
 	float		speed;
 
 	speed = md->prm.plr_speed / md->res;
-	if (md->prm.fly_cam) speed *= 2;
 	sign_mv = scale_vec3f(e->mov, speed);
 	decc = scale_vec3f(e->mov, md->prm.mov_drift);
 	if (!md->prm.fly_cam && e->pos.z + sign_mv.z > 0)
@@ -73,7 +72,7 @@ static t_vec3f	set_input_mov(t_md *md)
 	if (md->key_prs[SHIFT_KEY])
 		spd *= 2;
 	if (md->prm.fly_cam)
-		return (update_fly_cam(md, &md->cam, spd));
+		return (update_fly_cam(md, &md->cam, spd * 2));
 	for_dir.x = md->plr.dir.x;
 	for_dir.y = md->plr.dir.y;
 	rgt_dir.x = cosf(md->plr.angle - M_PI_2);

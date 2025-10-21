@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:28:02 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:44:11 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 14:44:26 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	addHit(t_ray *ray, t_ent *hit, float distance) {
 	ray->hit_data[ray->hits_len].vertical_hit_at_e = ray->vertical_hit;
 	ray->hit_data[ray->hits_len].dist_at_e = distance;
 	ray->hit_data[ray->hits_len++].hit = hit;
-	// if ((hit->type == nt_wall || hit->type == nt_ext_wall) && hit->pos.z == 0)
-	// 	ray->had_floorWall = true;
-	if (hit->type != nt_grass)
-		ray->last_hit = hit;
+	if ((hit->type == nt_wall || hit->type == nt_ext_wall) && hit->pos.z == 0)
+		ray->had_ground_wall = true;
 }
 
 t_ent* search_in_grid(t_md* md, t_ray* ray, float distance)
@@ -33,12 +31,15 @@ t_ent* search_in_grid(t_md* md, t_ray* ray, float distance)
 	e->cam_distance = ray->distance;
 	if (!e->revealed && ray->distance < md->t_len * REVEAL_DISTANCE)
 		show_minimap_entity(md, e, md->mmap.bg, 1);
+	// if ((e->type == nt_wall || e->type == nt_ext_wall) && ray->last_hit == e) {
+	// 	return NULL;
+	// }
 	if ((e->type == nt_wall || e->type == nt_ext_wall) && \
 		(!md->prm.super_view && e->pos.z == 0)) {
 		addHit(ray, e, distance);
 		return (e);
 	}
-	if (validate_check_hit(md, ray, e, e->type)) {
+	if (check_hit(md, ray, e, e->type)) {
 		addHit(ray, e, distance);
 		if (e->type == nt_door && !ray->had_door)
 		{
@@ -54,11 +55,6 @@ static int	ray_can_look(t_md *md, t_ray *ray)
 {
 	if (!md->prm.ent_mode && !ray->on_grid) return (0);
 	if (!ray->on_grid) return (0);
-	else if (!ray->on_grid && ray->last_hit) {
-		t_ent_type lastHitType = ray->last_hit->type;
-		if (lastHitType == nt_wall || lastHitType == nt_ext_wall)
-			return (0);
-	}
 	if (ray->pos.x < -md->t_len || ray->pos.x > md->t_len * md->map.size.x)
 		return (0);
 	if (ray->pos.y < -md->t_len || ray->pos.y > md->t_len * md->map.size.y)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collisions_portal.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gvalente <gvalente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:52:49 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/05/23 18:10:07 by gvalente         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:33:56 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	dir_to_angle(t_wrd_dir dir)
 	return (0);
 }
 
-int	get_portal_angle_offset(t_wrd_dir start_dir, t_wrd_dir end_dir)
+int	get_portal_data_angle_offset(t_wrd_dir start_dir, t_wrd_dir end_dir)
 {
 	int	start_angle;
 	int	end_angle;
@@ -59,7 +59,7 @@ static void	set_pos_and_angle(t_md *md, t_wrd_dir start_dir, \
 	int		new_angle;
 
 	plr = &md->plr;
-	angle_diff = get_portal_angle_offset(start_dir, end_dir);
+	angle_diff = get_portal_data_angle_offset(start_dir, end_dir);
 	new_angle = md->cam.rot.x + angle_diff;
 	if (new_angle < 180.0)
 		new_angle += 360;
@@ -79,8 +79,8 @@ static int	pass_through(t_md *md, int cur_index, t_vec2 in_pos, t_vec2 out_pos)
 	t_wrd_dir	end_dir;
 	t_vec2		out_p;
 
-	start_dir = md->portal.ends[cur_index].dir;
-	end_dir = md->portal.ends[!cur_index].dir;
+	start_dir = md->portal_data.ends[cur_index].dir;
+	end_dir = md->portal_data.ends[!cur_index].dir;
 	if (start_dir == EAST && md->plr.pos.x + md->plr.size.x < in_pos.x)
 		return (0);
 	else if (start_dir == NORTH && md->plr.pos.y > in_pos.y)
@@ -111,11 +111,11 @@ int	validate_portal_collision(t_md *md, t_ent *b)
 	cur_index = -1;
 	while (++cur_index < 2)
 	{
-		if (md->portal.ends[cur_index].e != b)
+		if (md->portal_data.ends[cur_index].e != b)
 			continue ;
-		portal_end = md->portal.ends[!cur_index].e;
-		in_pos = md->portal.ends[cur_index].out;
-		out_pos = md->portal.ends[!cur_index].out;
+		portal_end = md->portal_data.ends[!cur_index].e;
+		in_pos = md->portal_data.ends[cur_index].out;
+		out_pos = md->portal_data.ends[!cur_index].out;
 		break ;
 	}
 	if (!portal_end)

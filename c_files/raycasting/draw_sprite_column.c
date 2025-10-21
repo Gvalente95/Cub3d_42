@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 04:30:37 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:23:18 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 20:45:25 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	draw_wall_shadow(t_md *md, t_ray_draw_d *d, int prev_start)
 	const int	start_y = yplus + d->wp.z;
 	int			y;
 
-	if (start_y < 0 || start_y >= md->win_sz.y || d->ray->dirty_checks[start_y])
+	if (start_y < 0 || start_y > md->win_sz.y || d->ray->dirty_checks[start_y])
 		return ;
 	draw_pixel(md->screen, v2(d->ray->index, start_y), _BLACK, .1);
 	d->ray->dirty_checks[start_y] = 1;

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:39:27 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:54:51 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/07 02:30:22 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,11 @@ static int	init_md(t_md *md, t_vec2 winsz)
 	md->mlx = mlx_init();
 	md->win = NULL;
 	md->txd.wall_img = NULL;
-	md->env.grass_overlay = NULL;
 	md->mouse.locked = 1;
 	md->key_click = -1;
-	md->mouse.hide = 1;
 	md->t_len = 60;
 	md->prm.txt_sc = minmax(10, 20, winsz.x / 100);
+	md->mouse.hide = 1;
 	return (1);
 }
 

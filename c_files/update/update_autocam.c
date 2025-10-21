@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 22:58:02 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/08 14:11:40 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 12:03:37 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	exit_autocam(t_md *md, t_autocam *autocam)
 	md->key_click = -1;
 	md->prm.fly_cam = 0;
 	md->prm.show_ceiling = 1;
+	md->prm.cap_fps = 0;
 	md->prm.ent_mode = 1;
 	md->fx.fog = .2f;
 	md->prm.ray_depth = md->map.size.x * 1.5 * md->t_len;
@@ -58,6 +59,7 @@ static void	init_autocam(t_md *md, t_autocam *autocam)
 	md->plr.pos.z = -md->t_len * minf(8, (md->map.size.y / 2));
 	md->fx.fog = .05f;
 	md->timer.time = 10;
+	md->prm.cap_fps = 30;
 	md->prm.ray_depth = md->map.size.x * 4 * md->t_len;
 	md->prm.fly_cam = true;
 	md->prm.show_ceiling = false;
@@ -97,7 +99,7 @@ int	handle_autocam_input(t_md *md, t_autocam *autocam, int key)
 		return (0);
 	else if (key == ESC_KEY)
 		free_and_quit(md, NULL, NULL);
-	if (!autocam->quitting && (key == ENTER_KEY || md->mouse.click))
+	if (!autocam->quitting && (key == ENTER_KEY))
 		autocam->quitting = 1;
 	if (key == -1)
 		return (1);

@@ -6,26 +6,13 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:41:10 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/14 23:58:45 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 11:36:36 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-const char* get_weapon_name(t_md* md, t_weapon_types type) {
-	return (md->txd.weapons_names[type]);
-}
-const char* get_item_name(t_md* md, t_pckp_types type) {
-	return (md->txd.item_names[type]);
-}
-const char	*get_mob_name(t_md *md, t_mob_types type) {
-	return (md->txd.mob_names[type]);
-}
-const char* get_ent_name(t_md* md, t_ent_type type) {
-	return (md->txd.ents_types_names[type]);
-}
-
-static void	init_action_labels(t_texture_data* td)
+static void	init_action_labels(t_texture_data *td)
 {
 	td->ents_act_names[m_idle] = "IDLE";
 	td->ents_act_names[m_walk] = "WALK";
@@ -76,7 +63,7 @@ static void	init_ents_labels(t_texture_data *td)
 
 void	init_labels(t_texture_data *txd)
 {
-	strncpy(txd->ents_tp_map, "12IG*MDPBTK0", 12);
+	txd->ents_tp_map[0] = "12IG*MDPBTK0";
 	init_weapon_labels(txd);
 	init_ents_labels(txd);
 	init_action_labels(txd);

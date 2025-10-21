@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:55:04 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 01:32:59 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 13:01:29 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	add_texture_img(t_md *md, char *line, t_wrd_dir dir, int flip_x)
 
 	txd = &md->txd;
 	while (*line == ' ')
-    	line++;
+		(*line)++;
 	if (ft_strlen(line) <= 4)
 		free_and_quit(md, "wrong value for txtr", line);
 	fd = open(line + 3, O_RDONLY);
@@ -74,13 +74,21 @@ static int	parse_file_line(char *line, t_md *md)
 		add_texture_img(md, line, EAST, 0);
 	else if (!ft_strncmp(line, "WE ", 3))
 		add_texture_img(md, line, WEST, 1);
+	else if (!ft_strncmp(line, "FLOR ", 5))
+		md->hud.floor = init_abs_img(md, _v2(md->t_len), line + 5);
+	else if (!ft_strncmp(line, "CEIL ", 5))
+		md->hud.ceiling = init_abs_img(md, _v2(md->t_len), line + 5);
+	else if (!ft_strncmp(line, "DOOR ", 5))
+		md->txd.door_txtr = init_abs_img(md, _v2(md->t_len), line + 5);
+	else if (!ft_strncmp(line, "HOUS ", 5))
+		md->txd.ext_wall = init_abs_img(md, _v2(md->t_len), line + 5);
 	else if (line[0] == 'C')
 		md->hud.ceiling_color = str_to_color(line + 2);
 	else if (line[0] == 'F')
 		md->hud.floor_color = str_to_color(line + 2);
 	else if (line[0] == 'B')
 		md->hud.fog_color = str_to_color(line + 2);
-	else if (contains_valid_character(line, md->txd.ents_tp_map))
+	else if (contains_valid_character(line, md->txd.ents_tp_map[0]))
 		return (0);
 	return (1);
 }
@@ -103,8 +111,6 @@ static char	*parse_file_data(t_md *md)
 			break ;
 		setstr(&line, extract_line(file_content));
 	}
-	if (!file_content)
-		return (safe_free(line), NULL);
 	return (safe_free(line), ft_strdup(file_content));
 }
 
@@ -127,13 +133,10 @@ void	init_map_data(t_md *md)
 	while (++i < 4)
 	{
 		img = md->txd.wall_img[i];
-		if (!img) {
+		if (!img)
 			one_missing = printf("%sError%s - No texture's path for %s%s%s\n", \
 				PRED, PRESET, PYELLOW, err[i], PRESET);
-			md->txd.wall_img2d[i] = NULL;
-		}
-		else
-			md->txd.wall_img2d[i] = copy_image(md, img, _v2(md->txd.size_2d), -1);
+		md->txd.wall_img2d[i] = copy_image(md, img, _v2(md->txd.size_2d), -1);
 	}
 	if (one_missing)
 		free_and_quit(md, NULL, NULL);

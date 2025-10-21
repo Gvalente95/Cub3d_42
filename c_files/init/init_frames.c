@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:02:05 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/16 12:45:58 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,11 @@ void	init_ents_data(t_md *md, t_texture_data *txd)
 	init_env_frames(md, txd);
 	txd->grass_tile = init_img(md, _v2(md->t_len), NULL, _GREEN);
 	txd->grass_mini = copy_image(md, txd->grass_tile, _v2(txd->size_2d), -1);
-	txd->ext_wall = init_img(md, _v2(md->t_len), "utils/exterior.xpm", -1);
+	if (!txd->ext_wall)
+		txd->ext_wall = init_img(md, _v2(md->t_len), "utils/exterior.xpm", -1);
 	txd->ext_wall_mini = copy_image(md, txd->ext_wall, _v2(txd->size_2d), -1);
-	txd->door_txtr = init_img(md, _v2(md->t_len), "ent/door/0.xpm", -1);
+	if (!txd->door_txtr)
+		txd->door_txtr = init_img(md, _v2(md->t_len), "ent/door/0.xpm", -1);
 	txd->door_txtr_mini = init_img(md, _v2(txd->size_2d), "ent/door/0.xpm", -1);
 	if (!txd->door_txtr || !txd->door_txtr->img)
 		exit(0);

@@ -6,7 +6,7 @@
 /*   By: giuliovalente <giuliovalente@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 23:46:39 by giuliovalen       #+#    #+#             */
-/*   Updated: 2025/10/15 00:51:42 by giuliovalen      ###   ########.fr       */
+/*   Updated: 2025/10/09 21:28:09 by giuliovalen      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,25 +119,11 @@ void	render_raw(t_md* md) {
 	mlx_put_image_to_window(md->mlx, md->win, md->screen->img, 0, 0);
 }
 
-void	render_pointed(t_md* md) {
-	if (md->cam.pointed_door) {
-		t_txtd tx = (t_txtd){md->win_sz.x / 2, md->win_sz.y / 2, _BLUE, -1, md->screen};
-		rnd_fast_txt(md, (tx), md->cam.pointed_door->hp ? "Open" : "close");
-	}
-	// else if (md->cam.pointed_ent) {
-	// 	show_pointed_data(md, (t_vec2) {
-	// 		md->win_sz.x / 2 - md->prm.txt_sc * 10,
-	// 			md->win_sz.y / 2 - md->prm.txt_sc * 4
-	// 	}, md->cam.pointed_ent);
-	// }
-}
-
 void	render(t_md *md)
 {
 	if (md->prm.show_sky && !same_vec2(md->mouse.delta_raw, _v2(0)))
 		render_sky(md);
 	cast_ray_threads_lp(md);
-	md->cam.pointed_door = md->cam.pointed && md->cam.pointed->type == nt_door ? md->cam.pointed : NULL;
 	if (md->prm.view_2d)
 		render_2d_entities(md);
 	if (md->prm.show_hud)
@@ -146,7 +132,6 @@ void	render(t_md *md)
 		render_held_item(md, &md->inv, md->inv.held_i);
 	if (md->inv.active)
 		render_inventory(md, &md->inv);
-	render_pointed(md);
 	render_minimap(md, &md->mmap);
 	render_time_logs(md, &md->timer);
 	render_sun(md);
