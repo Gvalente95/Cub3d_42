@@ -1,4 +1,4 @@
-##<span style="color: orange">Get Started</span>
+**<span style="color: orange">Get Started</span>**
 
 `Make` build the executable.
 `Make Bonus` build the bonus.
