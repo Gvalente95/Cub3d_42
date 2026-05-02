@@ -1,6 +1,6 @@
 **<span style="color: orange">Get Started</span>**
 
-`Make` build the executable.
-`Make Bonus` build the bonus.
+`Make` to build the executable.  
+`Make Bonus` to build the bonus.  
 
-`./cub3d` `pathOfMap` to start the program.
+`./cub3d` `pathOfMap` `...args` to start the base program.  
